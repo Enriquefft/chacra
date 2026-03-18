@@ -786,8 +786,8 @@ export default function LandingPage() {
                   15 productores × 200kg = 3 toneladas.
                 </span>{" "}
                 Un productor solo no accede a exportación. Con Chacra, tu
-                cooperativa sabe en tiempo real si va a cumplir el mínimo — y
-                Fair Trade puede agregar hasta $0.40/lb.
+                cooperativa sabe en tiempo real si va a cumplir el mínimo.
+                Fair Trade puede agregar hasta $0.40/lb si lo certificas.
               </p>
             </div>
           </ScrollReveal>
@@ -812,11 +812,10 @@ export default function LandingPage() {
           <ScrollReveal>
             <div className="mx-auto max-w-2xl text-center">
               <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl lg:text-4xl">
-                Score crediticio alternativo, construido con datos reales
+                Score crediticio basado en historial de transacciones verificado
               </h2>
               <p className="mt-4 max-w-[65ch] mx-auto text-pretty text-base text-muted-foreground md:text-lg">
-                Evaluación de riesgo basada en historial de producción
-                verificado.
+                Sin bureau. Sin garante. Solo 8 meses de ventas reales.
               </p>
             </div>
           </ScrollReveal>
@@ -1232,7 +1231,7 @@ export default function LandingPage() {
                     {[
                       "Scoring API",
                       "Portafolio de productores",
-                      "Inteligencia rural",
+                      "Tendencias de producción por zona",
                       "Datos verificados",
                     ].map((f) => (
                       <li
@@ -1255,7 +1254,7 @@ export default function LandingPage() {
           </div>
 
           <p className="mt-10 text-center text-sm text-muted-foreground">
-            Modelo escalable. Rentable desde el primer cliente.
+            Sin costos de integración. Sin lock-in.
           </p>
         </div>
       </section>
@@ -1308,10 +1307,6 @@ export default function LandingPage() {
             </blockquote>
           </ScrollReveal>
 
-          <p className="mt-8 text-sm text-muted-foreground">
-            Construido por un equipo con experiencia en fintech, IA en campo, y
-            distribución rural.
-          </p>
         </div>
       </section>
 
