@@ -1,0 +1,9 @@
+<svg width="200" height="48" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0, 4)">
+    <path d="M 8 0 L 18 0 L 18 18 L 0 18 L 0 8 A 8 8 0 0 1 8 0 Z" fill="#B7522A" />
+    <path d="M 22 0 L 32 0 A 8 8 0 0 1 40 8 L 40 18 L 22 18 Z" fill="#4D8B4A" />
+    <path d="M 0 22 L 18 22 L 18 40 L 8 40 A 8 8 0 0 1 0 32 Z" fill="#C4A030" />
+    <path d="M 22 22 L 40 22 L 40 32 A 8 8 0 0 1 32 40 L 22 40 Z" fill="#82A088" />
+  </g>
+  <text x="56" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="600" fill="#2E2820" letter-spacing="-0.02em">Chacra</text>
+</svg>

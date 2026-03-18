@@ -24,11 +24,26 @@ import {
   ListCheck,
 } from "@/components/landing/solar-icons"
 import { MobileNav } from "@/components/landing/mobile-nav"
+import { Logo } from "@/components/landing/logo"
 
 export const metadata: Metadata = {
   title: "Chacra — Datos bancables para el agro peruano",
   description:
     "Transacciones invisibles, ahora son datos bancables. Chacra convierte las ventas de productores rurales en datos estructurados para credito y trazabilidad.",
+  openGraph: {
+    title: "Chacra — Datos bancables para el agro peruano",
+    description:
+      "Convierte ventas rurales en datos estructurados para credito y trazabilidad. Funciona sin internet.",
+    type: "website",
+    locale: "es_PE",
+    siteName: "Chacra",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chacra — Datos bancables para el agro peruano",
+    description:
+      "Convierte ventas rurales en datos estructurados para credito y trazabilidad. Funciona sin internet.",
+  },
 }
 
 const navLinks = [
@@ -45,8 +60,8 @@ export default function LandingPage() {
       {/* ─── Nav ─── */}
       <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <a href="/" className="text-xl font-semibold tracking-tight">
-            Chacra
+          <a href="/">
+            <Logo className="h-7" />
           </a>
           <div className="hidden items-center gap-0.5 lg:flex">
             {navLinks.map((link) => (
@@ -915,7 +930,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div>
-              <p className="text-lg font-semibold tracking-tight">Chacra</p>
+              <Logo className="h-7" />
               <p className="mt-1 text-sm text-background/50">
                 Datos bancables para el agro peruano.
               </p>
