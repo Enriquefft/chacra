@@ -11,4 +11,7 @@ export {
   ArrowRight,
   CheckCircle,
   ListCheck,
+  ArrowRightUp,
+  MedalStar,
+  CalendarMark,
 } from "@solar-icons/react"

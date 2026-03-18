@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -22,6 +23,9 @@ import {
   ArrowRight,
   CheckCircle,
   ListCheck,
+  ArrowRightUp,
+  MedalStar,
+  CalendarMark,
 } from "@/components/landing/solar-icons"
 import { MobileNav } from "@/components/landing/mobile-nav"
 import { Logo } from "@/components/landing/logo"
@@ -582,6 +586,142 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ─── 3b. Para el Productor ─── */}
+      <section className="border-t py-20 md:py-28">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <ScrollReveal>
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl lg:text-4xl">
+                Registra. Gana de dos formas.
+              </h2>
+              <p className="mt-4 mx-auto max-w-[65ch] text-pretty text-base text-muted-foreground md:text-lg">
+                La app es gratis para siempre. Lo que recibes a cambio:
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Coffee harvest photo */}
+          <ScrollReveal delay={80}>
+            <div className="relative mt-10 h-48 overflow-hidden rounded-2xl md:h-56">
+              <Image
+                src="/coffee-harvest.jpg"
+                alt="Manos cosechando café en Cajamarca"
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 768px) 100vw, 1152px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/60" />
+            </div>
+          </ScrollReveal>
+
+          {/* Two value cards */}
+          <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
+            {/* Card A — Price benchmark */}
+            <ScrollReveal delay={0}>
+              <Card className="h-full border-border/50 bg-card/80 transition-all duration-150 hover:scale-[1.01] hover:shadow-md">
+                <CardContent className="pt-6">
+                  <div className="mb-4 flex items-center gap-2">
+                    <div className="flex size-9 items-center justify-center rounded-lg bg-warning/10">
+                      <ArrowRightUp
+                        weight="BoldDuotone"
+                        size={20}
+                        className="text-warning"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <span className="text-sm font-medium text-muted-foreground">
+                      Alerta de precio — Café, Cajamarca
+                    </span>
+                  </div>
+
+                  <div className="rounded-xl border bg-background p-4 font-mono text-sm">
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-muted-foreground">Precio en tu zona</span>
+                      <span className="flex items-center gap-1 font-semibold text-success">
+                        S/9.00/kg
+                        <ArrowRightUp weight="Bold" size={14} aria-hidden="true" />
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-muted-foreground">Tu última venta</span>
+                      <span className="font-medium">S/7.00/kg</span>
+                    </div>
+                    <div className="my-2 h-px bg-border" />
+                    <div className="flex items-center justify-between rounded-lg bg-warning/10 px-2 py-1.5">
+                      <span className="text-muted-foreground">Diferencia</span>
+                      <span className="font-semibold text-warning">−S/2.00/kg</span>
+                    </div>
+                    <div className="flex items-center justify-between rounded-lg bg-warning/10 px-2 py-1.5 mt-1">
+                      <span className="text-muted-foreground">En 50 kg vendidos</span>
+                      <span className="font-semibold text-warning">S/100 menos</span>
+                    </div>
+                  </div>
+
+                  <p className="mt-4 text-sm font-medium">
+                    Sabe si te están pagando lo que corresponde. Hoy.
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Precios en tiempo real de productores de tu zona
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+
+            {/* Card B — Credit history */}
+            <ScrollReveal delay={120}>
+              <Card className="h-full border-border/50 bg-card/80 transition-all duration-150 hover:scale-[1.01] hover:shadow-md">
+                <CardContent className="pt-6">
+                  <div className="mb-4 flex items-center gap-2">
+                    <div className="flex size-9 items-center justify-center rounded-lg bg-success/10">
+                      <MedalStar
+                        weight="BoldDuotone"
+                        size={20}
+                        className="text-success"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <span className="text-sm font-medium text-muted-foreground">
+                      Score crediticio
+                    </span>
+                  </div>
+
+                  <div className="rounded-xl border bg-background p-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Score crediticio</span>
+                      <Badge className="bg-success/15 text-success">Tier A</Badge>
+                    </div>
+                    <div className="mt-3">
+                      <div className="h-2.5 overflow-hidden rounded-full bg-muted">
+                        <div className="h-full w-[82%] rounded-full bg-success" />
+                      </div>
+                      <p className="mt-1.5 text-right text-xs font-semibold">82 / 100</p>
+                    </div>
+                    <div className="my-3 h-px bg-border" />
+                    <div className="flex flex-col gap-1.5 text-sm">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle weight="Linear" size={15} className="shrink-0 text-success" aria-hidden="true" />
+                        <span className="text-muted-foreground">47 transacciones verificadas</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle weight="Linear" size={15} className="shrink-0 text-success" aria-hidden="true" />
+                        <span className="text-muted-foreground">8 meses de historial activo</span>
+                      </div>
+                      <div className="mt-1 rounded-lg bg-success/10 px-3 py-1.5 text-center text-sm font-medium text-success">
+                        &ldquo;Apto para microcrédito&rdquo;
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="mt-4 text-sm font-medium">
+                    Cada venta construye tu historial crediticio.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
       {/* ─── 4. For Cooperativas ─── */}
       <section
         id="cooperativas"
@@ -676,10 +816,21 @@ export default function LandingPage() {
                       12 productores activos
                     </span>
                   </div>
-                  <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-muted">
+                  <div className="relative mt-2.5 h-2 overflow-hidden rounded-full bg-muted">
+                    {/* Ghost: projected (0 → 96%) */}
                     <div
-                      className="h-full rounded-full bg-primary"
+                      className="absolute inset-y-0 left-0 rounded-full bg-primary/20"
+                      style={{ width: "96%" }}
+                    />
+                    {/* Solid: current (0 → 64%) */}
+                    <div
+                      className="absolute inset-y-0 left-0 rounded-full bg-primary"
                       style={{ width: "64%" }}
+                    />
+                    {/* Forecast marker line at 96% */}
+                    <div
+                      className="absolute inset-y-0 w-px bg-primary/60"
+                      style={{ left: "96%" }}
                     />
                   </div>
                   <div className="mt-1.5 flex items-baseline justify-between">
@@ -687,8 +838,17 @@ export default function LandingPage() {
                       3.2 / 5.0 ton
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      Faltan 1.8 ton
+                      96% al 31 de marzo
                     </span>
+                  </div>
+                  <div className="mt-1.5 flex items-center gap-1.5">
+                    <div className="size-2 rounded-full bg-primary/30" />
+                    <p className="text-xs text-muted-foreground">
+                      Al ritmo actual:{" "}
+                      <span className="font-medium text-foreground">
+                        4.8 ton proyectadas al cierre del mes
+                      </span>
+                    </p>
                   </div>
                 </div>
 
@@ -1295,22 +1455,91 @@ export default function LandingPage() {
 
           {/* Quote */}
           <ScrollReveal>
-            <blockquote className="border-l-2 border-primary pl-6">
-              <p className="max-w-[65ch] text-pretty text-base italic leading-relaxed text-muted-foreground md:text-lg">
-                &ldquo;La pregunta obvia es: ¿cómo saben que los datos son
-                reales? Consistencia temporal. Es imposible mentir de forma
-                consistente durante 8 meses.&rdquo;
-              </p>
-              <footer className="mt-3 text-sm font-medium text-foreground">
-                — Enrique Flores, Chacra
-              </footer>
-            </blockquote>
+            <div className="flex items-start gap-5">
+              <div className="relative size-16 shrink-0 overflow-hidden rounded-xl border border-border/50 md:size-20">
+                <Image
+                  src="/persona-cafe.webp"
+                  alt="Productor de café en campo"
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
+              </div>
+              <blockquote className="border-l-2 border-primary pl-6">
+                <p className="max-w-[65ch] text-pretty text-base italic leading-relaxed text-muted-foreground md:text-lg">
+                  &ldquo;La pregunta obvia es: ¿cómo saben que los datos son
+                  reales? Consistencia temporal. Es imposible mentir de forma
+                  consistente durante 8 meses.&rdquo;
+                </p>
+                <footer className="mt-3 text-sm font-medium text-foreground">
+                  — Enrique Flores, Chacra
+                </footer>
+              </blockquote>
+            </div>
           </ScrollReveal>
 
         </div>
       </section>
 
-      {/* ─── 9. Final CTA ─── */}
+      {/* ─── 9. Team ─── */}
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <ScrollReveal>
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl lg:text-4xl">
+                Quiénes somos
+              </h2>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={80}>
+            <div className="relative mt-10 h-96 overflow-hidden rounded-2xl md:h-[28rem]">
+              <Image
+                src="/team.jpg"
+                alt="Enrique Flores y Oscar Castro, fundadores de Chacra"
+                fill
+                className="object-cover object-[center_33%]"
+                sizes="(max-width: 768px) 100vw, 1152px"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-card to-transparent" />
+            </div>
+          </ScrollReveal>
+
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <ScrollReveal delay={0}>
+              <Card className="h-full border-border/50 bg-card/80">
+                <CardContent className="pt-6">
+                  <p className="text-lg font-semibold">Enrique Flores</p>
+                  <p className="mt-0.5 text-sm text-muted-foreground">
+                    Fundador · Producto
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    10+ productos tech desde cero, incluyendo plataformas
+                    fintech.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay={100}>
+              <Card className="h-full border-border/50 bg-card/80">
+                <CardContent className="pt-6">
+                  <p className="text-lg font-semibold">Oscar Castro</p>
+                  <p className="mt-0.5 text-sm text-muted-foreground">
+                    Co-fundador · Campo
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    IA deployada en zonas sin conectividad. LoRa, campo, campo.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─── 10. Final CTA ─── */}
       <section className="bg-primary py-20 text-primary-foreground md:py-28">
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
           <h2 className="text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
@@ -1334,7 +1563,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── 10. Footer ─── */}
+      {/* ─── 11. Footer ─── */}
       <footer className="bg-code-block py-10 text-code-block-foreground">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">

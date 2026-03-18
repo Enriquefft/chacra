@@ -53,19 +53,36 @@ Comercialización), Activo específico, Cantidad, Valorización unitaria, Foto d
 ### Productos en su catálogo
 Cacao, Café, Cerdo, Cuy, Fresa, Granadilla, Huevo, Leche, Lechón, Maíz Amarillo, Maíz Morado.
 
-### Limitaciones que Chacra resuelve
-- Solo el promotor llena datos (no el productor)
-- Requiere instalar KoboCollect desde Play Store + configurar servidor/usuario
+### Fortalezas de KoboToolbox (ser honestos)
+- Gratis y open source
+- Funciona offline (KoboCollect guarda formularios y sube cuando hay internet)
+- Respaldo institucional: OCHA (ONU), Harvard Humanitarian Initiative
+- 32,000+ organizaciones, 220+ países, 20M encuestas/mes
+- Probado en contextos humanitarios y de desarrollo
+
+### Limitaciones que Chacra resuelve (por qué no es suficiente)
+- Solo el promotor llena datos (no el productor) — 20,000 productores y la herramienta sigue en manos del promotor
+- Requiere instalar KoboCollect desde Play Store + configurar servidor/usuario (6 pasos)
 - Actualizar formularios requiere internet
 - Sin lenguaje natural: todo son radio buttons y formularios rígidos
 - Al cierre del programa, sin promotores, nadie llena los formularios
 - Identificación por DNI (no por teléfono)
 - Captura datos anuales agregados, no transacciones individuales
+- No genera valor de retorno al productor (no hay score, no hay alertas, no hay guía)
 
-### Implicación para Chacra
-Chacra no reemplaza SISEP/KoboToolbox — lo sucede. Cuando el programa cierre y los promotores
-se vayan, Chacra es la herramienta que permite al productor seguir alimentando datos por sí mismo.
-La diferencia fundamental: KoboToolbox necesita un intermediario capacitado. Chacra no.
+### Posicionamiento correcto: Chacra no compite con KoboToolbox
+KoboToolbox es una herramienta de M&E para programas. Chacra es un producto para productores.
+No se reemplaza — se sucede. Son para momentos distintos del ciclo de vida:
+- Durante el programa: KoboToolbox para evaluación formal + Chacra para transacciones diarias
+- Después del programa: KoboToolbox muere (no hay promotor). Chacra sigue viva.
+
+La diferencia fundamental no es tecnológica (ambas funcionan offline).
+Es de diseño: ¿quién es el usuario? Si es el promotor, KoboToolbox. Si es el productor, Chacra.
+
+### Defensa ante "¿por qué no capacitar a productores en KoboToolbox?"
+"Porque en 5 años de programa con 20,000 productores, la herramienta sigue en manos del promotor.
+No es un problema de capacitación — es de diseño. Un formulario con 6 pasos de configuración no
+es para un agricultor. Un mensaje de WhatsApp sí."
 
 ## El problema estructural
 - Los productores rurales no tienen historial crediticio formal

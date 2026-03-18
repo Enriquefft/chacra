@@ -103,13 +103,51 @@ Pero 15 productores de la misma zona con 200kg cada uno = 3 toneladas = otra con
 No somos marketplace. No conectamos compradores con vendedores. No gestionamos logística.
 
 ### Lo que Chacra SÍ puede hacer (valor inmediato para el productor)
-1. **Visibilidad individual:** "Llevas 180kg vendidos este mes. El año pasado a esta fecha llevabas 120kg."
-2. **Alertas de umbral:** "Tu cooperativa necesita 5 toneladas para el contrato de exportación.
+1. **Señales de precio (HOOK PRINCIPAL — arranca desde día 1):**
+   "El café en tu región se vendió esta semana entre S/7.50 y S/9.00 el kilo.
+   Tu última venta fue a S/7.00 — te están pagando por debajo del promedio."
+   Esto es plata HOY. Si el acopiador te paga menos y tú lo sabes, negocias mejor.
+2. **Visibilidad individual:** "Llevas 180kg vendidos este mes. El año pasado a esta fecha llevabas 120kg."
+3. **Alertas de umbral:** "Tu cooperativa necesita 5 toneladas para el contrato de exportación.
    Van 3.2 toneladas registradas entre todos los asociados. Faltan 1.8 toneladas."
-3. **Señales de precio:** "El café en tu región se vendió hoy entre S/7.50 y S/9.00 el kilo.
-   Tu última venta fue a S/7.00 — por debajo del promedio."
 4. **Agregación cooperativa:** El dashboard de la cooperativa muestra volumen agregado en tiempo
    real — el gerente sabe si van a llegar al mínimo de exportación o no.
+
+### Estrategia de adopción: por qué el productor registra
+
+El productor no quiere datos — quiere plata. Nadie registra ventas por hobby.
+Los 3 motores de adopción, en orden de inmediatez:
+
+**Motor 1 — Señales de precio (inmediato, arranca con pocos usuarios)**
+Registrar ventas alimenta un benchmark de precios por cultivo y región.
+Con 20 productores en la misma zona ya puedes decirle a alguien: "te pagan menos que el promedio."
+Cold start: precios de referencia de MIDAGRI (SISAP) hasta que la data propia sea suficiente.
+Después: los datos de los usuarios SON la fuente — precios reales de chacra, no de mayorista.
+Efecto de red: más usuarios → mejor benchmark → más valor → más usuarios.
+
+**Motor 2 — La cooperativa como gatekeeper (mediano plazo)**
+La cooperativa exige registro como condición para participar en lotes de exportación.
+El productor no usa Chacra porque quiere — lo usa porque la cooperativa se lo pide.
+Más usuarios facilitan la venta a la cooperativa (la cooperativa entra cuando ve masa crítica).
+
+**Motor 3 — Score crediticio (largo plazo, 6+ meses)**
+"Registra 6 meses de ventas y puedes acceder a un préstamo sin garantía."
+El incentivo más fuerte pero el más lento. No genera usuarios hoy, pero retiene a los que entran.
+
+### El loop de crecimiento
+```
+Seed: precios MIDAGRI como referencia inicial
+                    |
+Primeros usuarios registran ventas
+                    |
+Data propia empieza a generar benchmarks por zona/cultivo
+                    |
+"Tu venta está por debajo del promedio" → más productores quieren ver eso
+                    |
+Masa crítica → cooperativa entra como gatekeeper
+                    |
+Más usuarios → mejor data → score crediticio viable → financieras entran
+```
 
 ### Por qué esto importa estratégicamente
 - Da al productor una razón INMEDIATA para registrar (no solo el score crediticio a futuro)
@@ -117,12 +155,16 @@ No somos marketplace. No conectamos compradores con vendedores. No gestionamos l
 - Alinea incentivos: el productor registra porque le sirve, no porque alguien le pide
 - La cooperativa ve valor real en el dashboard (volumen agregado → decisiones de venta)
 - Conecta con Reto 1 del challenge (acceso a mercados) sin salir del Reto 4 (datos)
+- Efecto de red natural: el producto mejora con cada usuario
 
 ### Para el pitch
-> "El dato no solo sirve para medir. Sirve para decidir. Cuando un productor ve que entre su
-> cooperativa ya llevan 3 toneladas de café y el contrato de exportación requiere 5, sabe que
-> tiene que producir más o buscar aliados. Ese dato antes no existía. Estaba en 15 cuadernos
-> distintos que nadie juntaba."
+> "¿Por qué un agricultor registraría sus ventas? Porque cada venta registrada alimenta
+> un benchmark de precios real de su zona. Con 20 productores, ya puedes decirle:
+> el café se está pagando a S/9 en tu región, pero a ti te pagaron S/7 — te están
+> pagando menos. Eso es plata en el bolsillo, hoy, no en 6 meses.
+> ¿De dónde salen los precios? De los propios productores. Arrancamos con precios
+> de referencia de MIDAGRI, pero a medida que crece la red, los datos propios son más
+> precisos que cualquier fuente oficial — porque son precios reales de chacra."
 
 ## Lo que ya está validado
 - El problema existe: datos en cuadernos, promotores como único puente
@@ -133,7 +175,7 @@ No somos marketplace. No conectamos compradores con vendedores. No gestionamos l
 
 ## Lo que falta validar (antes del Demo Day)
 - [ ] Comportamiento real en WhatsApp (texto vs voz)
-- [ ] Qué beneficio inmediato percibe el productor
+- [x] Qué beneficio inmediato percibe el productor → señales de precio (benchmark por zona/cultivo)
 - [ ] Interés concreto de al menos una cooperativa
 - [ ] Compatibilidad técnica con SISEP (¿puede recibir datos externos?)
 - [ ] Caso real de productor sin acceso a crédito por falta de historial
