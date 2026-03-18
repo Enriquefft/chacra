@@ -46,6 +46,8 @@ export const metadata: Metadata = {
   },
 }
 
+const calLink = "https://cal.com/enrique-flores/chacra"
+
 const navLinks = [
   { label: "Problema", href: "#problema" },
   { label: "Solucion", href: "#solucion" },
@@ -75,10 +77,10 @@ export default function LandingPage() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <Button size="lg" className="hidden sm:inline-flex">
-              Probar Demo
+            <Button size="lg" className="hidden sm:inline-flex" asChild>
+              <a href={calLink} target="_blank" rel="noopener noreferrer">Agendar Demo</a>
             </Button>
-            <MobileNav />
+            <MobileNav calLink={calLink} />
           </div>
         </div>
       </nav>
@@ -100,7 +102,9 @@ export default function LandingPage() {
               igual.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button size="lg">Ver Demo en Vivo</Button>
+              <Button size="lg" asChild>
+                <a href={calLink} target="_blank" rel="noopener noreferrer">Agendar Demo</a>
+              </Button>
               <Button size="lg" variant="outline" asChild>
                 <a href="#solucion">Como Funciona</a>
               </Button>
@@ -549,7 +553,9 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-8 text-center">
-            <Button size="lg">Solicitar Acceso</Button>
+            <Button size="lg" asChild>
+              <a href={calLink} target="_blank" rel="noopener noreferrer">Solicitar Acceso</a>
+            </Button>
           </div>
         </div>
       </section>
@@ -673,7 +679,9 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-10 text-center">
-            <Button size="lg">Integrar API</Button>
+            <Button size="lg" asChild>
+              <a href={calLink} target="_blank" rel="noopener noreferrer">Integrar API</a>
+            </Button>
           </div>
         </div>
       </section>
@@ -906,20 +914,14 @@ export default function LandingPage() {
           <p className="mt-3 text-lg text-primary-foreground/70">
             Demo en vivo. Funciona en modo avion.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mt-8">
             <Button
               size="lg"
               variant="outline"
               className="border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20"
+              asChild
             >
-              Abrir Demo
-            </Button>
-            <Button
-              size="lg"
-              variant="ghost"
-              className="text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground"
-            >
-              Contactar Equipo
+              <a href={calLink} target="_blank" rel="noopener noreferrer">Agendar Demo</a>
             </Button>
           </div>
         </div>
@@ -935,20 +937,14 @@ export default function LandingPage() {
                 Datos bancables para el agro peruano.
               </p>
             </div>
-            <div className="flex items-center gap-6">
-              <a
-                href="#"
-                className="text-sm text-background/50 transition-colors hover:text-background"
-              >
-                Demo
-              </a>
-              <a
-                href="#"
-                className="text-sm text-background/50 transition-colors hover:text-background"
-              >
-                Contacto
-              </a>
-            </div>
+            <a
+              href={calLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-background/50 transition-colors hover:text-background"
+            >
+              Agendar Demo
+            </a>
           </div>
           <Separator className="my-6 bg-background/10" />
           <p className="text-center text-sm text-background/30">

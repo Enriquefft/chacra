@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { Logo } from "@/components/landing/logo"
 
 const links = [
   { label: "Problema", href: "#problema" },
@@ -19,7 +20,7 @@ const links = [
   { label: "Precios", href: "#precios" },
 ]
 
-export function MobileNav() {
+export function MobileNav({ calLink }: { calLink: string }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -32,8 +33,8 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side="right" className="w-full sm:max-w-sm">
         <SheetHeader>
-          <SheetTitle className="text-left text-xl font-semibold">
-            Chacra
+          <SheetTitle>
+            <Logo className="h-6" />
           </SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-1 px-4">
@@ -49,8 +50,8 @@ export function MobileNav() {
           ))}
         </nav>
         <div className="mt-auto p-4">
-          <Button size="lg" className="w-full" onClick={() => setOpen(false)}>
-            Probar Demo
+          <Button size="lg" className="w-full" asChild>
+            <a href={calLink} target="_blank" rel="noopener noreferrer">Agendar Demo</a>
           </Button>
         </div>
       </SheetContent>
