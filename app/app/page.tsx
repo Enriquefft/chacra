@@ -609,10 +609,51 @@ export default function LandingPage() {
                   {"  "}<span className="text-primary">&quot;avg_monthly_volume&quot;</span>: <span className="text-accent">&quot;S/3,200&quot;</span>,{"\n"}
                   {"  "}<span className="text-primary">&quot;trend&quot;</span>: <span className="text-accent">&quot;stable&quot;</span>,{"\n"}
                   {"  "}<span className="text-primary">&quot;cooperative&quot;</span>: <span className="text-accent">&quot;Coop Valle Verde&quot;</span>,{"\n"}
-                  {"  "}<span className="text-primary">&quot;recommendation&quot;</span>: <span className="text-success">&quot;Apta para credito&quot;</span>{"\n"}
+                  {"  "}<span className="text-primary">&quot;recommendation&quot;</span>: <span className="text-success">&quot;Apta para credito&quot;</span>,{"\n"}
+                  {"  "}<span className="text-primary">&quot;verification&quot;</span>: <span className="text-background/40">{"{"}</span>{"\n"}
+                  {"    "}<span className="text-primary">&quot;cross_validated&quot;</span>: <span className="text-success">true</span>,{"\n"}
+                  {"    "}<span className="text-primary">&quot;consistency_score&quot;</span>: <span className="text-warning">0.94</span>,{"\n"}
+                  {"    "}<span className="text-primary">&quot;flags&quot;</span>: <span className="text-warning">0</span>{"\n"}
+                  {"  "}<span className="text-background/40">{"}"}</span>{"\n"}
                   <span className="text-background/40">{"}"}</span>
                 </code>
               </pre>
+            </div>
+          </div>
+
+          {/* Trust verification model */}
+          <div className="mx-auto mt-8 max-w-3xl rounded-xl border border-border/60 bg-muted/30 px-5 py-4">
+            <p className="text-sm font-medium text-muted-foreground">
+              ¿Como sabemos que los datos son reales?
+            </p>
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:gap-6">
+              {[
+                {
+                  step: "1",
+                  title: "Consistencia temporal",
+                  desc: "Anomalias en volumen, precio y frecuencia",
+                },
+                {
+                  step: "2",
+                  title: "Validacion cruzada",
+                  desc: "Contrastado con registros de cooperativa",
+                },
+                {
+                  step: "3",
+                  title: "Triage humano",
+                  desc: "Solo casos atipicos van a verificacion",
+                },
+              ].map((layer) => (
+                <div key={layer.step} className="flex items-baseline gap-2">
+                  <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-muted-foreground/15 text-[11px] font-semibold text-muted-foreground">
+                    {layer.step}
+                  </span>
+                  <p className="text-sm">
+                    <span className="font-medium">{layer.title}</span>{" "}
+                    <span className="text-muted-foreground">— {layer.desc}</span>
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -645,7 +686,7 @@ export default function LandingPage() {
                 icon: ShieldCheck,
                 title: "Verificar",
                 detail:
-                  "Chacra valida, confirma con el productor, y guarda en la base de datos.",
+                  "Chacra confirma con el productor, cruza datos con la cooperativa, y detecta anomalias automaticamente. Solo los casos atipicos requieren verificacion humana.",
               },
               {
                 step: "3",
@@ -828,9 +869,9 @@ export default function LandingPage() {
           {/* Quote */}
           <div className="mt-12 border-l-2 border-primary pl-5">
             <p className="text-pretty text-base italic text-muted-foreground md:text-lg">
-              &ldquo;Avanzar Rural demostro que los productores pueden
-              formalizar sus operaciones con el acompanamiento correcto. Chacra
-              convierte esa formalizacion en datos permanentes.&rdquo;
+              &ldquo;La pregunta obvia es: ¿como saben que los datos son
+              reales? Consistencia temporal. Es imposible mentir de forma
+              consistente durante 8 meses.&rdquo;
             </p>
           </div>
 
