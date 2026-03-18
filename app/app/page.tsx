@@ -1354,7 +1354,7 @@ export default function LandingPage() {
             </a>
           </div>
           <Separator className="my-6 bg-code-block-foreground/10" />
-          <p className="text-center text-sm text-code-block-foreground/30">
+          <p className="text-center text-sm text-code-block-foreground/50">
             Hecho con café para el Challenge Avanzar Rural 2026
           </p>
         </div>
