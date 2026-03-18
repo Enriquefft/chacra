@@ -468,6 +468,7 @@ window.addEventListener('online', syncPendingTransactions);
 - [ ] Insert to PostgreSQL
 - [ ] Return synced_ids array
 - [ ] Error handling for partial syncs
+- [ ] Flag transactions with price or volume outside regional market range on ingest
 
 ### PHASE 5: Dashboard (Hours 22-34)
 - [ ] Auth for cooperativa users (Supabase auth or simple code)
@@ -479,12 +480,16 @@ window.addEventListener('online', syncPendingTransactions);
 - [ ] Filter by: crop, region, date range
 - [ ] Export to CSV
 - [ ] Credit score view per farmer (risk tier, metrics, trend)
+- [ ] Data integrity triage view: flagged transactions with reason (volume spike, price outlier, inconsistency with cooperative records)
+- [ ] Trust score indicator per farmer (consistent / under review / flagged)
 - [ ] Seed realistic demo data (regions: Cajamarca, Piura, Puno, Junín, San Martín)
+- [ ] Seed at least 1 flagged farmer + 1 clean farmer to demo the triage contrast
 
 ### PHASE 6: Polish + Demo Prep (Hours 34-48)
 - [ ] Mobile UI polish (farmers use small screens, big touch targets)
 - [ ] Demo flow: airplane mode → register → reconnect → sync → dashboard updates
 - [ ] Demo flow: WhatsApp message → bot parses → dashboard updates live
+- [ ] Demo flow: show triage view — flagged farmer vs clean farmer, explain 3-layer logic
 - [ ] Seed data that tells a story (show variety of farmers, crops, regions)
 - [ ] Edge cases: misspellings in WhatsApp, weird units, missing fields
 - [ ] Error states look good (offline banner, sync failures)
@@ -492,6 +497,7 @@ window.addEventListener('online', syncPendingTransactions);
 
 ### PHASE 7: Pitch + Final (Hours 48-60)
 - [ ] Integrate Oscar's validation findings into pitch
+- [ ] Prepare answer for "¿cómo saben que los datos son reales?" — name the 3 triage layers proactively
 - [ ] Practice demo flow 5+ times
 - [ ] Prepare one-pager / summary deliverable if required
 - [ ] Practice Q&A with Oscar
@@ -571,7 +577,7 @@ Walk up. Make eye contact.
 "WhatsApp es gratis para mensajes que inicia el agricultor. La infra corre en Supabase (free tier soporta miles de usuarios) y Vercel. El costo de la IA es ~$0.001 por mensaje parseado. Para 500 productores, hablamos de menos de $50/mes."
 
 **Q: "¿Cómo aseguran que los datos son verdaderos?"**
-"Tres capas: consistencia temporal (patrones anómalos), validación cruzada con data de la cooperativa, y reputación acumulada. La consistencia a lo largo del tiempo es la mejor validación."
+"Buena pregunta — y la más importante para cualquier financiera. Tres capas: primero, consistencia temporal: un productor que vendía 50kg/mes y de repente declara 500kg es una alerta automática. Segundo, validación cruzada: si la cooperativa registra acopio de X kg de un productor y él declaró 3X, hay inconsistencia. Tercero, triage humano: solo los casos sospechosos llegan a un validador físico — el sistema actúa como filtro para que el humano intervenga donde realmente importa. Además, la realidad del campo ayuda: los agricultores venden a acopiadores que también llevan registro. Esa fuente independiente valida sin esfuerzo adicional. Es imposible mentir de forma consistente durante 8 meses."
 
 **Q: "¿Qué pasa cuando Avanzar Rural cierre?"**
 "Exactamente por eso es B2B2C autosostenible. Cooperativas pagan por trazabilidad, financieras por scoring. No dependemos de programas o subsidios."
