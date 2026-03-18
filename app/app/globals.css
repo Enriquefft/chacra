@@ -42,6 +42,9 @@
     --sidebar-accent-foreground: oklch(0.30 0.02 50);
     --sidebar-border: oklch(0.91 0.008 70);
     --sidebar-ring: oklch(0.53 0.14 33);
+    /* Code block (always dark) */
+    --code-block: oklch(0.15 0.015 50);
+    --code-block-foreground: oklch(0.96 0.005 75);
 }
 
 .dark {
@@ -80,6 +83,9 @@
     --sidebar-accent-foreground: oklch(0.96 0.005 75);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.70 0.12 33);
+    /* Code block (always dark) */
+    --code-block: oklch(0.12 0.015 50);
+    --code-block-foreground: oklch(0.96 0.005 75);
 }
 
 @theme inline {
@@ -119,6 +125,8 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+    --color-code-block: var(--code-block);
+    --color-code-block-foreground: var(--code-block-foreground);
     --radius-sm: calc(var(--radius) * 0.6);
     --radius-md: calc(var(--radius) * 0.8);
     --radius-lg: var(--radius);
@@ -138,4 +146,98 @@
   html {
     @apply font-sans;
     }
+}
+
+/* ─── V2 Animations ─── */
+
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--slide-distance, 12px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-animate {
+  animation: fade-slide-up var(--animate-duration, 400ms) var(--animate-delay, 0ms) cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(var(--slide-distance, 12px));
+}
+
+[data-animate][data-visible="true"] {
+  animation: fade-slide-up var(--animate-duration, 400ms) var(--animate-delay, 0ms) cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* WhatsApp typing indicator */
+@keyframes typing-dot {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.85); }
+  30% { opacity: 1; transform: scale(1); }
+}
+
+.typing-dot {
+  animation: typing-dot 1.2s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 200ms;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 400ms;
+}
+
+/* Server icon pulse ring */
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 0; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+.pulse-ring {
+  animation: pulse-ring 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+/* Checkmark SVG draw-in */
+@keyframes check-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.check-draw {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+}
+
+.group:hover .check-draw {
+  animation: check-draw 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-animate,
+  [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .typing-dot,
+  .pulse-ring {
+    animation: none !important;
+  }
+
+  .typing-dot {
+    opacity: 0.6 !important;
+    transform: none !important;
+  }
+
+  .check-draw {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
 }

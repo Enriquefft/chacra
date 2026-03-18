@@ -14,7 +14,7 @@ import { Logo } from "@/components/landing/logo"
 
 const links = [
   { label: "Problema", href: "#problema" },
-  { label: "Solucion", href: "#solucion" },
+  { label: "Solución", href: "#solucion" },
   { label: "Cooperativas", href: "#cooperativas" },
   { label: "Financieras", href: "#financieras" },
   { label: "Precios", href: "#precios" },

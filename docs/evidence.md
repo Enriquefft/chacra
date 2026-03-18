@@ -35,6 +35,38 @@ Ciclo actual del sistema:
 
 **Chacra cierra ese gap:** es la capa de recolección que funciona offline, vía WhatsApp, sin promotores, y que puede seguir alimentando sistemas como SISEP después del cierre.
 
+## Herramienta actual: KoboToolbox (confirmado)
+Fuente: Guía del usuario KoboToolbox V6 — Proyecto Avanzar Rural (sisep.pe)
+
+Avanzar Rural usa KoboToolbox + KoboCollect (app Android) para el levantamiento de información.
+Los promotores llenan formularios en campo y los envían cuando tienen internet.
+
+### Formulario "INDICADORES" (producción/ventas)
+Campos: Etapa del PN (Línea de Base / Seguimiento / Liquidación), Tipo de beneficiario
+(Individual / Asociativo), DNI, Ubicación GPS, Producto, Productividad (KG + HA),
+Producción (cantidad vendida anual KG, ingreso ventas anual S/., autoconsumo), Foto del productor.
+
+### Formulario "ACTIVOS" (inventario productivo)
+Campos: Etapa del PN, Tipo beneficiario, DNI, Producto, Tipo activo (Producción / Post Cosecha /
+Comercialización), Activo específico, Cantidad, Valorización unitaria, Foto del activo.
+
+### Productos en su catálogo
+Cacao, Café, Cerdo, Cuy, Fresa, Granadilla, Huevo, Leche, Lechón, Maíz Amarillo, Maíz Morado.
+
+### Limitaciones que Chacra resuelve
+- Solo el promotor llena datos (no el productor)
+- Requiere instalar KoboCollect desde Play Store + configurar servidor/usuario
+- Actualizar formularios requiere internet
+- Sin lenguaje natural: todo son radio buttons y formularios rígidos
+- Al cierre del programa, sin promotores, nadie llena los formularios
+- Identificación por DNI (no por teléfono)
+- Captura datos anuales agregados, no transacciones individuales
+
+### Implicación para Chacra
+Chacra no reemplaza SISEP/KoboToolbox — lo sucede. Cuando el programa cierre y los promotores
+se vayan, Chacra es la herramienta que permite al productor seguir alimentando datos por sí mismo.
+La diferencia fundamental: KoboToolbox necesita un intermediario capacitado. Chacra no.
+
 ## El problema estructural
 - Los productores rurales no tienen historial crediticio formal
 - Sus transacciones existen pero están en cuadernos o en la memoria del promotor

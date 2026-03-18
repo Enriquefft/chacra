@@ -11,6 +11,10 @@
 **Supuesto:** El productor registrará sus ventas con disciplina.
 **Riesgo:** El beneficio (score crediticio) es a largo plazo. Sin ganancia inmediata, no hay adopción.
 **Pregunta:** ¿Qué gana el productor HOY por registrar? ¿Hay algo de valor inmediato?
+**Posible respuesta (learning del challenge):** Acceso a mercados más grandes requiere volumen.
+Chacra puede mostrarle al productor cuánto lleva acumulado y cuánto le falta para alcanzar
+umbrales de mercado. El dato deja de ser registro muerto y se convierte en guía accionable.
+Ver sección "Oportunidades de mercado por volumen" más abajo.
 
 ### 3. La cooperativa como canal de distribución
 **Supuesto:** La cooperativa puede incentivar o mandar a sus asociados a usar la herramienta.
@@ -87,6 +91,38 @@ No esconder este riesgo — nombrarlo primero genera credibilidad:
 > consistencia temporal, validación cruzada con la cooperativa, y triage humano
 > para los casos sospechosos. La consistencia a lo largo del tiempo es la mejor
 > validación que existe — es imposible mentir de forma consistente durante 8 meses."
+
+## Oportunidades de mercado por volumen (learning del challenge)
+
+### El insight
+Para acceder a mercados más grandes y atractivos (exportación, Comercio Justo, cadenas formales),
+uno de los requisitos principales es VOLUMEN. Un productor solo con 200kg de café no accede.
+Pero 15 productores de la misma zona con 200kg cada uno = 3 toneladas = otra conversación.
+
+### Lo que Chacra NO hace (y no debe hacer)
+No somos marketplace. No conectamos compradores con vendedores. No gestionamos logística.
+
+### Lo que Chacra SÍ puede hacer (valor inmediato para el productor)
+1. **Visibilidad individual:** "Llevas 180kg vendidos este mes. El año pasado a esta fecha llevabas 120kg."
+2. **Alertas de umbral:** "Tu cooperativa necesita 5 toneladas para el contrato de exportación.
+   Van 3.2 toneladas registradas entre todos los asociados. Faltan 1.8 toneladas."
+3. **Señales de precio:** "El café en tu región se vendió hoy entre S/7.50 y S/9.00 el kilo.
+   Tu última venta fue a S/7.00 — por debajo del promedio."
+4. **Agregación cooperativa:** El dashboard de la cooperativa muestra volumen agregado en tiempo
+   real — el gerente sabe si van a llegar al mínimo de exportación o no.
+
+### Por qué esto importa estratégicamente
+- Da al productor una razón INMEDIATA para registrar (no solo el score crediticio a futuro)
+- Convierte el dato pasivo en guía accionable
+- Alinea incentivos: el productor registra porque le sirve, no porque alguien le pide
+- La cooperativa ve valor real en el dashboard (volumen agregado → decisiones de venta)
+- Conecta con Reto 1 del challenge (acceso a mercados) sin salir del Reto 4 (datos)
+
+### Para el pitch
+> "El dato no solo sirve para medir. Sirve para decidir. Cuando un productor ve que entre su
+> cooperativa ya llevan 3 toneladas de café y el contrato de exportación requiere 5, sabe que
+> tiene que producir más o buscar aliados. Ese dato antes no existía. Estaba en 15 cuadernos
+> distintos que nadie juntaba."
 
 ## Lo que ya está validado
 - El problema existe: datos en cuadernos, promotores como único puente
