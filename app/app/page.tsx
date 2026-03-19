@@ -95,8 +95,53 @@ export default function LandingPage() {
       </StickyNav>
 
       {/* ─── 1. Hero ─── */}
-      <section className="py-20 md:py-28">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <section className="hero-grain relative overflow-hidden py-20 md:py-28">
+        {/* Ambient background orbs */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          {/* Terracotta orb — top left */}
+          <div
+            className="absolute -left-[10%] -top-[5%] h-[550px] w-[550px] rounded-full blur-[100px] md:h-[700px] md:w-[700px]"
+            style={{
+              background: "radial-gradient(circle, oklch(0.55 0.18 30) 0%, transparent 65%)",
+              animation: "orb-drift 20s ease-in-out infinite, glow-breathe 8s ease-in-out infinite",
+              "--glow-min": "0.18",
+              "--glow-max": "0.30",
+            } as React.CSSProperties}
+          />
+          {/* Gold orb — center right */}
+          <div
+            className="absolute -right-[5%] top-[10%] h-[500px] w-[500px] rounded-full blur-[90px] md:h-[650px] md:w-[650px]"
+            style={{
+              background: "radial-gradient(circle, oklch(0.65 0.16 85) 0%, transparent 65%)",
+              animation: "orb-drift 25s ease-in-out infinite reverse, glow-breathe 10s ease-in-out infinite",
+              "--glow-min": "0.14",
+              "--glow-max": "0.25",
+            } as React.CSSProperties}
+          />
+          {/* Green orb — bottom center */}
+          <div
+            className="absolute -bottom-[15%] left-[25%] h-[350px] w-[350px] rounded-full blur-[100px] md:h-[450px] md:w-[450px]"
+            style={{
+              background: "radial-gradient(circle, oklch(0.50 0.14 145) 0%, transparent 70%)",
+              animation: "orb-drift 22s ease-in-out infinite",
+              animationDelay: "-8s",
+              "--glow-min": "0.03",
+              "--glow-max": "0.08",
+            } as React.CSSProperties}
+          />
+          {/* Warm spotlight behind headline */}
+          <div
+            className="absolute left-1/2 top-[10%] h-[400px] w-[700px] -translate-x-1/2 rounded-full blur-[80px] md:h-[500px] md:w-[900px]"
+            style={{
+              background: "radial-gradient(ellipse, oklch(0.60 0.10 33) 0%, transparent 55%)",
+              animation: "glow-breathe 6s ease-in-out infinite",
+              "--glow-min": "0.03",
+              "--glow-max": "0.07",
+            } as React.CSSProperties}
+          />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-3xl text-center">
             <div
               className="hero-animate"
@@ -127,7 +172,13 @@ export default function LandingPage() {
               }
             >
               Transacciones invisibles,{" "}
-              <span className="text-primary decoration-primary/40 underline decoration-2 underline-offset-4">
+              <span
+                className="bg-[length:200%_100%] bg-clip-text text-transparent decoration-primary/40 underline decoration-2 underline-offset-4"
+                style={{
+                  backgroundImage: "linear-gradient(90deg, oklch(0.70 0.12 33), oklch(0.75 0.14 65), oklch(0.70 0.12 33))",
+                  animation: "shimmer-slide 6s ease-in-out infinite",
+                }}
+              >
                 ahora son datos bancables
               </span>
             </h1>
@@ -178,7 +229,11 @@ export default function LandingPage() {
           <div className="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2 md:mt-20">
             {/* WhatsApp chat mockup */}
             <div
-              className="hero-animate -rotate-1 rounded-2xl border border-border/60 bg-card p-1 shadow-lg shadow-foreground/[0.03] transition-all duration-300 hover:rotate-0 hover:scale-[1.01] hover:shadow-md"
+              className="hero-float"
+              style={{ "--float-duration": "6s", "--float-delay": "0s" } as React.CSSProperties}
+            >
+            <div
+              className="hero-animate -rotate-1 rounded-2xl border border-border/60 bg-card/80 p-1 shadow-[0_8px_40px_-12px_oklch(0.50_0.14_33_/_0.15)] backdrop-blur-sm transition-all duration-300 hover:rotate-0 hover:scale-[1.01] hover:shadow-[0_12px_50px_-12px_oklch(0.50_0.14_33_/_0.25)]"
               style={
                 {
                   "--animate-delay": "400ms",
@@ -257,10 +312,15 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
+            </div>
 
             {/* PWA form mockup */}
             <div
-              className="hero-animate group rotate-1 rounded-2xl border border-border/60 bg-card p-1 shadow-lg shadow-foreground/[0.03] transition-all duration-300 hover:rotate-0 hover:scale-[1.01] hover:shadow-md"
+              className="hero-float"
+              style={{ "--float-duration": "7s", "--float-delay": "-3s" } as React.CSSProperties}
+            >
+            <div
+              className="hero-animate group rotate-1 rounded-2xl border border-border/60 bg-card/80 p-1 shadow-[0_8px_40px_-12px_oklch(0.50_0.12_85_/_0.12)] backdrop-blur-sm transition-all duration-300 hover:rotate-0 hover:scale-[1.01] hover:shadow-[0_12px_50px_-12px_oklch(0.50_0.12_85_/_0.2)]"
               style={
                 {
                   "--animate-delay": "450ms",
@@ -332,6 +392,7 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
