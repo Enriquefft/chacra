@@ -1310,7 +1310,7 @@ export default function LandingPage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button
               size="lg"
-              className="bg-primary-foreground text-primary transition-transform duration-150 hover:scale-[1.02] hover:bg-primary-foreground/90 active:scale-[0.97]"
+              className="bg-primary-foreground text-primary transition-transform duration-150 hover:scale-[1.02] hover:bg-primary-foreground/90 [a]:hover:bg-primary-foreground/90 active:scale-[0.97]"
               asChild
             >
               <Link href="/demo-cooperativas">
@@ -1320,7 +1320,7 @@ export default function LandingPage() {
             </Button>
             <Button
               size="lg"
-              className="bg-primary-foreground text-primary transition-transform duration-150 hover:scale-[1.02] hover:bg-primary-foreground/90 active:scale-[0.97]"
+              className="bg-primary-foreground text-primary transition-transform duration-150 hover:scale-[1.02] hover:bg-primary-foreground/90 [a]:hover:bg-primary-foreground/90 active:scale-[0.97]"
               asChild
             >
               <Link href="/demo-financieras">
