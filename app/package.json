@@ -10,12 +10,21 @@
     "lint": "biome check src/",
     "format": "biome format --write src/",
     "check": "biome check --write src/",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "@solar-icons/react": "^1.1.0",
+    "better-auth": "^1.5.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dexie": "^4.3.0",
+    "dexie-react-hooks": "^4.2.0",
+    "drizzle-orm": "^0.45.1",
     "lucide-react": "^0.577.0",
     "next": "16.1.7",
     "next-themes": "^0.4.6",
@@ -34,6 +43,7 @@
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "drizzle-kit": "^0.31.10",
     "postcss": "^8",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
