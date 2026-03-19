@@ -23,7 +23,8 @@ es hacer que se sienta real, profesional, y que el valor sea obvio en 10 segundo
 
 ## Propuesta de valor (una línea por audiencia)
 
-**Productor:** "Registra tu venta por WhatsApp. Te decimos si te están pagando bien."
+**Productor (corto plazo):** "Registra tu venta por WhatsApp. Te decimos si te están pagando bien."
+**Productor (largo plazo):** "Tu historial de ventas se convierte en tu score crediticio. 6 meses registrando = acceso a préstamos sin garantía."
 **Cooperativa:** "Ve en tiempo real cuánto producen tus asociados y a qué precio venden."
 **Financiera:** "Score crediticio alternativo basado en transacciones reales verificadas."
 **Juez del challenge:** "Esto ya funciona. Pruébalo ahora."
@@ -144,8 +145,7 @@ La landing no es adorno — es el primer punto de conversión.
 - 1 productor flaggeado + 1 limpio (contraste claro en triage)
 - 1 cooperativa con meta de exportación y progreso visible
 - Transacciones que cubran 3-6 meses para que las tendencias se vean
-
-### SHOULD SHIP (sube la percepción de valor significativamente)
+- Auth con roles completo
 
 - Corrección por WhatsApp ("no, fueron 60 kilos")
 - Gráfico tendencia de precios (line chart) en dashboard
@@ -153,9 +153,6 @@ La landing no es adorno — es el primer punto de conversión.
 - Filtros: cultivo, región, fecha
 - Export CSV
 - Credit score view por productor (risk tier + métricas)
-
-### NICE TO HAVE
-
 - Voice note transcription (Whisper)
 - Alertas de umbral cooperativa
 - Vista individual de productor en dashboard
@@ -164,37 +161,7 @@ La landing no es adorno — es el primer punto de conversión.
 
 - SMS
 - Background sync
-- Auth con roles completo
 - Integración real con SISEP (pitch como roadmap)
-
----
-
-## Esquema de base de datos (actualizado)
-
-Cambios vs PRD original:
-- Tabla price_references para benchmarks
-- Campos trust_flag y flag_reason en transactions
-- Productos del catálogo real de Avanzar Rural
-
-```sql
-CREATE TABLE price_references (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  product VARCHAR(100) NOT NULL,
-  region VARCHAR(100) NOT NULL,
-  price_min DECIMAL NOT NULL,
-  price_max DECIMAL NOT NULL,
-  price_avg DECIMAL NOT NULL,
-  sample_size INT NOT NULL,
-  source VARCHAR(20) NOT NULL,         -- 'midagri' o 'chacra'
-  period_start DATE NOT NULL,
-  period_end DATE NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Agregar a transactions:
--- trust_flag VARCHAR(20) DEFAULT 'clean'  -- 'clean', 'review', 'flagged'
--- flag_reason TEXT                         -- 'price_outlier', 'volume_spike', etc.
-```
 
 ---
 
@@ -229,24 +196,3 @@ Landing y system design listos. Lo que sigue:
 18. Vista integridad / triage
 19. Indicador volumen vs meta
 20. Polish: colores, tipografía, espaciado — se ve como SaaS
-
-**Bloque 5: Demo prep**
-21. Seed data final que cuenta una historia
-22. Probar los 5 momentos de demo end-to-end
-23. Preparar respuestas a preguntas difíciles
-24. Screen recording de backup
-
----
-
-## Cut line (regla de las 4 AM)
-
-Si son las 4 AM, cortar de abajo hacia arriba:
-
-1. **NUNCA CORTAR:** WhatsApp (parse + confirm + precio) + PWA offline + sync + dashboard básico
-2. **Cortar último:** Vista triage + benchmark visual + volumen vs meta
-3. **Cortar si falta:** Charts, filtros, CSV, credit score
-4. **Cortar primero:** Voice notes, alertas umbral
-
-**Regla de oro MSP:** si te queda 1 hora, NO la uses para agregar un feature.
-Úsala para pulir el diseño del dashboard y el copy del bot de WhatsApp.
-Un producto con 3 features pulidas vende más que uno con 6 features a medias.
