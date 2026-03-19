@@ -22,11 +22,11 @@
           jq
           tmux
           bats
+          dnsutils
 
           lefthook
           commitlint-rs
 
-          nodePackages.vercel
           stdenv.cc.cc.lib
 
         ];

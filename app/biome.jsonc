@@ -1,0 +1,118 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.8/schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+	"css": {
+		"formatter": {
+			"enabled": true
+		},
+		"linter": {
+			"enabled": true
+		},
+		"parser": {
+			"cssModules": true,
+			"tailwindDirectives": true
+		}
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": [
+			"**",
+			"!**/node_modules",
+			"!**/.next",
+			"!**/.direnv"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		},
+		"globals": ["React", "JSX"]
+	},
+	"json": {
+		"formatter": {
+			"enabled": true
+		}
+	},
+	"linter": {
+		"domains": {
+			"next": "all",
+			"react": "all"
+		},
+		"enabled": true,
+		"includes": [
+			"**",
+			"!**/next-env.d.ts",
+			"!**/src/components/ui/*"
+		],
+		"rules": {
+			"complexity": {
+				"useLiteralKeys": "off"
+			},
+			"recommended": true,
+			"style": {
+				"noInferrableTypes": "error",
+				"noParameterAssign": "error",
+				"noUnusedTemplateLiteral": "error",
+				"noUselessElse": "error",
+				"useAsConstAssertion": "error",
+				"useDefaultParameterLast": "error",
+				"useEnumInitializers": "error",
+				"useNumberNamespace": "error",
+				"useSelfClosingElements": "error",
+				"useSingleVarDeclarator": "error"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": [
+				"**/src/app/**/page.tsx",
+				"**/src/app/**/layout.tsx",
+				"**/src/app/**/error.tsx",
+				"**/src/app/**/loading.tsx",
+				"**/src/app/**/not-found.tsx",
+				"**/src/app/**/route.ts"
+			],
+			"linter": {
+				"rules": {
+					"style": {
+						"noDefaultExport": "off",
+						"useComponentExportOnlyModules": {
+							"level": "error",
+							"options": {
+								"allowExportNames": [
+									"metadata",
+									"generateMetadata",
+									"generateStaticParams",
+									"GET",
+									"POST",
+									"PUT",
+									"DELETE",
+									"PATCH"
+								]
+							}
+						}
+					},
+					"suspicious": {
+						"noShadowRestrictedNames": "off"
+					}
+				}
+			}
+		}
+	],
+	"vcs": {
+		"clientKind": "git",
+		"enabled": true,
+		"useIgnoreFile": false
+	}
+}
