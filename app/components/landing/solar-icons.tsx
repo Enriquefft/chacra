@@ -14,4 +14,6 @@ export {
   ArrowRightUp,
   MedalStar,
   CalendarMark,
+  UsersGroupRounded,
+  Bell,
 } from "@solar-icons/react"

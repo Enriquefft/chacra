@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -19,13 +20,9 @@ import {
   ChatDots,
   ShieldCheck,
   GraphUp,
-  Server,
   ArrowRight,
   CheckCircle,
   ListCheck,
-  ArrowRightUp,
-  MedalStar,
-  CalendarMark,
 } from "@/components/landing/solar-icons"
 import { MobileNav } from "@/components/landing/mobile-nav"
 import { Logo } from "@/components/landing/logo"
@@ -57,7 +54,6 @@ const calLink = "https://cal.com/enrique-flores/chacra"
 
 const navLinks = [
   { label: "Problema", href: "#problema" },
-  { label: "Solución", href: "#solucion" },
   { label: "Cooperativas", href: "#cooperativas" },
   { label: "Financieras", href: "#financieras" },
   { label: "Precios", href: "#precios" },
@@ -402,326 +398,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── 3. Solution ─── */}
-      <section id="solucion" className="py-20 md:py-28">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <ScrollReveal>
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl lg:text-4xl">
-                2 canales. 1 base de datos. Cero fricción.
-              </h2>
-              <p className="mt-4 max-w-[65ch] mx-auto text-pretty text-base text-muted-foreground md:text-lg">
-                El productor elige cómo registrar. Los datos siempre llegan al
-                mismo lugar.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <div className="relative mt-14 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_auto_1fr]">
-            {/* WhatsApp channel */}
-            <ScrollReveal delay={0}>
-              <div className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm transition-all duration-150 hover:scale-[1.01] hover:shadow-md">
-                <div className="flex items-center gap-2 border-b bg-success/5 px-4 py-3">
-                  <div className="flex size-8 items-center justify-center rounded-full bg-success/15">
-                    <div className="size-2 rounded-full bg-success" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium">Canal WhatsApp</h3>
-                    <p className="text-xs text-muted-foreground">
-                      Lenguaje natural
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2 p-4">
-                  <div className="ml-auto max-w-[85%] rounded-2xl rounded-tr-md bg-success/10 px-3.5 py-2.5">
-                    <p className="text-sm">
-                      vendí 50kg café a 8 soles al Juan
-                    </p>
-                    <p className="mt-0.5 text-right text-[10px] text-muted-foreground">
-                      10:32
-                    </p>
-                  </div>
-                  <div className="flex max-w-[88%] items-end gap-1.5">
-                    <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
-                      C
-                    </div>
-                    <div className="rounded-2xl rounded-bl-md bg-muted px-3.5 py-2.5">
-                      <p className="text-sm leading-relaxed">
-                        <span className="font-medium">Café</span> — 50 kg a
-                        S/8.00
-                        <br />
-                        Total:{" "}
-                        <span className="font-semibold">S/400.00</span>
-                        <br />
-                        Comprador: Juan
-                      </p>
-                      <p className="mt-1.5 text-sm font-medium text-primary">
-                        ¿Correcto?
-                      </p>
-                      <p className="mt-0.5 text-right text-[10px] text-muted-foreground">
-                        10:32
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <ul className="mt-5 flex flex-col gap-2.5 pl-1">
-                {[
-                  "Cero curva de aprendizaje",
-                  "Registra ventas con lenguaje natural",
-                  "IA confirma antes de guardar",
-                ].map((text) => (
-                  <li key={text} className="flex items-center gap-2.5">
-                    <CheckCircle
-                      weight="Linear"
-                      size={18}
-                      className="shrink-0 text-primary"
-                      aria-hidden="true"
-                    />
-                    <span className="text-sm">{text}</span>
-                  </li>
-                ))}
-              </ul>
-            </ScrollReveal>
-
-            {/* Center connector (lg only) */}
-            <div className="hidden items-center lg:flex">
-              <div className="flex flex-col items-center gap-2">
-                <div className="h-20 w-px bg-border" />
-                <div className="relative flex size-10 items-center justify-center rounded-xl border bg-card shadow-sm">
-                  <Server
-                    weight="BoldDuotone"
-                    size={20}
-                    className="text-primary"
-                    aria-hidden="true"
-                  />
-                  <div className="pulse-ring absolute inset-0 rounded-xl border border-primary/30" />
-                </div>
-                <span className="max-w-[5rem] text-center text-[11px] leading-tight text-muted-foreground">
-                  Misma base de datos
-                </span>
-                <div className="h-20 w-px bg-border" />
-              </div>
-            </div>
-
-            {/* PWA offline channel */}
-            <ScrollReveal delay={150}>
-              <div className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm transition-all duration-150 hover:scale-[1.01] hover:shadow-md">
-                <div className="flex items-center justify-between border-b bg-warning/5 px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <div className="flex size-8 items-center justify-center rounded-full bg-primary/10">
-                      <span className="text-xs font-semibold text-primary">
-                        C
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-medium">
-                        App Offline (PWA)
-                      </h3>
-                      <p className="text-xs text-muted-foreground">
-                        Sin conexión
-                      </p>
-                    </div>
-                  </div>
-                  <Badge className="bg-warning/15 text-warning-foreground">
-                    Offline
-                  </Badge>
-                </div>
-                <div className="flex flex-col gap-2.5 p-4">
-                  <div>
-                    <label className="mb-1 block text-xs text-muted-foreground">
-                      Producto
-                    </label>
-                    <div className="rounded-lg border bg-background px-3 py-2 text-sm">
-                      Café
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <label className="mb-1 block text-xs text-muted-foreground">
-                        Cantidad
-                      </label>
-                      <div className="rounded-lg border bg-background px-3 py-2 text-sm">
-                        50 kg
-                      </div>
-                    </div>
-                    <div>
-                      <label className="mb-1 block text-xs text-muted-foreground">
-                        Precio
-                      </label>
-                      <div className="rounded-lg border bg-background px-3 py-2 text-sm">
-                        S/8.00
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between rounded-lg bg-success/10 px-3 py-2">
-                    <span className="text-sm font-medium text-success">
-                      Guardado
-                    </span>
-                    <Badge variant="outline" className="text-xs">
-                      Sincronizar (3)
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-              <ul className="mt-5 flex flex-col gap-2.5 pl-1">
-                {[
-                  "Funciona sin internet",
-                  "Sincroniza cuando hay señal",
-                  "No se pierde ningún dato",
-                ].map((text) => (
-                  <li key={text} className="flex items-center gap-2.5">
-                    <CheckCircle
-                      weight="Linear"
-                      size={18}
-                      className="shrink-0 text-primary"
-                      aria-hidden="true"
-                    />
-                    <span className="text-sm">{text}</span>
-                  </li>
-                ))}
-              </ul>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 3b. Para el Productor ─── */}
-      <section className="border-t py-20 md:py-28">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <ScrollReveal>
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl lg:text-4xl">
-                Registra. Gana de dos formas.
-              </h2>
-              <p className="mt-4 mx-auto max-w-[65ch] text-pretty text-base text-muted-foreground md:text-lg">
-                La app es gratis para siempre. Lo que recibes a cambio:
-              </p>
-            </div>
-          </ScrollReveal>
-
-          {/* Coffee harvest photo */}
-          <ScrollReveal delay={80}>
-            <div className="relative mt-10 h-48 overflow-hidden rounded-2xl md:h-56">
-              <Image
-                src="/coffee-harvest.jpg"
-                alt="Manos cosechando café en Cajamarca"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 768px) 100vw, 1152px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/60" />
-            </div>
-          </ScrollReveal>
-
-          {/* Two value cards */}
-          <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
-            {/* Card A — Price benchmark */}
-            <ScrollReveal delay={0}>
-              <Card className="h-full border-border/50 bg-card/80 transition-all duration-150 hover:scale-[1.01] hover:shadow-md">
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex items-center gap-2">
-                    <div className="flex size-9 items-center justify-center rounded-lg bg-warning/10">
-                      <ArrowRightUp
-                        weight="BoldDuotone"
-                        size={20}
-                        className="text-warning"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Alerta de precio — Café, Cajamarca
-                    </span>
-                  </div>
-
-                  <div className="rounded-xl border bg-background p-4 font-mono text-sm">
-                    <div className="flex items-center justify-between py-1">
-                      <span className="text-muted-foreground">Precio en tu zona</span>
-                      <span className="flex items-center gap-1 font-semibold text-success">
-                        S/9.00/kg
-                        <ArrowRightUp weight="Bold" size={14} aria-hidden="true" />
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between py-1">
-                      <span className="text-muted-foreground">Tu última venta</span>
-                      <span className="font-medium">S/7.00/kg</span>
-                    </div>
-                    <div className="my-2 h-px bg-border" />
-                    <div className="flex items-center justify-between rounded-lg bg-warning/10 px-2 py-1.5">
-                      <span className="text-muted-foreground">Diferencia</span>
-                      <span className="font-semibold text-warning">−S/2.00/kg</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-lg bg-warning/10 px-2 py-1.5 mt-1">
-                      <span className="text-muted-foreground">En 50 kg vendidos</span>
-                      <span className="font-semibold text-warning">S/100 menos</span>
-                    </div>
-                  </div>
-
-                  <p className="mt-4 text-sm font-medium">
-                    Sabe si te están pagando lo que corresponde. Hoy.
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Precios en tiempo real de productores de tu zona
-                  </p>
-                </CardContent>
-              </Card>
-            </ScrollReveal>
-
-            {/* Card B — Credit history */}
-            <ScrollReveal delay={120}>
-              <Card className="h-full border-border/50 bg-card/80 transition-all duration-150 hover:scale-[1.01] hover:shadow-md">
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex items-center gap-2">
-                    <div className="flex size-9 items-center justify-center rounded-lg bg-success/10">
-                      <MedalStar
-                        weight="BoldDuotone"
-                        size={20}
-                        className="text-success"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Score crediticio
-                    </span>
-                  </div>
-
-                  <div className="rounded-xl border bg-background p-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Score crediticio</span>
-                      <Badge className="bg-success/15 text-success">Tier A</Badge>
-                    </div>
-                    <div className="mt-3">
-                      <div className="h-2.5 overflow-hidden rounded-full bg-muted">
-                        <div className="h-full w-[82%] rounded-full bg-success" />
-                      </div>
-                      <p className="mt-1.5 text-right text-xs font-semibold">82 / 100</p>
-                    </div>
-                    <div className="my-3 h-px bg-border" />
-                    <div className="flex flex-col gap-1.5 text-sm">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle weight="Linear" size={15} className="shrink-0 text-success" aria-hidden="true" />
-                        <span className="text-muted-foreground">47 transacciones verificadas</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle weight="Linear" size={15} className="shrink-0 text-success" aria-hidden="true" />
-                        <span className="text-muted-foreground">8 meses de historial activo</span>
-                      </div>
-                      <div className="mt-1 rounded-lg bg-success/10 px-3 py-1.5 text-center text-sm font-medium text-success">
-                        &ldquo;Apto para microcrédito&rdquo;
-                      </div>
-                    </div>
-                  </div>
-
-                  <p className="mt-4 text-sm font-medium">
-                    Cada venta construye tu historial crediticio.
-                  </p>
-                </CardContent>
-              </Card>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
       {/* ─── 4. For Cooperativas ─── */}
       <section
         id="cooperativas"
@@ -952,9 +628,20 @@ export default function LandingPage() {
             </div>
           </ScrollReveal>
 
-          <div className="mt-8 text-center">
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button
               size="lg"
+              className="transition-transform duration-150 hover:scale-[1.02] active:scale-[0.97]"
+              asChild
+            >
+              <Link href="/demo-cooperativas">
+                Ver demo en vivo
+                <ArrowRight size={16} />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
               className="transition-transform duration-150 hover:scale-[1.02] active:scale-[0.97]"
               asChild
             >
@@ -1188,9 +875,20 @@ export default function LandingPage() {
             </div>
           </ScrollReveal>
 
-          <div className="mt-10 text-center">
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button
               size="lg"
+              className="transition-transform duration-150 hover:scale-[1.02] active:scale-[0.97]"
+              asChild
+            >
+              <Link href="/demo-financieras">
+                Ver scoring en vivo
+                <ArrowRight size={16} />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
               className="transition-transform duration-150 hover:scale-[1.02] active:scale-[0.97]"
               asChild
             >
@@ -1220,7 +918,7 @@ export default function LandingPage() {
                 icon: ChatDots,
                 title: "Registrar",
                 detail:
-                  "El productor envía un WhatsApp o usa la app offline. La IA estructura los datos automáticamente.",
+                  "El productor envía un WhatsApp o usa la app offline — sin internet, sin capacitación. La IA estructura los datos automáticamente.",
               },
               {
                 step: "2",
@@ -1546,9 +1244,31 @@ export default function LandingPage() {
             Prueba Chacra ahora
           </h2>
           <p className="mt-3 text-lg text-primary-foreground/70">
-            Demo en vivo. Funciona en modo avión.
+            Explora los dashboards con datos reales. Sin registro.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Button
+              size="lg"
+              className="bg-primary-foreground text-primary transition-transform duration-150 hover:scale-[1.02] hover:bg-primary-foreground/90 active:scale-[0.97]"
+              asChild
+            >
+              <Link href="/demo-cooperativas">
+                Demo Cooperativas
+                <ArrowRight size={16} />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              className="bg-primary-foreground text-primary transition-transform duration-150 hover:scale-[1.02] hover:bg-primary-foreground/90 active:scale-[0.97]"
+              asChild
+            >
+              <Link href="/demo-financieras">
+                Demo Financieras
+                <ArrowRight size={16} />
+              </Link>
+            </Button>
+          </div>
+          <div className="mt-4">
             <Button
               size="lg"
               variant="outline"
