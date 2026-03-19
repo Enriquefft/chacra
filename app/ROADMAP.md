@@ -9,11 +9,11 @@ What gets built is defined in SPEC.md. How it's built is in ARCHITECTURE.md.
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 0 | Restructure | NOT STARTED |
-| 1 | Foundation | NOT STARTED |
-| 2 | Core Modules | NOT STARTED |
-| 3 | UI | NOT STARTED |
-| 4 | Polish | NOT STARTED |
+| 0 | Restructure | DONE |
+| 1 | Foundation | DONE |
+| 2 | Core Modules | DONE |
+| 3 | UI | DONE |
+| 4 | Polish | IN PROGRESS |
 
 ---
 
@@ -23,15 +23,15 @@ Clean project structure and tooling before any feature work.
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Move source into `src/` directory | - | app, components, hooks, lib |
-| Remove ESLint + Prettier | - | Delete configs + deps |
-| Install and configure Biome | - | Lint + format in one tool |
-| Update tsconfig paths (`@/*` → `./src/*`) | - | |
-| Update components.json for `src/` paths | - | shadcn/ui alias update |
-| Update package.json scripts | - | Replace lint script with biome |
-| Verify build passes | - | |
+| Move source into `src/` directory | DONE | app, components, hooks, lib |
+| Remove ESLint + Prettier | DONE | Deleted configs + deps |
+| Install and configure Biome | DONE | biome.jsonc created |
+| Update tsconfig paths (`@/*` → `./src/*`) | DONE | |
+| Update components.json for `src/` paths | DONE | CSS path fixed |
+| Update package.json scripts | DONE | lint, format, check scripts |
+| Verify build passes | DONE | 11 static pages, no errors |
 
-**Blocked by:** Nothing. Ready to start.
+**Completed.**
 
 ---
 
@@ -41,19 +41,21 @@ Everything the app needs before any features can work.
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Install database deps (drizzle-orm, @neondatabase/serverless) | - | |
-| Drizzle schema (`db/schema.ts`) | - | |
-| Neon connection (`lib/db.ts`, `db/index.ts`) | - | |
-| Run initial migration | - | |
-| Install better-auth | - | |
-| better-auth config + Google OAuth (`lib/auth.ts`) | - | |
-| Auth API route (`/api/auth/[...all]`) | - | |
-| Role assignment by entry point | - | |
-| App shell: `/farmer` layout with auth guard | - | |
-| App shell: `/dashboard` layout with auth guard | - | |
-| App shell: `/scoring` layout with auth guard | - | |
-| Env vars configured (.env.local) | - | |
-| Deploy to Vercel with working auth | - | |
+| Install database deps (drizzle-orm, @neondatabase/serverless) | DONE | |
+| Drizzle schema (`db/schema.ts`) | DONE | cooperative + transaction + auth tables |
+| Neon connection (`lib/db.ts`, `db/index.ts`) | DONE | neon-http driver |
+| Run initial migration | DONE | drizzle-kit push, 6 tables live |
+| Install better-auth | DONE | |
+| better-auth config + Google OAuth (`lib/auth.ts`) | DONE | customSession, additionalFields, role guards |
+| Auth API route (`/api/auth/[...all]`) | DONE | /api/auth/ok returns {"ok":true} |
+| Role assignment by entry point | DONE | Deferred to onboarding server actions |
+| App shell: `/farmer` layout with auth guard | DONE | 5-state auth pattern, mobile-first shell |
+| App shell: `/dashboard` layout with auth guard | DONE | Sidebar shell, coop name from DB |
+| App shell: `/scoring` layout with auth guard | DONE | Auto-onboard, minimal shell |
+| Env vars configured (.env) | DONE | |
+| Onboarding flows (farmer, coop, financiera) | DONE | Server actions + client forms |
+| Settings page (products, invite code) | DONE | Real CRUD functionality |
+| Verify auth flows in browser | DONE | All 3 roles work correctly |
 
 **Blocked by:** Nothing. Ready to start.
 
@@ -67,22 +69,22 @@ Two parallel tracks once Phase 1 is complete.
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Server Actions: transactions (`actions/transactions.ts`) | - | |
-| Server Actions: cooperatives (`actions/cooperatives.ts`) | - | |
-| Server Actions: farmers (`actions/farmers.ts`) | - | |
-| Sync module (`lib/sync.ts`) | - | |
-| Sync API route (`/api/sync`) | - | |
-| Price benchmark module (`lib/prices.ts`) | - | |
-| Integrity module (`lib/integrity.ts`) | - | |
+| Server Actions: transactions (`actions/transactions.ts`) | DONE | create, getByFarmer, getByCoop, confirm, reject |
+| Server Actions: cooperatives (`actions/cooperatives.ts`) | DONE | Extended: exportGoals + getCooperativeStats |
+| Server Actions: farmers (`actions/farmers.ts`) | DONE | getFarmersForCooperative, getFarmerProfile |
+| Sync module (`lib/sync.ts`) | DONE | Batch validation, UUID dedup, integrity check |
+| Sync API route (`/api/sync`) | DONE | POST with auth, max 100 per batch |
+| Price benchmark module (`lib/prices.ts`) | DONE | p10/p90/avg, min 5 data points |
+| Integrity module (`lib/integrity.ts`) | DONE | 3-layer checks + trust score |
 
 ### Track B — Scoring
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Scoring module (`lib/scoring.ts`) | - | |
-| Trust score computation (part of integrity) | - | |
+| Scoring module (`lib/scoring.ts`) | DONE | Tier A/B/C, loan range, trend, consistency |
+| Trust score computation (part of integrity) | DONE | Formula: 50 + confirmed - 5*flagged |
 
-**Blocked by:** Phase 1 (schema + auth).
+**Completed.**
 
 ---
 
@@ -94,31 +96,31 @@ Two parallel tracks once Phase 2 modules exist.
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Transaction form (online path) | - | |
-| Dexie.js offline storage setup | - | |
-| Transaction form (offline path) | - | |
-| Sync button + offline banner | - | |
-| Transaction history with price signals | - | |
-| PWA manifest | - | |
-| Service worker (scoped to /farmer/*) | - | |
-| Add-to-homescreen | - | |
+| Transaction form (online path) | DONE | createTransaction server action |
+| Dexie.js offline storage setup | DONE | offlineDb, pendingTransactions table |
+| Transaction form (offline path) | DONE | Saves to Dexie, syncs when online |
+| Sync button + offline banner | DONE | Auto-sync on mount/reconnect |
+| Transaction history with price signals | DONE | Cards with IntegrityBadge + PriceSignal |
+| PWA manifest | DONE | manifest.ts, standalone mode |
+| Service worker (scoped to /farmer/*) | DONE | public/sw.js |
+| Add-to-homescreen | DONE | Via PWA manifest |
 
 ### Track B — Dashboards
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Coop dashboard: KPIs | - | |
-| Coop dashboard: charts (production, prices) | - | |
-| Coop dashboard: traceability table | - | |
-| Coop dashboard: integrity panel | - | |
-| Coop settings: products, invite code, goals | - | |
-| Producer list with filters | - | |
-| Producer detail view | - | |
-| Financiera: portfolio view + tier chart | - | |
-| Financiera: credit profile view | - | |
-| CSV export | - | |
+| Coop dashboard: KPIs | DONE | 4 cards: producers, production, revenue, alerts |
+| Coop dashboard: charts (production, prices) | DONE | AreaChart + BarChart with shadcn Chart |
+| Coop dashboard: traceability table | DONE | Last 10 txns with integrity badges |
+| Coop dashboard: integrity panel | DONE | Trust scores in producer list |
+| Coop settings: products, invite code, goals | DONE | Extended with ExportGoalManager |
+| Producer list with filters | DONE | Tabs, search, trust score badges |
+| Producer detail view | DONE | Profile card + txn table with confirm/reject |
+| Financiera: portfolio view + tier chart | DONE | KPIs, donut chart, candidate table |
+| Financiera: credit profile view | DONE | Identity, income trend, verification, loan range |
+| CSV export | - | Deferred to Phase 4 |
 
-**Blocked by:** Phase 2 (modules must exist for UI to call).
+**Completed** (except CSV export).
 
 ---
 
@@ -137,7 +139,7 @@ Two parallel tracks once Phase 2 modules exist.
 
 ## Current Focus
 
-**Next up:** Phase 0 — Restructure
+**Active:** Phase 4 — Polish
 
 ---
 
