@@ -1,0 +1,34 @@
+import Dexie, { type Table } from "dexie";
+
+export interface PendingTransaction {
+	uuid: string;
+	product: string;
+	quantityKg: number;
+	pricePerKg: number;
+	buyer: string | null;
+	date: string;
+	createdAt: number;
+	syncStatus: "pending" | "syncing" | "failed";
+	errorMessage?: string;
+}
+
+export interface CachedProductList {
+	cooperativeId: string;
+	products: string[];
+	cachedAt: number;
+}
+
+class ChacraOfflineDB extends Dexie {
+	pendingTransactions!: Table<PendingTransaction, string>;
+	cachedProducts!: Table<CachedProductList, string>;
+
+	constructor() {
+		super("chacra-offline");
+		this.version(1).stores({
+			pendingTransactions: "uuid, syncStatus, createdAt",
+			cachedProducts: "cooperativeId",
+		});
+	}
+}
+
+export const offlineDb = new ChacraOfflineDB();
