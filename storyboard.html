@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chacra — Storyboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f0eb;
+      padding: 40px;
+      color: #2c1810;
+    }
+
+    .storyboard-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .storyboard-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .storyboard-header p {
+      font-size: 14px;
+      color: #6b5344;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .panel {
+      background: #fff;
+      border: 2px solid #2c1810;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .panel-number {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 28px;
+      height: 28px;
+      background: #2c1810;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .panel-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #faf6f2;
+      border-bottom: 2px solid #2c1810;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .panel-image .scene-description {
+      font-size: 13px;
+      color: #8b6f5e;
+      line-height: 1.5;
+      max-width: 320px;
+    }
+
+    .panel-image .scene-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+
+    .panel-text {
+      padding: 16px 20px;
+    }
+
+    .panel-text h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .panel-text p {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #4a3628;
+    }
+
+    .panel-text .narration {
+      margin-top: 8px;
+      font-style: italic;
+      color: #8b6f5e;
+      font-size: 12.5px;
+      border-left: 2px solid #d4c4b0;
+      padding-left: 10px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 12px;
+      color: #8b6f5e;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="storyboard-header">
+    <h1>Chacra — Storyboard</h1>
+    <p>Sin trazabilidad, sin datos crediticios → datos reales desde la chacra</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- Panel 1 -->
+    <div class="panel">
+      <div class="panel-image">
+        <div class="panel-number">1</div>
+        <div class="scene-icon">📋</div>
+        <p class="scene-description">
+          Pantalla dividida. Izquierda: Carlos (cooperativa) rodeado de
+          papeles y Excel, preparando una auditoria de exportacion.
+          Derecha: Lucia (financiera) en su oficina, mirando un expediente
+          rural casi vacio. Ambos frustrados.
+        </p>
+      </div>
+      <div class="panel-text">
+        <h3>El problema</h3>
+        <p>La cooperativa pierde contratos de exportacion porque no puede demostrar trazabilidad por agricultor. La financiera gasta S/500-800 por evaluacion rural y aun asi evalua a ciegas. Ambos necesitan datos de transacciones que no existen digitalmente.</p>
+        <p class="narration">"Carlos lleva 2 semanas armando documentacion para la auditoria. Lucia rechaza otra solicitud rural por falta de datos."</p>
+      </div>
+    </div>
+
+    <!-- Panel 2 -->
+    <div class="panel">
+      <div class="panel-image">
+        <div class="panel-number">2</div>
+        <div class="scene-icon">📓</div>
+        <p class="scene-description">
+          Rosa en su chacra, vendiendo cafe a un comprador. Anota
+          la venta en su cuaderno de papel. Al fondo: cerros, cafetales,
+          cero cobertura. Su telefono muestra "Sin conexion".
+        </p>
+      </div>
+      <div class="panel-text">
+        <h3>La causa raiz</h3>
+        <p>Los datos existen — cada venta ocurre, cada kilo se pesa, cada precio se negocia. Pero se evaporan en la chacra porque no hay conectividad para capturarlos. Un agricultor puede vender cafe por 10 anos y tener cero historial digital.</p>
+        <p class="narration">"Rosa vende 20 quintales de cafe. Lo anota en su cuaderno. Ese dato nunca llega a Carlos ni a Lucia."</p>
+      </div>
+    </div>
+
+    <!-- Panel 3 -->
+    <div class="panel">
+      <div class="panel-image">
+        <div class="panel-number">3</div>
+        <div class="scene-icon">📱</div>
+        <p class="scene-description">
+          Rosa abre Chacra en su celular (en el campo, sin wifi).
+          Pantalla del formulario: producto, cantidad, precio, comprador.
+          Indicador "Offline" visible. Boton "Guardar".
+        </p>
+      </div>
+      <div class="panel-text">
+        <h3>La solucion</h3>
+        <p>Chacra es una app que funciona sin internet. Rosa registra su venta en 15 segundos con un formulario de 4 campos. Los datos se guardan en su celular y se sincronizan cuando hay conexion — llegando directamente a la cooperativa y alimentando perfiles crediticios.</p>
+        <p class="narration">"Mismo momento, misma chacra. Pero ahora el dato queda capturado — con o sin internet."</p>
+      </div>
+    </div>
+
+    <!-- Panel 4 -->
+    <div class="panel">
+      <div class="panel-image">
+        <div class="panel-number">4</div>
+        <div class="scene-icon">📊</div>
+        <p class="scene-description">
+          Tres escenas. Carlos ve trazabilidad por agricultor en su dashboard
+          y aprueba un contrato de exportacion. Lucia ve el perfil crediticio
+          de Rosa (trust score 78/100) y aprueba su credito. Rosa recibe
+          su primer prestamo formal.
+        </p>
+      </div>
+      <div class="panel-text">
+        <h3>El impacto</h3>
+        <p>La cooperativa cumple contratos de exportacion con trazabilidad auditable. La financiera evalua con datos reales y reduce riesgo. Rosa accede a su primer credito formal a tasa justa — sin intermediarios que cobren 35%. Todos ganan con los mismos datos.</p>
+        <p class="narration">"Los datos ya existian. Solo necesitaban un lugar donde vivir."</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Chacra — Avanzar Rural Legacy Challenge 2026 — UTEC Ventures + FIDA
+  </footer>
+
+</body>
+</html>

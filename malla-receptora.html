@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chacra — Malla Receptora</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f0eb;
+      padding: 40px;
+      color: #2c1810;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #6b5344;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .quadrant {
+      background: #fff;
+      border: 2px solid #2c1810;
+      border-radius: 16px;
+      padding: 28px 28px 32px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quadrant-header {
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #e8ddd4;
+    }
+
+    .quadrant-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .quadrant-header p {
+      font-size: 12.5px;
+      color: #8b6f5e;
+    }
+
+    .quadrant ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quadrant li {
+      font-size: 13.5px;
+      line-height: 1.5;
+      padding-left: 20px;
+      position: relative;
+      color: #3d2a1e;
+    }
+
+    .quadrant li::before {
+      position: absolute;
+      left: 0;
+      top: 1px;
+      font-size: 13px;
+    }
+
+    /* Quadrant-specific bullet icons */
+    .funciona li::before { content: "+"; font-weight: 700; color: #2a7d4f; }
+    .dudas li::before { content: "?"; font-weight: 700; color: #b58a1b; }
+    .criticas li::before { content: "!"; font-weight: 700; color: #c44b3f; }
+    .ideas li::before { content: "*"; font-weight: 700; color: #3b6fc2; }
+
+    .quadrant-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .funciona .quadrant-tag { background: #e6f4ec; color: #1a5e38; }
+    .dudas .quadrant-tag { background: #fdf4dc; color: #7a5c0f; }
+    .criticas .quadrant-tag { background: #fce8e6; color: #9c2f25; }
+    .ideas .quadrant-tag { background: #e3edf9; color: #2a5298; }
+
+    footer {
+      text-align: center;
+      margin-top: 36px;
+      font-size: 12px;
+      color: #8b6f5e;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Chacra — Malla Receptora</h1>
+    <p>Feedback del prototipo y producto actual</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- Lo que funciona -->
+    <div class="quadrant funciona">
+      <div class="quadrant-header">
+        <span class="quadrant-tag">Fortalezas</span>
+        <h2>Lo que funciona</h2>
+        <p>Aspectos que destacan del prototipo</p>
+      </div>
+      <ul>
+        <li>Funciona offline por diseno — no es un parche, es la arquitectura base. El agricultor nunca depende de conectividad.</li>
+        <li>Formulario de 4 campos, 15 segundos. La barrera de entrada es minima. No requiere capacitacion.</li>
+        <li>Producto real desplegado en produccion (chacra.404tf.com) — no es un mockup ni slides.</li>
+        <li>Una sola app para tres audiencias (agricultor, cooperativa, financiera). Cada uno ve lo que necesita.</li>
+        <li>La cooperativa como canal de distribucion: un acuerdo = cientos de agricultores. CAC cercano a cero.</li>
+        <li>La trazabilidad que genera cumple naturalmente con los requisitos EUDR para exportacion a Europa.</li>
+      </ul>
+    </div>
+
+    <!-- Dudas sin respuesta -->
+    <div class="quadrant dudas">
+      <div class="quadrant-header">
+        <span class="quadrant-tag">Incertidumbre</span>
+        <h2>Dudas sin respuesta</h2>
+        <p>Preguntas que surgen de la experiencia</p>
+      </div>
+      <ul>
+        <li>Los agricultores registraran ventas de forma constante sin supervision directa de la cooperativa?</li>
+        <li>Cuantos meses de datos necesita una financiera para confiar en el scoring crediticio de Chacra?</li>
+        <li>Las cooperativas que ya usan Excel o ERP veran suficiente valor para migrar?</li>
+        <li>Que tan preciso es el modelo de integridad con datos autoreportados y sin validacion cruzada inicial?</li>
+        <li>Una financiera pagaria por perfiles crediticios sin un piloto previo que demuestre poder predictivo?</li>
+        <li>Como se maneja la transicion cuando un agricultor cambia de cooperativa o pertenece a varias?</li>
+      </ul>
+    </div>
+
+    <!-- Criticas -->
+    <div class="quadrant criticas">
+      <div class="quadrant-header">
+        <span class="quadrant-tag">Mejoras</span>
+        <h2>Criticas</h2>
+        <p>Que se puede mejorar</p>
+      </div>
+      <ul>
+        <li>No hay validacion en campo con agricultores reales. El producto funciona tecnicamente pero falta prueba de uso real.</li>
+        <li>El modelo de credit scoring necesita datos historicos reales para calibrarse — aun no existen.</li>
+        <li>Dependencia critica de la cooperativa como gatekeeper: si el admin no impulsa la adopcion, los agricultores no llegan.</li>
+        <li>Sin sistema de recordatorios o notificaciones. Si el agricultor olvida registrar, no hay mecanismo para recuperar ese dato.</li>
+        <li>La monetizacion (SaaS cooperativa + scoring financiera) no esta validada con willingness-to-pay real.</li>
+        <li>El onboarding requiere wifi (primera instalacion). En zonas muy remotas, esto podria ser una barrera inicial.</li>
+      </ul>
+    </div>
+
+    <!-- Nuevas ideas -->
+    <div class="quadrant ideas">
+      <div class="quadrant-header">
+        <span class="quadrant-tag">Oportunidades</span>
+        <h2>Nuevas ideas</h2>
+        <p>Ideas que surgieron</p>
+      </div>
+      <ul>
+        <li>Integracion con Agros: combinar identidad digital + geolocalizacion (Agros) con historial transaccional (Chacra) para un perfil crediticio completo.</li>
+        <li>Modulo EUDR como producto independiente para cooperativas exportadoras que solo necesitan trazabilidad.</li>
+        <li>Alianza con Agrobanco o CMACs para piloto de credito basado en datos Chacra — demostraria el modelo de negocio.</li>
+        <li>Registro por voz o foto del recibo como alternativa al formulario para agricultores con baja alfabetizacion.</li>
+        <li>Benchmarks de precios anonimizados: mostrar al agricultor si vende por encima o debajo del promedio de su zona.</li>
+        <li>Conexion con el Padron de Productores Agrarios (MIDAGRI) para validar identidad y reducir fraude.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    Chacra — Avanzar Rural Legacy Challenge 2026 — UTEC Ventures + FIDA
+  </footer>
+
+</body>
+</html>

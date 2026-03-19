@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chacra — Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: oklch(0.13 0.008 50);
+  --bg-subtle: oklch(0.16 0.01 50);
+  --bg-card: oklch(0.20 0.012 50);
+  --fg: oklch(0.94 0.005 75);
+  --fg-muted: oklch(0.58 0.012 55);
+  --fg-dim: oklch(0.38 0.008 55);
+  --terracotta: oklch(0.72 0.12 33);
+  --terracotta-dim: oklch(0.53 0.14 33);
+  --olive: oklch(0.65 0.12 145);
+  --amber: oklch(0.78 0.12 75);
+  --red: oklch(0.62 0.18 25);
+  --border: oklch(1 0 0 / 8%);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--fg);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Slide System ── */
+.slide {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6vh 8vw;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 450ms ease, visibility 0ms 450ms;
+  background: radial-gradient(ellipse at 50% 35%, var(--bg-subtle), var(--bg) 70%);
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 450ms ease, visibility 0ms 0ms;
+}
+.slide-content {
+  max-width: 1100px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+/* ── Progress bar ── */
+.progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--terracotta);
+  transition: width 400ms ease;
+  z-index: 100;
+}
+.slide-counter {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--fg-dim);
+  font-variant-numeric: tabular-nums;
+  z-index: 100;
+  letter-spacing: 0.05em;
+}
+
+/* ── Speaker notes overlay ── */
+.notes-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: oklch(0 0 0 / 85%);
+  color: var(--fg);
+  padding: 1.5rem 2rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  z-index: 200;
+  display: none;
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+}
+.notes-overlay.visible { display: block; }
+.notes-overlay .notes-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--fg-dim);
+  margin-bottom: 0.5rem;
+}
+
+/* ── Typography ── */
+.hero-number {
+  font-size: clamp(5rem, 14vw, 11rem);
+  font-weight: 700;
+  color: var(--terracotta);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.slide-title {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-align: center;
+}
+.slide-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: var(--fg-muted);
+  line-height: 1.6;
+  text-align: center;
+  max-width: 700px;
+}
+.highlight { color: var(--terracotta); font-weight: 600; }
+.highlight-olive { color: var(--olive); font-weight: 600; }
+.highlight-amber { color: var(--amber); font-weight: 600; }
+.dim { color: var(--fg-dim); }
+
+/* ── Slide 2: Legacy stats ── */
+.legacy-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+}
+.stat-line {
+  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  font-weight: 400;
+  text-align: center;
+  line-height: 1.4;
+}
+.stat-line .num {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--terracotta);
+}
+.legacy-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--fg-dim);
+  margin: 0.5rem 0;
+}
+.legacy-kicker {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 600;
+  color: var(--fg-dim);
+  margin-top: 0.5rem;
+}
+
+/* ── Slide 3: Pipeline ── */
+.pipeline {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: nowrap;
+}
+.pipe-step {
+  position: relative;
+}
+.pipe-box {
+  padding: 0.9rem 1.4rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 300ms ease;
+}
+.pipe-step.broken .pipe-box {
+  border-color: var(--red);
+  color: var(--red);
+  background: oklch(0.62 0.18 25 / 8%);
+}
+.pipe-step.broken::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--red);
+  transform: rotate(-12deg);
+}
+.pipe-step.dimmed .pipe-box {
+  opacity: 0.25;
+}
+.pipe-arrow {
+  padding: 0 0.6rem;
+  color: var(--fg-dim);
+  font-size: 1.2rem;
+}
+.pipe-step.dimmed + .pipe-arrow,
+.pipe-step.dimmed ~ .pipe-arrow {
+  opacity: 0.25;
+}
+.pipeline-label {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  color: var(--red);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.pipeline-caption {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: var(--fg-muted);
+  text-align: center;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ── Slide 4: Comparison ── */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  width: 100%;
+  max-width: 900px;
+}
+.compare-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+.compare-col.left { align-items: flex-end; text-align: right; }
+.compare-col.right { align-items: flex-start; text-align: left; }
+.compare-header {
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.compare-col.left .compare-header { color: var(--fg-dim); }
+.compare-col.right .compare-header { color: var(--terracotta); }
+.compare-item {
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  line-height: 1.5;
+}
+.compare-col.left .compare-item { color: var(--fg-dim); }
+.compare-col.right .compare-item { color: var(--fg); }
+.compare-divider {
+  width: 1px;
+  background: var(--border);
+  margin: 0 1rem;
+}
+.compare-insight {
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  color: var(--fg-muted);
+  text-align: center;
+  font-style: italic;
+  max-width: 650px;
+}
+
+/* ── Slide 5: Chacra reveal ── */
+.chacra-wordmark {
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-weight: 700;
+  color: var(--terracotta);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.chacra-tagline {
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  color: var(--fg-muted);
+  font-weight: 400;
+}
+.audience-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 1rem;
+}
+.audience-card {
+  padding: 1.5rem;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.audience-card .card-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+.audience-card:nth-child(1) .card-label { color: var(--terracotta); }
+.audience-card:nth-child(2) .card-label { color: var(--olive); }
+.audience-card:nth-child(3) .card-label { color: var(--amber); }
+.audience-card .card-desc {
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  color: var(--fg-muted);
+  line-height: 1.5;
+}
+
+/* ── Slide 6: Demo ── */
+.demo-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+.demo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 0.5rem;
+}
+.demo-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+}
+.demo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.demo-url {
+  font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+  color: var(--fg-dim);
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.2rem;
+  background: var(--bg-card);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+/* ── Slide 7: Integrity ── */
+.integrity-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 700px;
+}
+.integrity-layer {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.layer-num {
+  font-size: 1.5rem;
+  font-weight: 700;
+  width: 2.5rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+.integrity-layer:nth-child(1) .layer-num { color: var(--terracotta); }
+.integrity-layer:nth-child(2) .layer-num { color: var(--amber); }
+.integrity-layer:nth-child(3) .layer-num { color: var(--olive); }
+.layer-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.layer-title {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 600;
+}
+.layer-desc {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  color: var(--fg-muted);
+}
+.integrity-kicker {
+  font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  color: var(--fg-muted);
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+/* ── Slide 8: Price signals ── */
+.price-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2rem 2.5rem;
+  max-width: 420px;
+  width: 100%;
+}
+.price-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+.price-crop-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--terracotta-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg);
+  font-size: 1.2rem;
+}
+.price-crop-name {
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+.price-region {
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+}
+.price-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.price-label {
+  font-size: 0.95rem;
+  color: var(--fg-muted);
+}
+.price-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.price-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1rem;
+  background: oklch(0.78 0.12 75 / 10%);
+  border: 1px solid oklch(0.78 0.12 75 / 20%);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--amber);
+  font-weight: 500;
+}
+.price-alert-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.price-context {
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+  color: var(--fg-muted);
+  text-align: center;
+  max-width: 550px;
+  line-height: 1.6;
+}
+
+/* ── Slide 9: Traction ── */
+.traction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 750px;
+  width: 100%;
+}
+.traction-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.5;
+}
+.traction-check {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--olive);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.15rem;
+}
+.traction-check svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--bg);
+  stroke-width: 3;
+  fill: none;
+}
+.traction-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--border);
+  margin: 0.5rem 0;
+  align-self: center;
+}
+.biz-model {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 750px;
+}
+.biz-item {
+  text-align: center;
+  padding: 1rem;
+}
+.biz-who {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+.biz-item:nth-child(1) .biz-who { color: var(--terracotta); }
+.biz-item:nth-child(2) .biz-who { color: var(--olive); }
+.biz-item:nth-child(3) .biz-who { color: var(--amber); }
+.biz-what {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  color: var(--fg-muted);
+}
+
+/* ── Slide 10: Close ── */
+.close-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+  text-align: center;
+}
+.close-main {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+.close-body {
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  color: var(--fg-muted);
+  line-height: 1.6;
+  max-width: 650px;
+}
+.close-kicker {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 600;
+  color: var(--terracotta);
+  letter-spacing: -0.01em;
+  margin-top: 0.5rem;
+}
+
+/* ── Animations ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.slide.active [data-anim] {
+  animation: fade-up 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.slide.active [data-anim="1"] { animation-delay: 0ms; }
+.slide.active [data-anim="2"] { animation-delay: 150ms; }
+.slide.active [data-anim="3"] { animation-delay: 300ms; }
+.slide.active [data-anim="4"] { animation-delay: 450ms; }
+.slide.active [data-anim="5"] { animation-delay: 600ms; }
+.slide.active [data-anim="6"] { animation-delay: 750ms; }
+.slide.active [data-anim="7"] { animation-delay: 900ms; }
+
+[data-anim] { opacity: 0; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .audience-row { grid-template-columns: 1fr; }
+  .comparison { grid-template-columns: 1fr; }
+  .compare-divider { width: 100%; height: 1px; margin: 0.5rem 0; }
+  .compare-col.left { align-items: flex-start; text-align: left; }
+  .pipeline { flex-wrap: wrap; justify-content: center; }
+  .biz-model { grid-template-columns: 1fr; }
+}
+
+/* ── Print / PDF ── */
+@media print {
+  .slide { position: relative; page-break-after: always; opacity: 1; visibility: visible; height: 100vh; }
+  .progress, .slide-counter, .notes-overlay { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ SLIDE 1: THE NUMBER ══════════ -->
+<section class="slide active" data-notes="Veinte mil ciento setenta y ocho familias productoras. Pausa. Dejar que el numero hable.">
+  <div class="slide-content">
+    <span class="hero-number" data-anim="1" id="hero-counter">0</span>
+  </div>
+</section>
+
+<!-- ══════════ SLIDE 2: THE LEGACY ══════════ -->
+<section class="slide" data-notes="El proyecto mejor evaluado de FIDA a nivel mundial. Mil planes de negocio cofinanciados. Cincuenta y siete mil beneficiarios. Avanzar Rural logro algo que nadie mas ha logrado en desarrollo rural en Peru. Y cuando el programa cierre, todo eso esta en riesgo.">
+  <div class="slide-content">
+    <div class="legacy-stats">
+      <p class="stat-line" data-anim="1">El proyecto <span class="highlight">#1 de FIDA</span> en el mundo</p>
+      <p class="stat-line" data-anim="2"><span class="num">1,000+</span> planes de negocio cofinanciados</p>
+      <p class="stat-line" data-anim="3"><span class="num">57,420</span> beneficiarios directos</p>
+      <div class="legacy-divider" data-anim="4"></div>
+      <p class="legacy-kicker" data-anim="5">Y cuando cierre...</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SLIDE 3: THE PIPELINE ══════════ -->
+<section class="slide" data-notes="Hoy, los datos del campo se recogen a traves de promotores — personas contratadas por el programa que visitan a los productores y llenan formularios. El productor nunca toca la herramienta. En cinco anios, con veinte mil productores, ni uno solo registra sus propios datos. Cuando el programa cierre y los promotores se vayan, el primer eslabon desaparece. Sin recoleccion, no hay registro. Sin registro, no hay datos. Sin datos, no hay nada.">
+  <div class="slide-content">
+    <p class="slide-subtitle" data-anim="1" style="margin-bottom: 1rem;">Como se recogen los datos hoy</p>
+    <div class="pipeline" data-anim="2" style="position: relative;">
+      <div class="pipe-step broken">
+        <div class="pipe-box">Recoleccion</div>
+        <span class="pipeline-label">Depende de promotores</span>
+      </div>
+      <span class="pipe-arrow dimmed">&#8594;</span>
+      <div class="pipe-step dimmed"><div class="pipe-box">Registro</div></div>
+      <span class="pipe-arrow dimmed">&#8594;</span>
+      <div class="pipe-step dimmed"><div class="pipe-box">Procesamiento</div></div>
+      <span class="pipe-arrow dimmed">&#8594;</span>
+      <div class="pipe-step dimmed"><div class="pipe-box">Reportes</div></div>
+      <span class="pipe-arrow dimmed">&#8594;</span>
+      <div class="pipe-step dimmed"><div class="pipe-box">Decisiones</div></div>
+    </div>
+    <p class="pipeline-caption" data-anim="3" style="margin-top: 3rem;">
+      Hoy un promotor recoge los datos. El productor no toca la herramienta.<br>
+      Cuando el programa cierre, el promotor se va.<br>
+      <strong>Y toda la cadena se rompe.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ SLIDE 4: THE DESIGN PROBLEM ══════════ -->
+<section class="slide" data-notes="Las herramientas actuales estan disenadas para el promotor o el tecnico de campo. Requieren instalacion, configuracion, y alguien capacitado que las opere. El productor nunca las toca — solo responde preguntas. Chacra invierte eso: el productor es el usuario. Un formulario de cuatro campos, un tap para entrar, funciona sin internet. Y lo mas importante: cuando el programa termina, la herramienta sigue viva porque el usuario es el productor, no alguien que se va.">
+  <div class="slide-content">
+    <div class="comparison" data-anim="1">
+      <div class="compare-col left">
+        <p class="compare-header">Hoy</p>
+        <p class="compare-item">Usuario: promotor</p>
+        <p class="compare-item">Requiere instalacion y configuracion</p>
+        <p class="compare-item">Datos anuales agregados</p>
+        <p class="compare-item">Sin valor de retorno al productor</p>
+        <p class="compare-item">Muere con el programa</p>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="compare-col right">
+        <p class="compare-header">Chacra</p>
+        <p class="compare-item">Usuario: <strong>el productor</strong></p>
+        <p class="compare-item">1 tap para entrar, sin descarga</p>
+        <p class="compare-item">Cada venta, individualmente</p>
+        <p class="compare-item">Precios, score crediticio, historial</p>
+        <p class="compare-item"><strong>Vive despues del programa</strong></p>
+      </div>
+    </div>
+    <p class="compare-insight" data-anim="2">La herramienta en manos de quien genera los datos.</p>
+  </div>
+</section>
+
+<!-- ══════════ SLIDE 5: CHACRA REVEAL ══════════ -->
+<section class="slide" data-notes="Chacra convierte transacciones agricolas invisibles en datos estructurados y bancables. Una app. Tres audiencias. Funciona completamente offline.">
+  <div class="slide-content">
+    <span class="chacra-wordmark" data-anim="1">chacra</span>
+    <p class="chacra-tagline" data-anim="2">Transacciones invisibles &rarr; datos bancables</p>
+    <div class="audience-row" data-anim="3">
+      <div class="audience-card">
+        <p class="card-label">Productor</p>
+        <p class="card-desc">Registra ventas desde el celular, con o sin internet. En 15 segundos.</p>
+      </div>
+      <div class="audience-card">
+        <p class="card-label">Cooperativa</p>
+        <p class="card-desc">Ve trazabilidad, produccion y cumplimiento de contratos en tiempo real.</p>
+      </div>
+      <div class="audience-card">
+        <p class="card-label">Financiera</p>
+        <p class="card-desc">Ve perfiles crediticios construidos desde datos reales de campo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SLIDE 6: LIVE DEMO ══════════ -->
+<section class="slide" data-notes="Esto no es un mockup. Es el producto real, desplegado, al que pueden entrar ahora mismo. [Abrir chacra.404tf.com y mostrar: 1) Farmer: formulario 4 campos, 15s, sin internet. 2) Dashboard: KPIs, trazabilidad, productores. 3) Scoring: perfil crediticio, trust score, rango de prestamo.] Esto es lo que van a ver los productores en Ancash la proxima semana.">
+  <div class="slide-content">
+    <p class="demo-title" data-anim="1">Demo en vivo</p>
+    <div class="demo-list" data-anim="2">
+      <div class="demo-item">
+        <div class="demo-dot" style="background: var(--terracotta);"></div>
+        <span>Productor &mdash; 4 campos, 15 segundos, sin internet</span>
+      </div>
+      <div class="demo-item">
+        <div class="demo-dot" style="background: var(--olive);"></div>
+        <span>Cooperativa &mdash; trazabilidad en tiempo real</span>
+      </div>
+      <div class="demo-item">
+        <div class="demo-dot" style="background: var(--amber);"></div>
+        <span>Financiera &mdash; perfiles crediticios desde datos de campo</span>
+      </div>
+    </div>
+    <p class="demo-url" data-anim="3">chacra.404tf.com</p>
+  </div>
+</section>
+
+<!-- ══════════ SLIDE 7: DATA INTEGRITY ══════════ -->
+<section class="slide" data-notes="La pregunta obvia: como saben que los datos son reales? Tres capas. Primero, consistencia temporal — si un productor vendia 50 kilos al mes y declara 500, es una alerta automatica. Segundo, validacion cruzada con los registros de la cooperativa. Tercero, triage humano — solo los casos atipicos llegan a revision. Es imposible mentir de forma consistente durante ocho meses.">
+  <div class="slide-content">
+    <p class="slide-title" data-anim="1">Integridad de datos</p>
+    <div class="integrity-stack">
+      <div class="integrity-layer" data-anim="2">
+        <span class="layer-num">1</span>
+        <div class="layer-text">
+          <span class="layer-title">Consistencia temporal</span>
+          <span class="layer-desc">Automatica. Detecta saltos de volumen, precio fuera de rango, frecuencia irregular.</span>
+        </div>
+      </div>
+      <div class="integrity-layer" data-anim="3">
+        <span class="layer-num">2</span>
+        <div class="layer-text">
+          <span class="layer-title">Validacion cruzada</span>
+          <span class="layer-desc">Semi-automatica. Datos del productor vs registros de la cooperativa.</span>
+        </div>
+      </div>
+      <div class="integrity-layer" data-anim="4">
+        <span class="layer-num">3</span>
+        <div class="layer-text">
+          <span class="layer-title">Triage humano</span>
+          <span class="layer-desc">Solo casos sospechosos. La cooperativa revisa lo que importa.</span>
+        </div>
+      </div>
+    </div>
+    <p class="integrity-kicker" data-anim="5">Es imposible mentir de forma consistente<br>durante <span class="highlight">8 meses</span>.</p>
+  </div>
+</section>
+
+<!-- ══════════ SLIDE 8: PRICE SIGNALS ══════════ -->
+<section class="slide" data-notes="Por que un agricultor registraria sus ventas? Porque cada registro alimenta un benchmark de precios real de su zona. Con veinte productores ya puedes decirle: el cafe se paga a ocho cincuenta en tu region, pero a ti te pagaron siete. Eso es plata en el bolsillo hoy — no en seis meses.">
+  <div class="slide-content">
+    <p class="slide-title" data-anim="1">Valor inmediato para el productor</p>
+    <div class="price-card" data-anim="2">
+      <div class="price-header">
+        <div class="price-crop-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22V8M12 8C12 8 8 4 4 8M12 8C12 8 16 4 20 8M7 15C5 15 3 17 3 17M17 15C19 15 21 17 21 17"/></svg>
+        </div>
+        <div>
+          <p class="price-crop-name">Cafe</p>
+          <p class="price-region">San Ignacio, Cajamarca</p>
+        </div>
+      </div>
+      <div class="price-rows">
+        <div class="price-row">
+          <span class="price-label">Precio promedio esta semana</span>
+          <span class="price-value">S/8.50/kg</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Tu ultima venta</span>
+          <span class="price-value" style="color: var(--amber);">S/7.00/kg</span>
+        </div>
+      </div>
+      <div class="price-alert">
+        <span class="price-alert-icon">&#9888;</span>
+        <span>Por debajo del promedio de tu zona</span>
+      </div>
+    </div>
+    <p class="price-context" data-anim="3">Plata en el bolsillo <span class="highlight-amber">hoy</span>, no en 6 meses.</p>
+  </div>
+</section>
+
+<!-- ══════════ SLIDE 9: TRACTION ══════════ -->
+<section class="slide" data-notes="La proxima semana hacemos onboarding presencial con veinticinco productores de palta a gran escala en Ancash. Y ya tenemos una reunion agendada con un grupo de asociaciones y cooperativas que quieren adoptar la herramienta. El productor nunca paga. La cooperativa paga por trazabilidad. La financiera paga por scoring. Cada cooperativa que entra trae a todos sus productores.">
+  <div class="slide-content">
+    <div class="traction-list">
+      <div class="traction-item" data-anim="1">
+        <div class="traction-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+        <span>Producto desplegado <span class="highlight">en produccion</span></span>
+      </div>
+      <div class="traction-item" data-anim="2">
+        <div class="traction-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+        <span><span class="highlight">25 productores</span> de palta en Ancash &mdash; onboarding proxima semana</span>
+      </div>
+      <div class="traction-item" data-anim="3">
+        <div class="traction-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+        <span>Reunion con grupo de <span class="highlight">asociaciones y cooperativas</span> interesadas</span>
+      </div>
+    </div>
+    <div class="traction-divider" data-anim="4"></div>
+    <div class="biz-model" data-anim="5">
+      <div class="biz-item">
+        <p class="biz-who">Productor</p>
+        <p class="biz-what">Gratis. Siempre.</p>
+      </div>
+      <div class="biz-item">
+        <p class="biz-who">Cooperativa</p>
+        <p class="biz-what">SaaS mensual</p>
+      </div>
+      <div class="biz-item">
+        <p class="biz-who">Financiera</p>
+        <p class="biz-what">Por perfil crediticio</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SLIDE 10: THE CLOSE ══════════ -->
+<section class="slide" data-notes="Avanzar Rural demostro que cuando un productor tiene datos estructurados, sus ingresos crecen ciento cincuenta por ciento. Su patrimonio se multiplica por seis. Esos resultados no tienen por que terminar cuando termine el programa. La proxima semana, productores reales en Ancash van a registrar su primera venta en Chacra. Los datos ya existen. Solo necesitan un lugar donde vivir. [Pausa. Silencio. Dejar que aterrice.]">
+  <div class="slide-content">
+    <div class="close-lines">
+      <p class="close-main" data-anim="1">Los datos ya existen.</p>
+      <p class="close-body" data-anim="2">
+        Cada kilo se pesa.<br>
+        Cada precio se negocia.<br>
+        Cada venta sucede.
+      </p>
+      <p class="close-kicker" data-anim="3">Solo necesitan un lugar donde vivir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── UI overlays ── -->
+<div class="progress" id="progress"></div>
+<div class="slide-counter" id="counter"></div>
+<div class="notes-overlay" id="notes">
+  <div class="notes-label">Notas del presentador (N para ocultar)</div>
+  <div id="notes-text"></div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const progressBar = document.getElementById('progress');
+const counter = document.getElementById('counter');
+const notesPanel = document.getElementById('notes');
+const notesText = document.getElementById('notes-text');
+let current = 0;
+let notesVisible = false;
+
+function goTo(n) {
+  if (n < 0 || n >= slides.length) return;
+
+  // Reset animations on outgoing slide
+  slides[current].querySelectorAll('[data-anim]').forEach(el => {
+    el.style.animation = 'none';
+    el.offsetHeight; // reflow
+    el.style.animation = '';
+  });
+
+  slides[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+
+  // Progress
+  const pct = ((current) / (slides.length - 1)) * 100;
+  progressBar.style.width = pct + '%';
+  counter.textContent = (current + 1) + ' / ' + slides.length;
+
+  // Notes
+  notesText.textContent = slides[current].getAttribute('data-notes') || '';
+
+  // Trigger slide-specific logic
+  if (current === 0) animateCounter();
+}
+
+// Number counter animation
+let counterAnimated = false;
+function animateCounter() {
+  if (counterAnimated) return;
+  counterAnimated = true;
+  const el = document.getElementById('hero-counter');
+  const target = 20178;
+  const duration = 2200;
+  const start = performance.now();
+
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease-out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = Math.round(eased * target);
+    el.textContent = val.toLocaleString('es-PE');
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  switch (e.key) {
+    case 'ArrowRight':
+    case ' ':
+    case 'Enter':
+      e.preventDefault();
+      goTo(current + 1);
+      break;
+    case 'ArrowLeft':
+    case 'Backspace':
+      e.preventDefault();
+      goTo(current - 1);
+      break;
+    case 'n':
+    case 'N':
+      notesVisible = !notesVisible;
+      notesPanel.classList.toggle('visible', notesVisible);
+      break;
+    case 'Home':
+      e.preventDefault();
+      goTo(0);
+      break;
+    case 'End':
+      e.preventDefault();
+      goTo(slides.length - 1);
+      break;
+  }
+});
+
+// Touch / swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; });
+document.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    if (dx < 0) goTo(current + 1);
+    else goTo(current - 1);
+  }
+});
+
+// Click to advance (right half), go back (left half)
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.notes-overlay')) return;
+  if (e.clientX > window.innerWidth * 0.5) goTo(current + 1);
+  else goTo(current - 1);
+});
+
+// Init
+goTo(0);
+</script>
+</body>
+</html>
