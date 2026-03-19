@@ -339,7 +339,7 @@ export default function LandingPage() {
                     </div>
                     <span className="text-sm font-medium">Nueva Venta</span>
                   </div>
-                  <Badge className="bg-warning/15 text-warning-foreground">
+                  <Badge className="bg-warning/20 text-warning">
                     Offline
                   </Badge>
                 </div>
@@ -1132,7 +1132,7 @@ export default function LandingPage() {
                 <CardHeader>
                   <Badge
                     variant="outline"
-                    className="mb-2 w-fit border-accent/40 text-accent-foreground"
+                    className="mb-2 w-fit border-accent bg-accent/15 text-accent"
                   >
                     API
                   </Badge>
