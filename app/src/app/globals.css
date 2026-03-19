@@ -263,6 +263,7 @@
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .hero-animate,
+  .hero-animate *,
   [data-animate] {
     opacity: 1 !important;
     transform: none !important;
@@ -282,6 +283,13 @@
 
   .check-draw {
     stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+
+  /* Disable ambient orb drift/glow and grain overlay */
+  .hero-grain [aria-hidden="true"],
+  .hero-grain [aria-hidden="true"] *,
+  .hero-grain::after {
     animation: none !important;
   }
 }

@@ -103,6 +103,9 @@
 							}
 						}
 					},
+					"correctness": {
+						"useUniqueElementIds": "off"
+					},
 					"suspicious": {
 						"noShadowRestrictedNames": "off"
 					}

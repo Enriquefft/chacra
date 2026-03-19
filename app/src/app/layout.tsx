@@ -20,7 +20,7 @@ export default function RootLayout({
 		<html
 			lang="es"
 			suppressHydrationWarning
-			className={cn("antialiased font-sans", fontSans.variable)}
+			className={cn("scroll-smooth antialiased font-sans", fontSans.variable)}
 		>
 			<body>
 				<ThemeProvider>
