@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import {
 	Cart,
 	CloudCross,
+	Download,
 	History,
 	Logout,
 	Refresh,
@@ -13,6 +14,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useInstallPrompt } from "@/hooks/use-install-prompt";
 import { useOnlineStatus } from "@/hooks/use-online-status";
 import { usePendingCount } from "@/hooks/use-pending-count";
 import { useSync } from "@/hooks/use-sync";
@@ -33,6 +35,7 @@ export function FarmerShell({
 	const isOnline = useOnlineStatus();
 	const pendingCount = usePendingCount();
 	const { sync, isSyncing } = useSync();
+	const { canInstall, install, dismiss } = useInstallPrompt();
 	const pathname = usePathname();
 	const wasOffline = useRef(!isOnline);
 
@@ -104,6 +107,30 @@ export function FarmerShell({
 						/>
 						<AlertDescription className="text-warning">
 							Sin conexion — tus datos se guardan localmente
+						</AlertDescription>
+					</Alert>
+				</div>
+			)}
+
+			{/* Install banner */}
+			{canInstall && (
+				<div className="px-4 pt-2">
+					<Alert className="border-primary/30 bg-primary/5">
+						<Download
+							weight="BoldDuotone"
+							size={16}
+							className="text-primary"
+						/>
+						<AlertDescription className="flex items-center justify-between gap-2 text-foreground">
+							<span>Instala Chacra para acceso rapido</span>
+							<span className="flex shrink-0 gap-1.5">
+								<Button size="sm" variant="ghost" onClick={dismiss}>
+									Ahora no
+								</Button>
+								<Button size="sm" onClick={install}>
+									Instalar
+								</Button>
+							</span>
 						</AlertDescription>
 					</Alert>
 				</div>

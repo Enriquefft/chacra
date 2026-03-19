@@ -1,4 +1,4 @@
-const CACHE_NAME = "chacra-v1";
+const CACHE_NAME = "chacra-v2";
 const STATIC_ASSETS = ["/farmer", "/farmer/history"];
 
 self.addEventListener("install", (event) => {
@@ -24,19 +24,27 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
 	if (event.request.method !== "GET") return;
 
-	// Network-first for navigation and API
-	if (
-		event.request.mode === "navigate" ||
-		event.request.url.includes("/api/")
-	) {
+	const url = new URL(event.request.url);
+
+	// Cache-first for immutable hashed static assets
+	if (url.pathname.startsWith("/_next/static/")) {
 		event.respondWith(
-			fetch(event.request).catch(() => caches.match(event.request)),
+			caches.match(event.request).then((cached) => cached || fetch(event.request)),
 		);
 		return;
 	}
 
-	// Cache-first for static assets
+	// Network-first for everything else (navigation, RSC payloads, API, images)
 	event.respondWith(
-		caches.match(event.request).then((cached) => cached || fetch(event.request)),
+		fetch(event.request)
+			.then((response) => {
+				// Cache successful responses (skip API to avoid stale auth/data)
+				if (response.ok && !url.pathname.startsWith("/api/")) {
+					const clone = response.clone();
+					caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+				}
+				return response;
+			})
+			.catch(() => caches.match(event.request)),
 	);
 });

@@ -22,12 +22,13 @@ export function useSync() {
 		}
 
 		setIsSyncing(true);
+		const pendingUuids = pending.map((t) => t.uuid);
 
 		try {
-			// Mark as syncing
+			// Mark only the fetched transactions as syncing (by UUID)
 			await offlineDb.pendingTransactions
-				.where("syncStatus")
-				.anyOf(["pending", "failed"])
+				.where("uuid")
+				.anyOf(pendingUuids)
 				.modify({ syncStatus: "syncing" });
 
 			const response = await fetch("/api/sync", {
@@ -84,10 +85,10 @@ export function useSync() {
 
 			router.refresh();
 		} catch (error) {
-			// Revert syncing status back to pending
+			// Revert only the transactions we marked as syncing
 			await offlineDb.pendingTransactions
-				.where("syncStatus")
-				.equals("syncing")
+				.where("uuid")
+				.anyOf(pendingUuids)
 				.modify({ syncStatus: "pending" });
 
 			toast.error(
