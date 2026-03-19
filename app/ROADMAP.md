@@ -14,6 +14,7 @@ What gets built is defined in SPEC.md. How it's built is in ARCHITECTURE.md.
 | 2 | Core Modules | DONE |
 | 3 | UI | DONE |
 | 4 | Polish | DONE |
+| 5 | Demo-Ready | DONE |
 
 ---
 
@@ -138,9 +139,57 @@ Two parallel tracks once Phase 2 modules exist.
 
 ---
 
+## Phase 5: Demo-Ready
+
+Validated with first asociación. Four tracks to prepare for 1-month pilot
+and group pitch to other organizations.
+
+### Track A — Input Advances (Expenses)
+
+| Task | Status | Notes |
+|------|--------|-------|
+| DB: `input_advance` table + migration | DONE | Schema in ARCHITECTURE.md, pushed to Neon |
+| Server Actions: `actions/advances.ts` | DONE | create, getByFarmer, getByCoop, delete |
+| Coop dashboard: input advance logging UI | DONE | Per-farmer form with category/description/amount/date |
+| Coop dashboard: advance summary per farmer | DONE | Total, breakdown by category, in producer detail |
+| Scoring: factor in expenses (net margin) | DONE | Loan range based on revenue − expenses |
+| Financiera: repayment capacity view | DONE | Monthly margin, expense breakdown chart |
+
+### Track B — Farmer Price Transparency
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Farmer PWA: two-tab layout (Registrar / Precios) | DONE | shadcn Tabs, full-width |
+| Precios tab: price range per product in zone | DONE | Min/avg/max from lib/prices.ts |
+| Precios tab: farmer's last price vs average | DONE | "Tu último precio" comparison |
+| Precios tab: simple signal + trend | DONE | "Buen precio" / "Precio bajo" + arrow |
+
+### Track C — KYC & Profile
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Farmer onboarding: add DNI + hectáreas fields | DONE | Required fields in onboarding form |
+| Farmer profile completion UI | DONE | "Completa tu perfil" card with progress, 5 optional fields |
+| Farmer profile: update user additionalFields + migration | DONE | 7 new fields, schema pushed |
+| Coop onboarding: add representative name + phone | DONE | Required fields in onboarding form |
+| Coop profile completion UI | DONE | RUC, org type, members, address, year — in settings |
+| Coop profile: update cooperative table + migration | DONE | 7 new columns, schema pushed |
+| Integrity: plausibility checks using hectáreas | DONE | Max yield per crop/ha, single + cumulative checks |
+| Financiera: show profile completeness per farmer | DONE | Progress bar + field checklist in credit profile |
+
+### Track D — Landing Page
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Landing page redesign | — | Manual task (user) |
+
+**Completed** (except landing page — manual).
+
+---
+
 ## Current Focus
 
-**All phases complete.** Ready to deploy.
+**Phase 5 complete.** Landing page redesign is a manual task.
 
 ---
 

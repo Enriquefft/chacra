@@ -10,6 +10,8 @@ import { IdentityCard } from "./_components/identity-card";
 import { IncomeKpis } from "./_components/income-kpis";
 import { IncomeTrendChart } from "./_components/income-trend-chart";
 import { LoanRangeCard } from "./_components/loan-range-card";
+import { ProfileCompleteness } from "./_components/profile-completeness";
+import { RepaymentCapacity } from "./_components/repayment-capacity";
 import { VerificationPanel } from "./_components/verification-panel";
 
 export default async function ScoringFarmerPage({
@@ -91,6 +93,10 @@ export default async function ScoringFarmerPage({
 			<div className="grid gap-6 lg:grid-cols-2">
 				<IncomeTrendChart monthlyRevenue={monthlyRevenue} />
 				<VerificationPanel trustScore={trustScore} creditScore={creditScore} />
+			</div>
+			<div className="grid gap-6 lg:grid-cols-2">
+				<RepaymentCapacity creditScore={creditScore} />
+				<ProfileCompleteness profile={profile} />
 			</div>
 			<FlaggedTransactions transactions={flaggedTransactions} />
 			<LoanRangeCard loanRange={creditScore.estimatedLoanRange} />

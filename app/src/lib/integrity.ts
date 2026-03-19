@@ -1,5 +1,5 @@
 import { and, eq, gte, ne, sql } from "drizzle-orm";
-import { transaction } from "@/db/schema";
+import { transaction, user } from "@/db/schema";
 import { db } from "@/lib/db";
 import type { IntegrityFlag, TrustScoreResult } from "@/lib/types";
 
@@ -145,6 +145,143 @@ async function checkFrequency(
 	};
 }
 
+// ─── Plausibility checks ─────────────────────────────────────────────
+
+/**
+ * Approximate maximum yields per crop in kg/ha/year.
+ * Used for physical plausibility checks against farmer's declared hectareas.
+ */
+const MAX_YIELD_KG_PER_HA: Record<string, number> = {
+	cafe: 1500,
+	"caf\u00e9": 1500,
+	coffee: 1500,
+	cacao: 800,
+	arroz: 8000,
+	rice: 8000,
+	maiz: 5000,
+	"ma\u00edz": 5000,
+	corn: 5000,
+	papa: 20000,
+	potato: 20000,
+};
+const DEFAULT_MAX_YIELD = 10000;
+
+function getMaxYield(product: string): number {
+	const key = product.toLowerCase().trim();
+	return MAX_YIELD_KG_PER_HA[key] ?? DEFAULT_MAX_YIELD;
+}
+
+/**
+ * Check if a single transaction volume exceeds the farmer's annual capacity.
+ * Annual capacity = hectareas x max yield per crop.
+ * Skips if farmer has no hectareas data.
+ */
+async function checkPlausibilitySingle(
+	txn: TransactionRow,
+): Promise<IntegrityFlag | null> {
+	const [farmer] = await db
+		.select({ hectares: user.farmerHectares })
+		.from(user)
+		.where(eq(user.id, txn.farmerId))
+		.limit(1);
+
+	if (!farmer?.hectares) {
+		return null;
+	}
+
+	const hectares = Number(farmer.hectares);
+	if (hectares <= 0) {
+		return null;
+	}
+
+	const maxYield = getMaxYield(txn.product);
+	const annualCapacity = hectares * maxYield;
+	const currentQty = Number(txn.quantityKg);
+
+	if (currentQty > annualCapacity) {
+		return {
+			transactionUuid: txn.uuid,
+			farmerId: txn.farmerId,
+			flagType: "plausibility_single",
+			message: `Volumen implausible: ${currentQty} kg excede la capacidad anual estimada de ${annualCapacity.toFixed(0)} kg (${hectares} ha x ${maxYield} kg/ha)`,
+			details: {
+				currentQty,
+				hectares,
+				maxYield,
+				annualCapacity,
+			},
+		};
+	}
+
+	return null;
+}
+
+/**
+ * Check if cumulative volume in the last 12 months exceeds 1.5x annual capacity.
+ * Allows some margin for timing variations, storage, etc.
+ * Skips if farmer has no hectareas data.
+ */
+async function checkPlausibilityCumulative(
+	txn: TransactionRow,
+): Promise<IntegrityFlag | null> {
+	const [farmer] = await db
+		.select({ hectares: user.farmerHectares })
+		.from(user)
+		.where(eq(user.id, txn.farmerId))
+		.limit(1);
+
+	if (!farmer?.hectares) {
+		return null;
+	}
+
+	const hectares = Number(farmer.hectares);
+	if (hectares <= 0) {
+		return null;
+	}
+
+	const maxYield = getMaxYield(txn.product);
+	const annualCapacity = hectares * maxYield;
+	const threshold = annualCapacity * 1.5;
+
+	// Sum all volume for this product in the last 12 months
+	const twelveMonthsAgo = new Date();
+	twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
+	const cutoff = twelveMonthsAgo.toISOString().split("T")[0];
+
+	const [result] = await db
+		.select({
+			totalKg: sql<string>`COALESCE(sum(${transaction.quantityKg}), 0)`,
+		})
+		.from(transaction)
+		.where(
+			and(
+				eq(transaction.farmerId, txn.farmerId),
+				eq(transaction.product, txn.product),
+				gte(transaction.date, cutoff),
+			),
+		);
+
+	const cumulativeKg = Number(result?.totalKg ?? 0);
+
+	if (cumulativeKg > threshold) {
+		return {
+			transactionUuid: txn.uuid,
+			farmerId: txn.farmerId,
+			flagType: "plausibility_cumulative",
+			message: `Volumen acumulado implausible: ${cumulativeKg.toFixed(0)} kg de ${txn.product} en 12 meses excede 1.5x la capacidad anual (${threshold.toFixed(0)} kg)`,
+			details: {
+				cumulativeKg,
+				hectares,
+				maxYield,
+				annualCapacity,
+				threshold,
+			},
+		};
+	}
+
+	return null;
+}
+
 // ─── Public API ──────────────────────────────────────────────────────
 
 /**
@@ -169,6 +306,8 @@ export async function checkTransaction(
 		checkVolumeSpike(txn),
 		checkPriceOutlier(txn),
 		checkFrequency(txn),
+		checkPlausibilitySingle(txn),
+		checkPlausibilityCumulative(txn),
 	]);
 
 	const flags = results.filter((flag): flag is IntegrityFlag => flag !== null);

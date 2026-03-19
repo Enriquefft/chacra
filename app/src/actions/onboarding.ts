@@ -105,9 +105,16 @@ export async function completeCooperativeOnboarding(
 		id: coopId,
 		name: trimmedName,
 		region: trimmedRegion,
+		representativeName: null,
+		contactPhone: null,
 		inviteCode: code,
 		productList: [],
 		exportGoals: {},
+		ruc: null,
+		orgType: null,
+		memberCount: null,
+		address: null,
+		yearFounded: null,
 	});
 
 	await db

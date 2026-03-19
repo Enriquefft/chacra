@@ -1,6 +1,8 @@
 "use client";
 
 export {
+	AltArrowDown,
+	AltArrowUp,
 	ArrowLeft,
 	Bell,
 	BillList,
@@ -19,11 +21,15 @@ export {
 	Leaf,
 	Login,
 	Logout,
+	MapPoint,
 	NotebookBookmark,
+	Phone,
 	Refresh,
 	Settings,
 	ShieldCheck,
 	ShieldWarning,
+	Star,
+	TagPrice,
 	UserRounded,
 	UsersGroupRounded,
 	WalletMoney,

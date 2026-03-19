@@ -41,6 +41,42 @@ export const auth = betterAuth({
 				defaultValue: null,
 				input: true,
 			},
+			farmerHectares: {
+				type: "number",
+				required: false,
+				defaultValue: null,
+				input: true,
+			},
+			farmerPhone: {
+				type: "string",
+				required: false,
+				defaultValue: null,
+				input: true,
+			},
+			farmerCrops: {
+				type: "string",
+				required: false,
+				defaultValue: null,
+				input: true,
+			},
+			farmerDistrict: {
+				type: "string",
+				required: false,
+				defaultValue: null,
+				input: true,
+			},
+			farmerExperience: {
+				type: "number",
+				required: false,
+				defaultValue: null,
+				input: true,
+			},
+			farmerLandOwnership: {
+				type: "string",
+				required: false,
+				defaultValue: null,
+				input: true,
+			},
 		},
 	},
 	onAPIError: {

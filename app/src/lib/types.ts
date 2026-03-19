@@ -1,9 +1,42 @@
-// Shared type definitions for Phase 2 modules. Pure types, no runtime code.
+// Shared type definitions. Pure types + const arrays, no runtime imports.
 
 // ActionResult pattern (matches existing onboarding.ts convention)
 export type ActionResult<T = void> =
 	| { success: true; data: T }
 	| { error: string };
+
+// ─── Input Advance ──────────────────────────────────────────────────
+
+export const ADVANCE_CATEGORIES = [
+	"fertilizante",
+	"semillas",
+	"herramientas",
+	"mano_de_obra",
+	"transporte",
+	"otro",
+] as const;
+
+export type AdvanceCategory = (typeof ADVANCE_CATEGORIES)[number];
+
+export interface AdvanceInput {
+	farmerId: string;
+	category: AdvanceCategory;
+	description?: string;
+	amount: number;
+	date: string; // YYYY-MM-DD
+}
+
+export interface AdvanceItem {
+	id: number;
+	uuid: string;
+	farmerId: string;
+	farmerName: string;
+	category: AdvanceCategory;
+	description: string | null;
+	amount: number;
+	date: string;
+	createdAt: Date;
+}
 
 // Transaction input from PWA form or sync batch
 export interface TransactionInput {
@@ -32,7 +65,9 @@ export type FlagType =
 	| "volume_spike"
 	| "price_outlier"
 	| "high_frequency"
-	| "cross_validation_excess";
+	| "cross_validation_excess"
+	| "plausibility_single"
+	| "plausibility_cumulative";
 
 export interface IntegrityFlag {
 	transactionUuid: string;
@@ -74,6 +109,11 @@ export interface CreditScore {
 	consistency: number; // 0-100
 	trustScore: number; // 0-100
 	estimatedLoanRange: { min: number; max: number } | null;
+	totalRevenue: number;
+	totalExpenses: number;
+	netMargin: number;
+	marginRatio: number; // 0-1, netMargin / totalRevenue
+	expenseBreakdown: { category: string; total: number }[];
 }
 
 // Farmer types
@@ -85,6 +125,12 @@ export interface FarmerProfile {
 	cooperativeId: string;
 	cooperativeName: string;
 	createdAt: Date;
+	farmerPhone: string | null;
+	farmerCrops: string | null;
+	farmerDistrict: string | null;
+	farmerExperience: number | null;
+	farmerLandOwnership: string | null;
+	farmerHectares: number | null;
 }
 
 export interface FarmerListItem {
@@ -108,6 +154,40 @@ export interface ScoringFarmerItem {
 	activeMonths: number;
 	trustScore: number;
 	transactionCount: number;
+}
+
+export interface ProductPriceData {
+	product: string;
+	benchmark: PriceBenchmark | null;
+	lastPrice: number | null;
+	lastDate: string | null;
+	previousPrice: number | null;
+}
+
+// ─── Cooperative Profile Types ──────────────────────────────────────
+
+export const ORG_TYPES = [
+	"asociacion",
+	"cooperativa",
+	"comite",
+	"empresa_comunal",
+] as const;
+
+export type OrgType = (typeof ORG_TYPES)[number];
+
+export const ORG_TYPE_LABELS: Record<OrgType, string> = {
+	asociacion: "Asociacion",
+	cooperativa: "Cooperativa",
+	comite: "Comite",
+	empresa_comunal: "Empresa Comunal",
+};
+
+export interface CooperativeProfileData {
+	ruc?: string | null;
+	orgType?: OrgType | null;
+	memberCount?: number | null;
+	address?: string | null;
+	yearFounded?: number | null;
 }
 
 export interface CooperativeStats {

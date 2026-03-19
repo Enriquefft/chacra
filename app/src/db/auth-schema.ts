@@ -1,5 +1,13 @@
 import { relations } from "drizzle-orm";
-import { boolean, index, pgSchema, text, timestamp } from "drizzle-orm/pg-core";
+import {
+	boolean,
+	index,
+	integer,
+	numeric,
+	pgSchema,
+	text,
+	timestamp,
+} from "drizzle-orm/pg-core";
 
 export const chacraSchema = pgSchema("chacra");
 
@@ -18,6 +26,12 @@ export const user = chacraSchema.table("user", {
 	cooperativeId: text("cooperative_id"),
 	farmerName: text("farmer_name"),
 	farmerRegion: text("farmer_region"),
+	farmerPhone: text("farmer_phone"),
+	farmerCrops: text("farmer_crops"),
+	farmerDistrict: text("farmer_district"),
+	farmerHectares: numeric("farmer_hectares"),
+	farmerExperience: integer("farmer_experience"),
+	farmerLandOwnership: text("farmer_land_ownership"),
 });
 
 export const session = chacraSchema.table(

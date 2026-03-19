@@ -1,5 +1,5 @@
-import { and, asc, eq, ne } from "drizzle-orm";
-import { transaction } from "@/db/schema";
+import { and, asc, eq, ne, sql } from "drizzle-orm";
+import { inputAdvance, transaction } from "@/db/schema";
 import { db } from "@/lib/db";
 import { computeTrustScore } from "@/lib/integrity";
 import type { CreditScore, RevenueTrend, Tier } from "@/lib/types";
@@ -10,25 +10,45 @@ import type { CreditScore, RevenueTrend, Tier } from "@/lib/types";
  * Steps:
  * 1. Get trust score from integrity module
  * 2. Fetch all non-flagged transactions ordered by date
- * 3. Compute metrics: active months, avg monthly revenue, crop diversity,
- *    revenue trend, consistency
- * 4. Assign tier (A/B/C) and loan range
+ * 3. Fetch all input advances (expenses)
+ * 4. Compute metrics: active months, avg monthly revenue, crop diversity,
+ *    revenue trend, consistency, net margin, margin ratio
+ * 5. Assign tier (A/B/C) and loan range based on net margin
  */
 export async function computeCreditScore(
 	farmerId: string,
 ): Promise<CreditScore> {
-	const { trustScore } = await computeTrustScore(farmerId);
+	const [{ trustScore }, rows, expenseData] = await Promise.all([
+		computeTrustScore(farmerId),
+		db
+			.select()
+			.from(transaction)
+			.where(
+				and(
+					eq(transaction.farmerId, farmerId),
+					ne(transaction.integrityStatus, "flagged"),
+				),
+			)
+			.orderBy(asc(transaction.date)),
+		db
+			.select({
+				category: inputAdvance.category,
+				totalAmount: sql<string>`COALESCE(sum(${inputAdvance.amount}), 0)`,
+			})
+			.from(inputAdvance)
+			.where(eq(inputAdvance.farmerId, farmerId))
+			.groupBy(inputAdvance.category),
+	]);
 
-	const rows = await db
-		.select()
-		.from(transaction)
-		.where(
-			and(
-				eq(transaction.farmerId, farmerId),
-				ne(transaction.integrityStatus, "flagged"),
-			),
-		)
-		.orderBy(asc(transaction.date));
+	// Compute expense breakdown and total
+	const expenseBreakdown = expenseData.map((row) => ({
+		category: row.category,
+		total: Number(row.totalAmount),
+	}));
+	const totalExpenses = expenseBreakdown.reduce(
+		(sum, item) => sum + item.total,
+		0,
+	);
 
 	// Edge case: no valid transactions
 	if (rows.length === 0) {
@@ -42,6 +62,11 @@ export async function computeCreditScore(
 			consistency: 0,
 			trustScore,
 			estimatedLoanRange: null,
+			totalRevenue: 0,
+			totalExpenses,
+			netMargin: -totalExpenses,
+			marginRatio: 0,
+			expenseBreakdown,
 		};
 	}
 
@@ -73,22 +98,35 @@ export async function computeCreditScore(
 			? Math.round((totalRevenue / activeMonths) * 100) / 100
 			: 0;
 
+	// Net margin = total revenue - total expenses
+	const netMargin = totalRevenue - totalExpenses;
+	const marginRatio =
+		totalRevenue > 0
+			? Math.round((netMargin / totalRevenue) * 1000) / 1000
+			: 0;
+
 	// Revenue trend: compare avg of recent half vs older half
 	const revenueTrend = computeRevenueTrend(revenueByMonth);
 
 	// Consistency: months with transactions / total month span
 	const consistency = computeConsistency(revenueByMonth);
 
-	// Assign tier
+	// Assign tier (now factors in margin)
 	const tier = assignTier(
 		activeMonths,
 		avgMonthlyRevenue,
 		trustScore,
 		consistency,
+		netMargin,
 	);
 
-	// Loan range
-	const estimatedLoanRange = computeLoanRange(tier, avgMonthlyRevenue);
+	// Loan range based on net margin, not gross revenue
+	const estimatedLoanRange = computeLoanRange(
+		tier,
+		netMargin,
+		activeMonths,
+		marginRatio,
+	);
 
 	return {
 		tier,
@@ -100,6 +138,11 @@ export async function computeCreditScore(
 		consistency,
 		trustScore,
 		estimatedLoanRange,
+		totalRevenue: Math.round(totalRevenue * 100) / 100,
+		totalExpenses: Math.round(totalExpenses * 100) / 100,
+		netMargin: Math.round(netMargin * 100) / 100,
+		marginRatio,
+		expenseBreakdown,
 	};
 }
 
@@ -165,7 +208,7 @@ function computeConsistency(revenueByMonth: Map<string, number>): number {
 
 /**
  * Assign credit tier based on metrics.
- * A: activeMonths >= 6, avgMonthlyRevenue >= 500, trustScore >= 70, consistency >= 60
+ * A: activeMonths >= 6, avgMonthlyRevenue >= 500, trustScore >= 70, consistency >= 60, margin > 0
  * B: activeMonths >= 3, avgMonthlyRevenue >= 200, trustScore >= 40
  * C: everything else
  */
@@ -174,12 +217,14 @@ function assignTier(
 	avgMonthlyRevenue: number,
 	trustScore: number,
 	consistency: number,
+	netMargin: number,
 ): Tier {
 	if (
 		activeMonths >= 6 &&
 		avgMonthlyRevenue >= 500 &&
 		trustScore >= 70 &&
-		consistency >= 60
+		consistency >= 60 &&
+		netMargin > 0
 	) {
 		return "A";
 	}
@@ -192,27 +237,55 @@ function assignTier(
 }
 
 /**
- * Compute estimated loan range based on tier and avg monthly revenue.
- * A: 2x-6x avg monthly revenue
- * B: 1x-3x avg monthly revenue
+ * Compute estimated loan range based on tier, net margin, and active months.
+ * Uses net margin (revenue - expenses) as the base, not gross revenue.
+ * A: 2x-6x avg monthly net margin
+ * B: 1x-3x avg monthly net margin
  * C: null (not eligible)
+ *
+ * If marginRatio < 0.2 (expenses eat >80% of revenue), cap loan max at 50%.
  */
 function computeLoanRange(
 	tier: Tier,
-	avgMonthlyRevenue: number,
+	netMargin: number,
+	activeMonths: number,
+	marginRatio: number,
 ): { min: number; max: number } | null {
+	if (tier === "C" || netMargin <= 0 || activeMonths === 0) {
+		return null;
+	}
+
+	const avgMonthlyNet = netMargin / activeMonths;
+
+	let min: number;
+	let max: number;
+
 	switch (tier) {
 		case "A":
-			return {
-				min: Math.round(avgMonthlyRevenue * 2),
-				max: Math.round(avgMonthlyRevenue * 6),
-			};
+			min = Math.round(avgMonthlyNet * 2);
+			max = Math.round(avgMonthlyNet * 6);
+			break;
 		case "B":
-			return {
-				min: Math.round(avgMonthlyRevenue * 1),
-				max: Math.round(avgMonthlyRevenue * 3),
-			};
-		case "C":
-			return null;
+			min = Math.round(avgMonthlyNet * 1);
+			max = Math.round(avgMonthlyNet * 3);
+			break;
 	}
+
+	// If expenses eat >80% of revenue, cap the loan range lower
+	if (marginRatio < 0.2 && marginRatio > 0) {
+		max = Math.round(max * 0.5);
+		if (min > max) {
+			min = max;
+		}
+	}
+
+	// Ensure non-negative
+	min = Math.max(0, min);
+	max = Math.max(0, max);
+
+	if (max === 0) {
+		return null;
+	}
+
+	return { min, max };
 }

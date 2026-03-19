@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { cooperative } from "@/db/schema";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { CooperativeProfile } from "./_components/cooperative-profile";
 import { ExportGoalManager } from "./_components/export-goal-manager";
 import { InviteCodeDisplay } from "./_components/invite-code-display";
 import { ProductManager } from "./_components/product-manager";
@@ -67,6 +68,26 @@ export default async function SettingsPage() {
 						</span>
 						<InviteCodeDisplay code={coop.inviteCode} />
 					</div>
+				</CardContent>
+			</Card>
+
+			<Card>
+				<CardHeader>
+					<CardTitle>Perfil de la cooperativa</CardTitle>
+					<CardDescription>
+						Completa tu perfil para ser visible a financieras
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<CooperativeProfile
+						initialData={{
+							ruc: coop.ruc,
+							orgType: coop.orgType,
+							memberCount: coop.memberCount,
+							address: coop.address,
+							yearFounded: coop.yearFounded,
+						}}
+					/>
 				</CardContent>
 			</Card>
 

@@ -5,7 +5,96 @@ import { revalidatePath } from "next/cache";
 import { cooperative, transaction, user } from "@/db/schema";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import type { ActionResult, CooperativeStats } from "@/lib/types";
+import {
+	type ActionResult,
+	type CooperativeProfileData,
+	type CooperativeStats,
+	ORG_TYPES,
+} from "@/lib/types";
+
+// ─── updateCooperativeProfile ───────────────────────────────────────
+
+export async function updateCooperativeProfile(
+	data: CooperativeProfileData,
+): Promise<ActionResult<void>> {
+	const session = await getSession();
+	if (!session || session.user.role !== "cooperative") {
+		return { error: "No autorizado" };
+	}
+	if (!session.user.cooperativeId) {
+		return { error: "No hay cooperativa asociada" };
+	}
+
+	// Validate RUC: must be exactly 11 digits if provided
+	if (data.ruc != null && data.ruc !== "") {
+		if (!/^\d{11}$/.test(data.ruc)) {
+			return { error: "El RUC debe tener exactamente 11 digitos" };
+		}
+	}
+
+	// Validate orgType if provided
+	if (data.orgType != null) {
+		if (!(ORG_TYPES as readonly string[]).includes(data.orgType)) {
+			return { error: "Tipo de organizacion no valido" };
+		}
+	}
+
+	// Validate memberCount: must be positive if provided
+	if (data.memberCount != null) {
+		if (
+			!Number.isInteger(data.memberCount) ||
+			data.memberCount <= 0
+		) {
+			return { error: "Numero de socios debe ser un entero positivo" };
+		}
+	}
+
+	// Validate yearFounded: must be between 1900 and current year
+	if (data.yearFounded != null) {
+		const currentYear = new Date().getFullYear();
+		if (
+			!Number.isInteger(data.yearFounded) ||
+			data.yearFounded < 1900 ||
+			data.yearFounded > currentYear
+		) {
+			return {
+				error: `Ano de fundacion debe estar entre 1900 y ${currentYear}`,
+			};
+		}
+	}
+
+	// Build the update object — only set fields that are provided
+	const updateData: Record<string, unknown> = {};
+	if (data.ruc !== undefined) {
+		updateData.ruc = data.ruc || null;
+	}
+	if (data.orgType !== undefined) {
+		updateData.orgType = data.orgType || null;
+	}
+	if (data.memberCount !== undefined) {
+		updateData.memberCount = data.memberCount ?? null;
+	}
+	if (data.address !== undefined) {
+		updateData.address = data.address?.trim() || null;
+	}
+	if (data.yearFounded !== undefined) {
+		updateData.yearFounded = data.yearFounded ?? null;
+	}
+
+	if (Object.keys(updateData).length === 0) {
+		return { error: "No hay campos para actualizar" };
+	}
+
+	await db
+		.update(cooperative)
+		.set(updateData)
+		.where(eq(cooperative.id, session.user.cooperativeId));
+
+	revalidatePath("/dashboard/settings");
+	revalidatePath("/scoring");
+
+	return { success: true, data: undefined };
+}
 
 // ─── getProductListForFarmer ─────────────────────────────────────────
 
