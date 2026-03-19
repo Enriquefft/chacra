@@ -7,6 +7,7 @@ import { Home } from "@/components/auth/solar-icons";
 import { EmptyState } from "@/components/empty-state";
 import { getSession } from "@/lib/auth";
 import { getBenchmarksForCooperative } from "@/lib/prices";
+import { ExportButton } from "./_components/export-button";
 import { ExportGoalProgress } from "./_components/export-goal-progress";
 import { KpiRow } from "./_components/kpi-row";
 import { PriceBenchmarkChart } from "./_components/price-benchmark-chart";
@@ -107,7 +108,10 @@ export default async function DashboardPage() {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<h1 className="text-2xl font-semibold tracking-tight">Panel</h1>
+			<div className="flex items-center justify-between">
+				<h1 className="text-2xl font-semibold tracking-tight">Panel</h1>
+				<ExportButton disabled={transactions.length === 0} />
+			</div>
 			<KpiRow stats={stats} />
 			<ExportGoalProgress goals={stats.exportGoalProgress} />
 			<div className="grid gap-6 lg:grid-cols-2">

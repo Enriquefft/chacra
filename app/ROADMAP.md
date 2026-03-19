@@ -13,7 +13,7 @@ What gets built is defined in SPEC.md. How it's built is in ARCHITECTURE.md.
 | 1 | Foundation | DONE |
 | 2 | Core Modules | DONE |
 | 3 | UI | DONE |
-| 4 | Polish | IN PROGRESS |
+| 4 | Polish | DONE |
 
 ---
 
@@ -118,9 +118,9 @@ Two parallel tracks once Phase 2 modules exist.
 | Producer detail view | DONE | Profile card + txn table with confirm/reject |
 | Financiera: portfolio view + tier chart | DONE | KPIs, donut chart, candidate table |
 | Financiera: credit profile view | DONE | Identity, income trend, verification, loan range |
-| CSV export | - | Deferred to Phase 4 |
+| CSV export | DONE | Moved to Phase 4, implemented there |
 
-**Completed** (except CSV export).
+**Completed.**
 
 ---
 
@@ -128,18 +128,19 @@ Two parallel tracks once Phase 2 modules exist.
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Empty states for all data-dependent views | - | |
-| Loading states (Skeleton) for all pages | - | |
-| Error boundaries | - | |
-| Mobile audit (touch targets, contrast, one-thumb reach) | - | |
+| Empty states for all data-dependent views | DONE | EmptyState component, used across all views |
+| Loading states (Skeleton) for all pages | DONE | 8 loading.tsx files for all dynamic routes |
+| Error boundaries | DONE | 3 error.tsx files (farmer, dashboard, scoring) + not-found.tsx |
+| Mobile audit (touch targets, contrast, one-thumb reach) | DONE | Farmer labels text-base, history text-base, timestamps text-sm |
+| CSV export | DONE | Server action + ExportButton, UTF-8 BOM, Spanish headers |
 
-**Blocked by:** Phase 3 (UI must exist to polish).
+**Completed.**
 
 ---
 
 ## Current Focus
 
-**Active:** Phase 4 — Polish
+**All phases complete.** Ready to deploy.
 
 ---
 

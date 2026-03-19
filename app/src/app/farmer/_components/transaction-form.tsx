@@ -160,7 +160,7 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 
 			{/* Producto */}
 			<div className="flex flex-col gap-1.5">
-				<label htmlFor={`${formId}-product`} className="text-sm font-medium">
+				<label htmlFor={`${formId}-product`} className="text-base font-medium">
 					Producto
 				</label>
 				<Select value={product} onValueChange={setProduct}>
@@ -179,7 +179,7 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 
 			{/* Cantidad */}
 			<div className="flex flex-col gap-1.5">
-				<label htmlFor={`${formId}-quantity`} className="text-sm font-medium">
+				<label htmlFor={`${formId}-quantity`} className="text-base font-medium">
 					Cantidad (kg)
 				</label>
 				<Input
@@ -198,7 +198,7 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 
 			{/* Precio */}
 			<div className="flex flex-col gap-1.5">
-				<label htmlFor={`${formId}-price`} className="text-sm font-medium">
+				<label htmlFor={`${formId}-price`} className="text-base font-medium">
 					Precio por kg (S/)
 				</label>
 				<Input
@@ -217,7 +217,7 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 
 			{/* Comprador */}
 			<div className="flex flex-col gap-1.5">
-				<label htmlFor={`${formId}-buyer`} className="text-sm font-medium">
+				<label htmlFor={`${formId}-buyer`} className="text-base font-medium">
 					Comprador (opcional)
 				</label>
 				<Input
@@ -232,7 +232,7 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 
 			{/* Fecha */}
 			<div className="flex flex-col gap-1.5">
-				<label htmlFor={`${formId}-date`} className="text-sm font-medium">
+				<label htmlFor={`${formId}-date`} className="text-base font-medium">
 					Fecha
 				</label>
 				<Input
@@ -248,7 +248,7 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 			{/* Total preview */}
 			{quantityKg && pricePerKg && (
 				<div className="rounded-lg bg-muted px-4 py-3">
-					<p className="text-sm text-muted-foreground">Total estimado</p>
+					<p className="text-base text-muted-foreground">Total estimado</p>
 					<p className="text-xl font-semibold">
 						S/{" "}
 						{(

@@ -79,7 +79,8 @@ export function FarmerShell({
 					/>
 					<Button
 						variant="ghost"
-						size="sm"
+						size="default"
+						className="min-h-11"
 						onClick={() =>
 							signOut({
 								fetchOptions: { onSuccess: () => window.location.assign("/") },
@@ -162,10 +163,10 @@ function SyncButton({
 	return (
 		<Button
 			variant="ghost"
-			size="sm"
+			size="default"
 			onClick={onSync}
 			disabled={isSyncing || !isOnline}
-			className="relative"
+			className="relative min-h-11"
 		>
 			<Refresh
 				weight="Linear"

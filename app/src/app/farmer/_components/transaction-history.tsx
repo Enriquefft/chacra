@@ -95,8 +95,8 @@ export function TransactionHistory({
 							<CardContent>
 								<div className="flex items-start justify-between">
 									<div className="flex flex-col gap-1">
-										<p className="text-base font-semibold">{tx.product}</p>
-										<p className="text-sm text-muted-foreground">
+										<p className="text-lg font-semibold">{tx.product}</p>
+										<p className="text-base text-muted-foreground">
 											{formatCurrency(tx.quantityKg)} kg × S/
 											{formatCurrency(tx.pricePerKg)} ={" "}
 											<span className="font-medium text-foreground">
@@ -105,13 +105,13 @@ export function TransactionHistory({
 											</span>
 										</p>
 										{tx.buyer && (
-											<p className="text-sm text-muted-foreground">
+											<p className="text-base text-muted-foreground">
 												{tx.buyer}
 											</p>
 										)}
 									</div>
 									<div className="flex flex-col items-end gap-1.5">
-										<span className="text-xs text-muted-foreground">
+										<span className="text-sm text-muted-foreground">
 											{formatDate(tx.date)}
 										</span>
 										<Badge className="border-warning/20 bg-warning/10 text-warning">
@@ -147,8 +147,8 @@ export function TransactionHistory({
 							<CardContent>
 								<div className="flex items-start justify-between">
 									<div className="flex flex-col gap-1">
-										<p className="text-base font-semibold">{tx.product}</p>
-										<p className="text-sm text-muted-foreground">
+										<p className="text-lg font-semibold">{tx.product}</p>
+										<p className="text-base text-muted-foreground">
 											{formatCurrency(tx.quantityKg)} kg × S/
 											{formatCurrency(tx.pricePerKg)} ={" "}
 											<span className="font-medium text-foreground">
@@ -157,12 +157,12 @@ export function TransactionHistory({
 											</span>
 										</p>
 										{tx.buyer && (
-											<p className="text-sm text-muted-foreground">
+											<p className="text-base text-muted-foreground">
 												{tx.buyer}
 											</p>
 										)}
 									</div>
-									<span className="text-xs text-muted-foreground">
+									<span className="text-sm text-muted-foreground">
 										{formatDate(tx.date)}
 									</span>
 								</div>
