@@ -464,8 +464,21 @@ body {
   .forces-grid { grid-template-columns: 1fr; }
 }
 @media print {
-  .slide { position: relative; page-break-after: always; opacity: 1; visibility: visible; height: 100vh; }
-  .progress, .slide-counter, .notes-overlay, .timer { display: none; }
+  body { overflow: visible !important; }
+  .slide {
+    position: relative !important;
+    inset: auto !important;
+    page-break-after: always;
+    page-break-inside: avoid;
+    opacity: 1 !important;
+    visibility: visible !important;
+    height: 100vh;
+    width: 100vw;
+    transition: none !important;
+    background: var(--bg) !important;
+  }
+  .progress, .slide-counter, .notes-overlay, .timer { display: none !important; }
+  [data-a] { opacity: 1 !important; animation: none !important; }
 }
 </style>
 </head>
