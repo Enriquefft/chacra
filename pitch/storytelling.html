@@ -284,72 +284,6 @@ body {
   line-height: 1.5;
 }
 
-/* ── Integrity flow ── */
-.integrity-flow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  width: 100%;
-  max-width: 820px;
-}
-.flow-step {
-  text-align: center;
-  padding: 1.4rem 1.2rem;
-  background: var(--bg-card);
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  flex: 1;
-  max-width: 240px;
-}
-.flow-step-main {
-  border-color: oklch(1 0 0 / 15%);
-}
-.flow-title {
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-}
-.flow-desc {
-  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
-  color: var(--fg-muted);
-  line-height: 1.4;
-}
-.flow-arrow {
-  font-size: 1.4rem;
-  color: var(--fg-dim);
-  padding: 0 0.7rem;
-  flex-shrink: 0;
-}
-
-/* ── Demo screenshots ── */
-.demo-screenshots {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 920px;
-}
-.demo-shot {
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  overflow: hidden;
-  background: var(--bg-card);
-}
-.demo-shot img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-.demo-shot-label {
-  font-size: clamp(0.7rem, 1vw, 0.85rem);
-  font-weight: 600;
-  text-align: center;
-  padding: 0.6rem 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
 /* ── Impact grid ── */
 .impact-grid {
   display: grid;
@@ -471,85 +405,6 @@ body {
   line-height: 1.4;
 }
 
-/* ── Team ── */
-.team-section {
-  display: flex;
-  gap: 2.5rem;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 900px;
-}
-.team-photo {
-  flex-shrink: 0;
-  width: 280px;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-}
-.team-photo img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-.team-members {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  flex: 1;
-}
-.team-member {
-  display: flex;
-  gap: 0.6rem;
-  flex-direction: column;
-}
-.team-name {
-  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
-  font-weight: 700;
-}
-.team-role {
-  font-size: clamp(0.8rem, 1.1vw, 0.95rem);
-  color: var(--fg-muted);
-  line-height: 1.4;
-}
-.mentors-row {
-  display: flex;
-  gap: 2rem;
-  width: 100%;
-  max-width: 900px;
-}
-.mentor-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex: 1;
-  padding: 1rem 1.2rem;
-  background: var(--bg-card);
-  border-radius: 12px;
-  border: 1px solid var(--border);
-}
-.mentor-photo {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.mentor-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.mentor-name {
-  font-size: clamp(0.9rem, 1.2vw, 1rem);
-  font-weight: 600;
-}
-.mentor-role {
-  font-size: clamp(0.72rem, 0.95vw, 0.82rem);
-  color: var(--fg-muted);
-  line-height: 1.3;
-}
-
 /* ── Close ── */
 .close-lines {
   display: flex;
@@ -579,16 +434,9 @@ body {
   .impact-grid, .biz-model { grid-template-columns: 1fr; }
   .price-compare { grid-template-columns: 1fr; }
   .price-vs { padding: 0.5rem 0; }
-  .integrity-flow { flex-direction: column; gap: 0.5rem; }
-  .flow-arrow { transform: rotate(90deg); padding: 0; line-height: 1; }
-  .demo-screenshots { grid-template-columns: 1fr; }
-  .team-section { flex-direction: column; align-items: center; }
-  .team-photo { width: 200px; }
-  .mentors-row { flex-direction: column; gap: 1rem; }
 }
 @media print {
   .slide { position: relative; page-break-after: always; opacity: 1; visibility: visible; height: 100vh; }
-  [data-a] { opacity: 1 !important; animation: none !important; }
   .progress, .slide-counter, .notes-overlay, .timer { display: none; }
 }
 </style>
@@ -596,24 +444,17 @@ body {
 <body>
 
 <!-- ═══════ 1. ROSA ═══════ -->
-<section class="slide active" data-notes="[VOZ: íntima, como contando un secreto. Pausada. No mires la pantalla — mira a los jueces.] Rosa tiene cuarenta y dos años. Vive en San Ignacio, Cajamarca. Cultiva café con su esposo. Tres hectáreas. Dos hijos en secundaria. Lleva ocho años en su cooperativa. [PAUSA 2s] Es una buena productora. Pero para el sistema financiero... no existe.">
+<section class="slide active" data-notes="[VOZ: intima, como contando un secreto. Pausada. No mires la pantalla — mira a los jueces.] Rosa tiene cuarenta y dos anios. Vive en San Ignacio, Cajamarca. Cultiva cafe con su esposo. Tres hectareas. Dos hijos en secundaria. Lleva ocho anios en su cooperativa. [PAUSA 2s] Es una buena productora. Pero para el sistema financiero... no existe.">
   <div class="slide-content">
-    <div style="display:flex;gap:2.5rem;align-items:center;width:100%;max-width:900px;">
-      <div style="flex:1;">
-        <p class="story-text" style="text-align:left;" data-a="1"><strong>Rosa</strong> tiene 42 años. Vive en San Ignacio, Cajamarca.</p>
-        <p class="story-text" style="text-align:left;" data-a="2">Cultiva café con su esposo. Tres hectáreas.<br>Dos hijos en secundaria.<br>Ocho años en su cooperativa.</p>
-        <p class="story-text" style="text-align:left;" data-a="3">Mueve <strong>producto, dinero, y relaciones comerciales</strong> todos los años.</p>
-      </div>
-      <div data-a="2" style="flex-shrink:0;width:240px;border-radius:12px;overflow:hidden;border:1px solid var(--border);">
-        <img src="/familia-cajamarca.png" alt="Familia agricultora en Cajamarca" style="width:100%;height:auto;display:block;">
-      </div>
-    </div>
-    <p class="big-quote" data-a="4">Pero no tiene <em>una sola transacción</em> en el sistema financiero.</p>
+    <p class="story-text" data-a="1"><strong>Rosa</strong> tiene 42 anos. Vive en San Ignacio, Cajamarca.</p>
+    <p class="story-text" data-a="2">Cultiva cafe con su esposo. Tres hectareas.<br>Dos hijos en secundaria.<br>Ocho anios en su cooperativa.</p>
+    <p class="story-text" data-a="3">Es una buena productora.</p>
+    <p class="big-quote" data-a="4">Pero para el sistema financiero, <em>no existe</em>.</p>
   </div>
 </section>
 
 <!-- ═══════ 2. EL CUADERNO ═══════ -->
-<section class="slide" data-notes="[VOZ: narrativa, ritmo de cuento. Señala el cuaderno en pantalla.] Cada cosecha, Rosa vende entre quince y veinticinco quintales de café. Anota lo que puede en un cuaderno. A veces. Fecha, comprador, cuánto le pagaron. Pero el cuaderno no sincroniza. No genera un historial. No le abre una puerta en ningún banco. [PAUSA] Y cuando lo pierde — porque se pierde — diez años de trabajo desaparecen como si nunca hubieran existido.">
+<section class="slide" data-notes="[VOZ: narrativa, ritmo de cuento. Senala el cuaderno en pantalla.] Cada cosecha, Rosa vende entre quince y veinticinco quintales de cafe. Anota lo que puede en un cuaderno. A veces. Fecha, comprador, cuanto le pagaron. Pero el cuaderno no sincroniza. No genera un historial. No le abre una puerta en ningun banco. [PAUSA] Y cuando lo pierde — porque se pierde — diez anios de trabajo desaparecen como si nunca hubieran existido.">
   <div class="slide-content">
     <p class="story-text" data-a="1">Cada cosecha, Rosa vende entre <strong>15 y 25 quintales</strong>.</p>
     <div class="cuaderno" data-a="2">
@@ -623,63 +464,63 @@ body {
       <p class="cuaderno-line">15 abr — 95 kg — <span class="faded">no me acuerdo</span></p>
       <p class="cuaderno-line"><span class="faded">... (paginas arrancadas)</span></p>
     </div>
-    <p class="big-quote" data-a="3">Diez años de trabajo <em>en un cuaderno que se pierde</em>.</p>
+    <p class="big-quote" data-a="3">Diez anios de trabajo <em>en un cuaderno que se pierde</em>.</p>
   </div>
 </section>
 
 <!-- ═══════ 3. EL PRESTAMO ═══════ -->
-<section class="slide" data-notes="[VOZ: más grave, más lenta. Esto es injusticia. No dramatices — di la verdad con calma.] El año pasado Rosa necesitaba plata para fertilizante. Antes de la cosecha, no tenía liquidez. Fue al banco. Le pidieron historial crediticio, garantías, documentos que no tenía. Le dijeron que no. [PAUSA 2s] Entonces fue con un intermediario. Le prestó. Al treinta y cinco por ciento de interés. [PAUSA] Rosa pagó. Pero la mitad de lo que ganó en la cosecha se fue en pagar ese préstamo.">
+<section class="slide" data-notes="[VOZ: mas grave, mas lenta. Esto es injusticia. No dramatices — di la verdad con calma.] El anio pasado Rosa necesitaba plata para fertilizante. Antes de la cosecha, no tenia liquidez. Fue al banco. Le pidieron historial crediticio, garantias, documentos que no tenia. Le dijeron que no. [PAUSA 2s] Entonces fue con un intermediario. Le presto. Al treinta y cinco por ciento de interes. [PAUSA] Rosa pago. Pero la mitad de lo que gano en la cosecha se fue en pagar ese prestamo.">
   <div class="slide-content">
-    <p class="story-text" data-a="1">El año pasado, Rosa necesitaba dinero para <strong>fertilizante</strong>.<br>Antes de la cosecha, no tenía liquidez.</p>
-    <p class="story-text" data-a="2">Fue al banco. Le pidieron historial, garantías, documentos.<br><strong>Le dijeron que no.</strong></p>
-    <p class="big-quote" data-a="3">Entonces fue con un intermediario.<br>Le prestó al <em>35% de interés</em>.</p>
-    <p class="small-text" data-a="4">La mitad de lo que ganó en la cosecha se fue en pagar ese préstamo.</p>
+    <p class="story-text" data-a="1">El ano pasado, Rosa necesitaba dinero para <strong>fertilizante</strong>.<br>Antes de la cosecha, no tenia liquidez.</p>
+    <p class="story-text" data-a="2">Fue al banco. Le pidieron historial, garantias, documentos.<br><strong>Le dijeron que no.</strong></p>
+    <p class="big-quote" data-a="3">Entonces fue con un intermediario.<br>Le presto al <em>35% de interes</em>.</p>
+    <p class="small-text" data-a="4">La mitad de lo que gano en la cosecha se fue en pagar ese prestamo.</p>
   </div>
 </section>
 
 <!-- ═══════ 4. EL DATO INVISIBLE ═══════ -->
-<section class="slide" data-notes="[VOZ: cambio de tono. De la historia personal al problema sistémico. Más enérgica, más rápida.] Lo absurdo es que la información que el banco necesitaba... ya existía. Cada kilo que Rosa vendió fue pesado. Cada precio fue negociado. Cada comprador tiene nombre. Pero esos datos nunca se registraron digitalmente. ¿Por qué? Porque donde Rosa vende su café no hay internet. Y toda solución que requiere conectividad al momento de la transacción... falla.">
+<section class="slide" data-notes="[VOZ: cambio de tono. De la historia personal al problema sistemico. Mas energica, mas rapida.] Lo absurdo es que la informacion que el banco necesitaba... ya existia. Cada kilo que Rosa vendio fue pesado. Cada precio fue negociado. Cada comprador tiene nombre. Pero esos datos nunca se registraron digitalmente. Por que? Porque donde Rosa vende su cafe no hay internet. Y toda solucion que requiere conectividad al momento de la transaccion... falla.">
   <div class="slide-content">
-    <p class="big-quote" data-a="1">Lo absurdo es que la información que el banco necesitaba <em>ya existía</em>.</p>
+    <p class="big-quote" data-a="1">Lo absurdo es que la informacion que el banco necesitaba <em>ya existia</em>.</p>
     <p class="story-text" data-a="2">Cada kilo fue pesado.<br>Cada precio fue negociado.<br>Cada comprador tiene nombre.</p>
     <p class="big-quote" data-a="3">Pero donde Rosa vende, <em>no hay internet</em>.</p>
-    <p class="small-text" data-a="4">Y toda solución que requiere conectividad al momento de la transacción falla.</p>
+    <p class="small-text" data-a="4">Y toda solucion que requiere conectividad al momento de la transaccion falla.</p>
   </div>
 </section>
 
 <!-- ═══════ 5. NO ES SOLO ROSA ═══════ -->
-<section class="slide" data-notes="[VOZ: escala el volumen un poco. De una persona a millones. Mira a Rosa Zamora al decir los números de inclusión financiera.] Esto no le pasa solo a Rosa. Le pasa a dos punto dos millones de familias agricultoras en Perú. Solo el cuarenta y uno punto ocho por ciento de los adultos rurales tiene acceso al sistema financiero. El setenta por ciento de la producción agrícola viene de pequeños productores con menos de diez hectáreas. [PAUSA] Avanzar Rural trabajó con veinte mil de ellos. El proyecto mejor evaluado de FIDA en el mundo. Y cuando cierre... toda esa información está en riesgo de desaparecer.">
+<section class="slide" data-notes="[VOZ: escala el volumen un poco. De una persona a millones. Mira a Rosa Zamora al decir los numeros de inclusion financiera.] Esto no le pasa solo a Rosa. Le pasa a dos punto dos millones de familias agricultoras en Peru. Solo el cuarenta y uno punto ocho por ciento de los adultos rurales tiene acceso al sistema financiero. El setenta por ciento de la produccion agricola viene de pequenos productores con menos de diez hectareas. [PAUSA] Avanzar Rural trabajo con veinte mil de ellos. El proyecto mejor evaluado de FIDA en el mundo. Y cuando cierre... toda esa informacion esta en riesgo de desaparecer.">
   <div class="slide-content">
     <p class="big-quote" data-a="1">Esto no le pasa solo a Rosa.</p>
     <div class="impact-grid" data-a="2">
       <div class="impact-card">
         <div class="impact-num">2.2M</div>
-        <div class="impact-label">familias agricultoras en Perú</div>
+        <div class="impact-label">familias agricultoras en Peru</div>
       </div>
       <div class="impact-card">
         <div class="impact-num">41.8%</div>
-        <div class="impact-label">inclusión financiera rural</div>
+        <div class="impact-label">inclusion financiera rural</div>
       </div>
       <div class="impact-card">
         <div class="impact-num">20,178</div>
-        <div class="impact-label">productores SOLO en Avanzar Rural</div>
+        <div class="impact-label">productores en Avanzar Rural</div>
       </div>
     </div>
-    <p class="small-text" data-a="3">Avanzar Rural: el proyecto <strong>#1 de FIDA a nivel mundial</strong>. 1,000+ planes de negocio. 57,420 beneficiarios.<br>Cuando cierre, toda esa información está en riesgo.</p>
+    <p class="small-text" data-a="3">Avanzar Rural: el proyecto <strong>#1 de FIDA a nivel mundial</strong>. 1,000+ planes de negocio. 57,420 beneficiarios.<br>Cuando cierre, toda esa informacion esta en riesgo de desaparecer.</p>
   </div>
 </section>
 
 <!-- ═══════ 6. EL PROBLEMA DE FONDO ═══════ -->
-<section class="slide" data-notes="[VOZ: firme, como revelando algo que todos deberían saber pero nadie dice. Mira a Carlos Córdova directo.] Y aquí está la raíz del problema. Hoy las herramientas del campo están diseñadas para promotores — personas contratadas por el programa. El productor nunca toca la herramienta. Solo responde preguntas. En cinco años, con veinte mil productores, ni uno solo registró sus propios datos. [PAUSA 2s] Cuando el programa cierre, los promotores se van. Y el productor se queda sin nada. No por falta de voluntad. Porque la herramienta nunca fue suya.">
+<section class="slide" data-notes="[VOZ: firme, como revelando algo que todos deberian saber pero nadie dice. Mira a Carlos Cordova directo.] Y aqui esta la raiz del problema. Hoy las herramientas del campo estan disenadas para promotores — personas contratadas por el programa. El productor nunca toca la herramienta. Solo responde preguntas. En cinco anios, con veinte mil productores, ni uno solo registro sus propios datos. [PAUSA 2s] Cuando el programa cierre, los promotores se van. Y el productor se queda sin nada. No por falta de voluntad. Porque la herramienta nunca fue suya.">
   <div class="slide-content">
-    <p class="big-quote" data-a="1">En cinco años, con 20,000 productores, <em>ni uno solo registró sus propios datos</em>.</p>
-    <p class="story-text" data-a="2">Las herramientas fueron diseñadas para <strong>terceros</strong>.<br>El productor solo responde preguntas.</p>
-    <p class="big-quote" data-a="3">Cuando el programa cierre, los terceros se van.<br><em>La herramienta nunca fue del productor.</em></p>
+    <p class="big-quote" data-a="1">En cinco anios, con 20,000 productores, <em>ni uno solo registro sus propios datos</em>.</p>
+    <p class="story-text" data-a="2">Las herramientas fueron disenadas para <strong>promotores</strong>.<br>El productor solo responde preguntas.</p>
+    <p class="big-quote" data-a="3">Cuando el programa cierre, los promotores se van.<br><em>La herramienta nunca fue del productor.</em></p>
   </div>
 </section>
 
 <!-- ═══════ 7. CHACRA — LA SOLUCION ═══════ -->
-<section class="slide" data-notes="[VOZ: cambio de energía. De diagnóstico a solución. Más luminosa, más rápida, con convicción. Sonríe ligeramente.] Ahora imaginen que Rosa saca su celular. Abre una app que no necesitó descargar — se instaló desde el navegador con un tap. No tiene internet. No importa. Llena cuatro campos: producto, cantidad, precio, comprador. Quince segundos. Listo. Los datos se guardan en su celular. Cuando llega al wifi de la cooperativa, sincronizan automáticamente. [PAUSA] Rosa acaba de crear su primer registro financiero digital. En seis meses, tendrá un historial que ningún cuaderno le da.">
+<section class="slide" data-notes="[VOZ: cambio de energia. De diagnostico a solucion. Mas luminosa, mas rapida, con conviccion. Sonrie ligeramente.] Ahora imaginen que Rosa saca su celular. Abre una app que no necesito descargar — se instalo desde el navegador con un tap. No tiene internet. No importa. Llena cuatro campos: producto, cantidad, precio, comprador. Quince segundos. Listo. Los datos se guardan en su celular. Cuando llega al wifi de la cooperativa, sincronizan automaticamente. [PAUSA] Rosa acaba de crear su primer registro financiero digital. En seis meses, tendra un historial que ningun cuaderno le da.">
   <div class="slide-content">
     <p class="story-text" data-a="1">Ahora imaginen que Rosa saca su celular.</p>
     <p class="big-quote" data-a="2">Cuatro campos. Quince segundos. <em>Sin internet.</em></p>
@@ -688,21 +529,21 @@ body {
         <div class="tl-marker"><div class="tl-dot" style="background:var(--terracotta)"></div><div class="tl-line"></div></div>
         <div class="tl-content">
           <p class="tl-time" style="color:var(--terracotta)">En el campo (sin internet)</p>
-          <p class="tl-desc">Rosa registra: <strong>café, 80 kg, S/8.50/kg, cooperativa</strong>. Se guarda en el celular.</p>
+          <p class="tl-desc">Rosa registra: <strong>cafe, 80 kg, S/8.50/kg, cooperativa</strong>. Se guarda en el celular.</p>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-marker"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div></div>
         <div class="tl-content">
           <p class="tl-time" style="color:var(--amber)">En la cooperativa (con wifi)</p>
-          <p class="tl-desc">Los datos sincronizan automáticamente. La cooperativa ve la venta en tiempo real.</p>
+          <p class="tl-desc">Los datos sincronizan automaticamente. La cooperativa ve la venta en tiempo real.</p>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-marker"><div class="tl-dot" style="background:var(--olive)"></div></div>
         <div class="tl-content">
-          <p class="tl-time" style="color:var(--olive)">6 meses después</p>
-          <p class="tl-desc">Rosa tiene un <strong>historial crediticio</strong> que ningún cuaderno le da. Trust score. Perfil bancable.</p>
+          <p class="tl-time" style="color:var(--olive)">6 meses despues</p>
+          <p class="tl-desc">Rosa tiene un <strong>historial crediticio</strong> que ningun cuaderno le da. Trust score. Perfil bancable.</p>
         </div>
       </div>
     </div>
@@ -710,91 +551,91 @@ body {
 </section>
 
 <!-- ═══════ 8. VALOR INMEDIATO ═══════ -->
-<section class="slide" data-notes="[VOZ: como revelando un secreto que vale dinero. Señala los números.] Pero Rosa no tiene que esperar seis meses para ver valor. Hoy el acopiador le paga lo que quiere — porque Rosa no tiene forma de saber el precio real de su zona. Con Chacra, desde la primera semana, cada registro alimenta un benchmark de precios real. Con veinte productores ya puedes decirle: el café se está pagando a ocho cincuenta en tu región, pero a ti te pagaron siete. Te están pagando por debajo del promedio. [PAUSA] Eso es plata en el bolsillo hoy. No en seis meses. Hoy. Información es poder de negociación.">
+<section class="slide" data-notes="[VOZ: como revelando un secreto que vale dinero. Senala los numeros.] Pero Rosa no tiene que esperar seis meses para ver valor. Desde la primera semana, cada registro alimenta un benchmark de precios real de su zona. Con veinte productores ya puedes decirle: el cafe se esta pagando a ocho cincuenta en tu region, pero a ti te pagaron siete. Te estan pagando por debajo del promedio. [PAUSA] Eso es plata en el bolsillo hoy. No en seis meses. No en un anio. Hoy.">
   <div class="slide-content">
-    <p class="story-text" data-a="1">Hoy el acopiador le paga a Rosa <strong>lo que quiere</strong>.<br>Porque ella no conoce el precio real de su zona.</p>
+    <p class="story-text" data-a="1">Pero Rosa no tiene que esperar seis meses.</p>
     <div class="price-compare" data-a="2">
       <div class="price-side">
         <p class="price-amount" style="color: var(--fg-muted);">S/7.00<span style="font-size:0.5em;font-weight:400">/kg</span></p>
-        <p class="price-label">Le pago el acopiador</p>
+        <p class="price-label">Le pagaron a Rosa</p>
       </div>
       <span class="price-vs">vs</span>
       <div class="price-side">
         <p class="price-amount" style="color: var(--terracotta);">S/8.50<span style="font-size:0.5em;font-weight:400">/kg</span></p>
-        <p class="price-label">Precio real de su zona</p>
+        <p class="price-label">Promedio de su zona</p>
       </div>
     </div>
-    <p class="big-quote" data-a="3">Informacion es <em>poder de negociacion</em>.</p>
-    <p class="small-text" data-a="4">Con 20 productores registrando, Chacra genera un benchmark de precios real por zona y cultivo. Valor desde el dia uno.</p>
+    <p class="big-quote" data-a="3">Eso es <em>plata en el bolsillo hoy</em>.</p>
+    <p class="small-text" data-a="4">Con 20 productores registrando, ya tienes un benchmark de precios real. Rosa sabe si le estan pagando justo o no.</p>
   </div>
 </section>
 
-<!-- ═══════ 9a. DEMO — LIVE ═══════ -->
-<section class="slide" data-notes="[VOZ: confianza total. Sonrisa. Esto es el arma.] Esto que les acabo de contar no es un plan. No es un concepto. Lo construimos. Está desplegado en producción. Y se los voy a mostrar ahora mismo. [CAMBIAR AL BROWSER — mostrar /farmer: llenar formulario en vivo, 4 campos, 15 segundos. Si puedes, mostrar que funciona offline.]">
+<!-- ═══════ 9. DEMO ═══════ -->
+<section class="slide" data-notes="[VOZ: confianza total. Sonrisa. Esto es el arma.] Esto que les acabo de contar no es un plan. No es un concepto. Lo construimos. Esta desplegado en produccion. Y se los voy a mostrar ahora mismo. [Cambiar al browser. Mostrar /farmer: formulario 4 campos. Mostrar /dashboard: KPIs, trazabilidad. Mostrar /scoring: perfil crediticio, trust score.] Esto es lo que Rosa va a usar. Esto es lo que van a usar productores reales en Ancash la proxima semana.">
   <div class="slide-content">
     <span class="demo-badge" data-a="1">EN PRODUCCION</span>
     <p class="slide-title" data-a="2">Esto no es un plan. <span class="highlight">Lo construimos.</span></p>
-    <p class="big-quote" data-a="3">Se los voy a mostrar.</p>
+    <div class="traction-list" data-a="3">
+      <div class="traction-item">
+        <div class="traction-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+        <span><strong>/farmer</strong> — Lo que usa Rosa. 4 campos, 15 segundos, offline.</span>
+      </div>
+      <div class="traction-item">
+        <div class="traction-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+        <span><strong>/dashboard</strong> — Lo que ve la cooperativa. KPIs, trazabilidad, alertas.</span>
+      </div>
+      <div class="traction-item">
+        <div class="traction-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+        <span><strong>/scoring</strong> — Lo que ve la financiera. Perfil crediticio, trust score.</span>
+      </div>
+    </div>
     <p class="small-text" data-a="4" style="font-family: 'SF Mono','Fira Code','Consolas',monospace; color:var(--fg-dim); background:var(--bg-card); padding:0.6rem 1.2rem; border-radius:8px; border:1px solid var(--border);">chacra.404tf.com</p>
   </div>
 </section>
 
-<!-- ═══════ 9b. DEMO — COOPERATIVA + FINANCIERA ═══════ -->
-<section class="slide" data-notes="[VOZ: después del demo en vivo del farmer, vuelve a slides.] Del otro lado, la cooperativa ve esto: KPIs en tiempo real, producción total, metas de exportación, alertas de integridad. Cada productor con su progreso. [Señala screenshot izquierda] Y la financiera ve esto: perfil crediticio por productor. Ingreso mensual, estabilidad, transacciones verificadas, Chacra Score. Tendencia de ingresos en el tiempo. [Señala screenshot derecha] Hoy una financiera gasta quinientos soles en una visita de campo. Esto lo reemplaza con datos verificados.">
-  <div class="slide-content">
-    <p class="story-text" data-a="1">Del otro lado:</p>
-    <div class="demo-screenshots" data-a="2">
-      <div class="demo-shot">
-        <img src="/demo-coop.png" alt="Dashboard cooperativa — KPIs, trazabilidad, metas de exportación">
-        <p class="demo-shot-label" style="color:var(--olive)">Cooperativa</p>
-      </div>
-      <div class="demo-shot">
-        <img src="/demo-scoring.png" alt="Perfil crediticio — scoring, tendencia de ingresos, trust score">
-        <p class="demo-shot-label" style="color:var(--amber)">Financiera</p>
-      </div>
-    </div>
-    <p class="small-text" data-a="3">Trazabilidad en tiempo real para la cooperativa. <strong>Ventas y gastos verificados</strong> para la financiera — lo que hoy no existe.</p>
-  </div>
-</section>
-
 <!-- ═══════ 10. INTEGRIDAD ═══════ -->
-<section class="slide" data-notes="[VOZ: segura, como quien muestra algo que el mercado pidió. No defensiva — orgullosa.] Las entidades financieras nos dijeron algo muy claro: para prestar a productores rurales, necesitamos poder confiar en los datos. Así que construimos un modelo de integridad desde el diseño. [Señala el diagrama de izquierda a derecha] Las transacciones del productor pasan por un modelo entrenado con datos reales del SISE de Avanzar Rural — veinte mil productores, cinco años de información. El modelo detecta automáticamente anomalías: volúmenes fuera de rango, precios inconsistentes, patrones que no cuadran. Se cruza con los registros de la cooperativa. Y el resultado es un trust score de cero a cien por productor. [Pausa. Mira a los jueces.] La financiera no adivina. Ve el score.">
+<section class="slide" data-notes="[VOZ: anticipando la objecion. Tono de 'ya lo pensamos'.] La pregunta obvia: y si Rosa miente? Tres capas. Consistencia temporal: si siempre vende cincuenta kilos y un dia declara quinientos, es alerta automatica. Validacion cruzada: sus datos se comparan con los de la cooperativa. Triage humano: solo los sospechosos llegan a revision. Cada productor tiene un trust score de cero a cien. Es imposible mentir de forma consistente durante ocho meses.">
   <div class="slide-content">
-    <p class="story-text" data-a="1">Las entidades financieras nos dijeron:</p>
-    <p class="big-quote" data-a="2"><em>"Para prestar, necesitamos confiar en los datos."</em></p>
-    <div class="integrity-flow" data-a="3">
-      <div class="flow-step">
-        <p class="flow-title" style="color:var(--terracotta)">Transacciones</p>
-        <p class="flow-desc">Datos del productor<br>+ registros cooperativa</p>
+    <p class="big-quote" data-a="1">Y si Rosa miente?</p>
+    <div class="timeline" data-a="2">
+      <div class="tl-item">
+        <div class="tl-marker"><div class="tl-dot" style="background:var(--terracotta)"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <p class="tl-time" style="color:var(--terracotta)">Capa 1 — Consistencia temporal</p>
+          <p class="tl-desc">Automatica. Si siempre vende 50 kg y declara 500, es alerta inmediata.</p>
+        </div>
       </div>
-      <span class="flow-arrow">&rarr;</span>
-      <div class="flow-step flow-step-main">
-        <p class="flow-title" style="color:var(--amber)">Modelo de integridad</p>
-        <p class="flow-desc">Entrenado con datos reales<br>del SISE de Avanzar Rural</p>
+      <div class="tl-item">
+        <div class="tl-marker"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <p class="tl-time" style="color:var(--amber)">Capa 2 — Validacion cruzada</p>
+          <p class="tl-desc">Datos de Rosa vs registros de la cooperativa. Las discrepancias se detectan.</p>
+        </div>
       </div>
-      <span class="flow-arrow">&rarr;</span>
-      <div class="flow-step">
-        <p class="flow-title" style="color:var(--olive)">Trust Score</p>
-        <p class="flow-desc">0&ndash;100 por productor</p>
+      <div class="tl-item">
+        <div class="tl-marker"><div class="tl-dot" style="background:var(--olive)"></div></div>
+        <div class="tl-content">
+          <p class="tl-time" style="color:var(--olive)">Capa 3 — Triage humano</p>
+          <p class="tl-desc">Solo los casos sospechosos llegan a revision. Trust score 0-100 por productor.</p>
+        </div>
       </div>
     </div>
-    <p class="small-text" data-a="4">Detecta anomalías de volumen, precio y frecuencia. Alerta automática. La cooperativa revisa solo los casos sospechosos.</p>
-    <p class="big-quote" data-a="5" style="font-size:clamp(1.3rem,2.2vw,1.8rem);">La financiera no adivina. <em>Ve el score.</em></p>
+    <p class="big-quote" data-a="3" style="font-size:clamp(1.4rem,2.5vw,2rem);">Es imposible mentir de forma consistente durante <em>8 meses</em>.</p>
   </div>
 </section>
 
 <!-- ═══════ 11. TRACCION ═══════ -->
-<section class="slide" data-notes="[VOZ: ritmo rápido, como dando buenas noticias una tras otra.] Producto desplegado en producción. Veinticinco productores de palta en Ancash — onboarding presencial la próxima semana. Reunión agendada con asociaciones y cooperativas interesadas. Pipeline de más de veinte cooperativas en café, cacao, banano y quinua. Solo la Junta Nacional del Café tiene cincuenta y seis cooperativas con setenta mil familias. Cada cooperativa que entra trae a todos sus productores.">
+<section class="slide" data-notes="[VOZ: ritmo rapido, como dando buenas noticias una tras otra.] Producto desplegado en produccion. Veinticinco productores de palta en Ancash — onboarding presencial la proxima semana. Reunion agendada con asociaciones y cooperativas interesadas. Pipeline de mas de veinte cooperativas en cafe, cacao, banano y quinoa. Solo la Junta Nacional del Cafe tiene cincuenta y seis cooperativas con setenta mil familias. Cada cooperativa que entra trae a todos sus productores.">
   <div class="slide-content">
     <p class="slide-title" data-a="1">Donde estamos hoy</p>
     <div class="traction-list">
       <div class="traction-item" data-a="2">
         <div class="traction-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
-        <span>Producto completo en <span class="highlight">producción</span></span>
+        <span>Producto completo en <span class="highlight">produccion</span></span>
       </div>
       <div class="traction-item" data-a="3">
         <div class="traction-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
-        <span><span class="highlight">25 productores</span> en Ancash — onboarding próxima semana</span>
+        <span><span class="highlight">25 productores</span> en Ancash — onboarding proxima semana</span>
       </div>
       <div class="traction-item" data-a="4">
         <div class="traction-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
@@ -810,7 +651,7 @@ body {
 </section>
 
 <!-- ═══════ 12. MODELO ═══════ -->
-<section class="slide" data-notes="[VOZ: clara, directa, sin rodeos.] Rosa nunca paga. Nunca. Ella es la fuente de datos y la beneficiaria principal. La cooperativa paga por trazabilidad — la necesita para exportar. La financiera paga por perfiles crediticios — son diez veces más baratos que una visita de campo. Cada cooperativa que entra trae productores. Más productores, mejores benchmarks. Mejores datos, perfiles más valiosos. Más financieras pagan. Más cooperativas quieren entrar.">
+<section class="slide" data-notes="[VOZ: clara, directa, sin rodeos.] Rosa nunca paga. Nunca. Ella es la fuente de datos y la beneficiaria principal. La cooperativa paga por trazabilidad — la necesita para exportar. La financiera paga por perfiles crediticios — son diez veces mas baratos que una visita de campo. Cada cooperativa que entra trae productores. Mas productores, mejores benchmarks. Mejores datos, perfiles mas valiosos. Mas financieras pagan. Mas cooperativas quieren entrar.">
   <div class="slide-content">
     <p class="big-quote" data-a="1">Rosa <em>nunca</em> paga.</p>
     <div class="biz-model" data-a="2">
@@ -827,56 +668,17 @@ body {
       <div class="biz-card">
         <p class="biz-who">FINANCIERA</p>
         <p class="biz-price">S/10-50<span style="font-size:0.6em;font-weight:400;color:var(--fg-muted)">/perfil</span></p>
-        <p class="biz-what">Ventas y gastos verificados. 10x más barato que una visita de campo.</p>
+        <p class="biz-what">10x mas barato que una visita de campo.</p>
       </div>
     </div>
     <p class="small-text" data-a="3">Cada cooperativa trae productores → mejores benchmarks → perfiles mas valiosos → financieras pagan → mas cooperativas entran.</p>
   </div>
 </section>
 
-<!-- ═══════ 13. EQUIPO ═══════ -->
-<section class="slide" data-notes="[VOZ: breve, directa.] Somos Oscar y Enrique. Oscar viene del sector agro — conoce las cooperativas, los productores, las cadenas de valor. Enrique viene de finanzas e ingeniería — diseñó y construyó el producto completo. [Señala mentores] Nos acompañan César Urrutia, director de SpaceAG y fundador de ThinkTankPeru — referente en agritech en Perú. Y Lorena Lora, de Partnerships en el BCP — el banco más grande del Perú. Agro y fintech. Los dos lados de la ecuación.">
+<!-- ═══════ 13. EL REGRESO DE ROSA ═══════ -->
+<section class="slide" data-notes="[VOZ: vuelve al tono intimo del inicio. Cierra el circulo. Lenta, casi susurrando al final.] Volvamos a Rosa. Seis meses despues, Rosa va al banco. Esta vez lleva algo diferente. No un cuaderno. Un perfil crediticio digital. Ochenta y siete de trust score. Tendencia de ingresos estable. Veintidos transacciones verificadas. [PAUSA 2s] El banco ya no le dice que no. Le ofrece un credito al doce por ciento. No al treinta y cinco. [PAUSA] Este anio Rosa compra su fertilizante a tiempo. Y se queda con toda su cosecha.">
   <div class="slide-content">
-    <p class="slide-title" data-a="1" style="font-size:clamp(1.6rem,3vw,2.4rem);">Equipo</p>
-    <div class="team-section" data-a="2">
-      <div class="team-photo">
-        <img src="/team.jpg" alt="Oscar Castro y Enrique Flores">
-      </div>
-      <div class="team-members">
-        <div class="team-member">
-          <p class="team-name">Oscar Castro <span style="color:var(--olive);font-size:0.7em;font-weight:600;">CEO</span></p>
-          <p class="team-role">Sector agro. Conoce las cooperativas, los productores, las cadenas de valor.</p>
-        </div>
-        <div class="team-member">
-          <p class="team-name">Enrique Flores <span style="color:var(--amber);font-size:0.7em;font-weight:600;">CTO</span></p>
-          <p class="team-role">Finanzas e ingeniería de producto. Diseñó y construyó la plataforma completa.</p>
-        </div>
-      </div>
-    </div>
-    <div class="mentors-row" data-a="3">
-      <div class="mentor-card">
-        <div class="mentor-photo"><img src="/mentor-cesar.png" alt="César Urrutia"></div>
-        <div>
-          <p class="mentor-name">César Urrutia</p>
-          <p class="mentor-role">Director SpaceAG &middot; CEO Spacedat<br>Fundador ThinkTankPeru</p>
-        </div>
-      </div>
-      <div class="mentor-card">
-        <div class="mentor-photo"><img src="/mentor-lorena.png" alt="Lorena Lora"></div>
-        <div>
-          <p class="mentor-name">Lorena Lora</p>
-          <p class="mentor-role">Partnerships &middot; BCP<br>Fintech</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ 14. EL REGRESO DE ROSA ═══════ -->
-
-<section class="slide" data-notes="[VOZ: vuelve al tono íntimo del inicio. Cierra el círculo. Lenta, casi susurrando al final.] Volvamos a Rosa. Seis meses después, Rosa va al banco. Esta vez lleva algo diferente. No un cuaderno. Un perfil crediticio digital. Ochenta y siete de trust score. Tendencia de ingresos estable. Veintidós transacciones verificadas. [PAUSA 2s] El banco ya no le dice que no. Le ofrece un crédito al doce por ciento. No al treinta y cinco. [PAUSA] Este año Rosa compra su fertilizante a tiempo. Y se queda con toda su cosecha.">
-  <div class="slide-content">
-    <p class="story-text" data-a="1">Seis meses después, Rosa va al banco.</p>
+    <p class="story-text" data-a="1">Seis meses despues, Rosa va al banco.</p>
     <p class="story-text" data-a="2">Esta vez no lleva un cuaderno.</p>
     <div class="scene-card" data-a="3">
       <p class="scene-label">Perfil crediticio — Rosa M.</p>
@@ -887,12 +689,12 @@ body {
         <div class="scene-item"><div class="scene-bullet" style="background:var(--olive)"></div><span>Tier: <strong style="color:var(--olive)">A</strong> — apta para credito formal</span></div>
       </div>
     </div>
-    <p class="big-quote" data-a="4">El banco le ofrece crédito al <em>12%</em>.<br>No al 35%.</p>
+    <p class="big-quote" data-a="4">El banco le ofrece credito al <em>12%</em>.<br>No al 35%.</p>
   </div>
 </section>
 
-<!-- ═══════ 15. EL CIERRE ═══════ -->
-<section class="slide" data-notes="[VOZ: la más lenta de todo el pitch. Cada frase es una oración separada. Mira a los tres jueces, uno por línea. Después de 'solo necesitan un lugar donde vivir' — SILENCIO total. 4 segundos. No digas nada. No digas gracias todavía. Deja que aterrice. Después: 'Gracias' con asentimiento suave.]">
+<!-- ═══════ 14. EL CIERRE ═══════ -->
+<section class="slide" data-notes="[VOZ: la mas lenta de todo el pitch. Cada frase es una oracion separada. Mira a los tres jueces, uno por linea. Despues de 'solo necesitan un lugar donde vivir' — SILENCIO total. 4 segundos. No digas nada. No digas gracias todavia. Deja que aterrice. Despues: 'Gracias' con asentimiento suave.]">
   <div class="slide-content">
     <div class="close-lines">
       <div class="impact-grid" data-a="1" style="max-width: 650px;">
@@ -909,7 +711,7 @@ body {
           <div class="impact-label">familias que lo demostraron</div>
         </div>
       </div>
-      <p class="story-text" data-a="2" style="color:var(--fg);">Esos resultados no tienen por qué terminar<br>cuando termine el programa.</p>
+      <p class="story-text" data-a="2" style="color:var(--fg);">Esos resultados no tienen por que terminar<br>cuando termine el programa.</p>
       <p class="slide-title" data-a="3">Los datos ya existen.</p>
       <p class="slide-title" data-a="4" style="color:var(--terracotta);">Solo necesitan un lugar donde vivir.</p>
     </div>
