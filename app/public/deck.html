@@ -455,7 +455,7 @@ body {
 .slide.active [data-a="4"] { animation-delay: 450ms; }
 .slide.active [data-a="5"] { animation-delay: 600ms; }
 .slide.active [data-a="6"] { animation-delay: 750ms; }
-[data-a] { opacity: 0; }
+@media screen { [data-a] { opacity: 0; } }
 
 @media (max-width: 768px) {
   .impact-grid, .biz-model { grid-template-columns: 1fr; }
