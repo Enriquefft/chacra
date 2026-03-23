@@ -269,6 +269,21 @@ The cooperative IS the distribution channel. One relationship with a cooperative
 
 ---
 
+## Alliance Value Map
+
+| Ally type | What they give us | What we give them |
+|-----------|-------------------|-------------------|
+| Cooperativa agraria | Users, validation, pilot data | Free tool, trazabilidad, EUDR compliance |
+| Financiera / microfinanza | Revenue, credibility | Credit profiles they can't get otherwise |
+| COFIDE | Distribution to 66 institutions | Validated scoring tool for their downstream channels |
+| FIDA / IFAD | Legitimacy, funding path, MERCAGRO access | Continuity of Avanzar Rural legacy |
+| MIDAGRI / Sierra Exportadora | Institutional backing | Digital tool for their beneficiarios |
+| NGO (GIZ, USAID, Helvetas) | Funding, distribution in their programs | Data platform for their rural projects |
+| University (UNALM, UTEC) | Research credibility, talent | Real-world case study, thesis projects |
+| JNC / umbrella orgs | Access to 56+ coops via one relationship | Free member benefit, EUDR compliance path |
+
+---
+
 ## Risks
 
 | Risk | Severity | Mitigation |

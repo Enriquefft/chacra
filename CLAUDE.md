@@ -17,28 +17,24 @@ Offline-first agricultural data platform for Peruvian farmers. One PWA, three au
 
 | Doc | Purpose |
 |-----|---------|
-| `BUSINESS.md` | **Why it matters.** Problem statement, 3 user personas (Rosa/Carlos/Lucia), value proposition per audience, market sizing (TAM/SAM/SOM), competition (incl. Agros), business model, go-to-market, regulatory tailwinds, risks. Stable strategy doc. |
-| `INTEL.md` | **What we know.** Living research doc. 20+ cooperatives with contacts, financieras, NGOs, government programs, funding opportunities (ProInnovate, Kunan, NESsT), competitive landscape, outreach log. Grows over time. |
-| `PITCH.md` | **What we say.** 5-min pitch script for Avanzar Rural Legacy Challenge. Structured by evaluation criteria. Q&A prep for likely questions. Delivery notes. |
-| `OUTREACH.md` | **Who we contact.** Cold outreach targets by type (coops, financieras, allies), message templates (WhatsApp/email), tracking table. |
-| `ALLIANCES.md` | **Who strengthens us.** Alliance value map, proof points checklist, narrative hooks per evaluation criterion. |
-| `bases.pdf` | **Challenge rules.** Avanzar Rural Legacy Challenge 2026 (UTEC Ventures + FIDA). 4 retos, evaluation criteria, legal terms. |
+| `BUSINESS.md` | **Why it matters.** Strategy, personas, value prop, market sizing, competition, business model, alliances, go-to-market, risks. Single source of truth for business strategy. |
+| `INTEL.md` | **What we know.** Living research doc. Cooperatives, financieras, NGOs, government programs, funding opportunities, competitive landscape, user research. Grows over time. |
+| `TEAM.md` | **Who builds it.** Core team roles, responsibilities, needed profiles, equity, decision model. |
+| `PLAYBOOK.md` | **How we sell.** Outreach templates (WhatsApp/email/LinkedIn), pitch narrative, objection handling, channel strategy, conversation goals. |
+| `crm.csv` | **Who we're talking to.** All contacts and pipeline: cooperatives, financieras, funders, allies, stakeholders. Single source of truth for relationships. |
+
+### Archive (in `archive/`)
+
+Challenge-era artifacts. Historical reference only — not active docs.
 
 ## Key Rules
 
 - Read the relevant docs BEFORE doing any work
 - `app/SPEC.md` is the single source of truth for what gets built
 - `BUSINESS.md` is the single source of truth for business strategy
+- `crm.csv` is the single source of truth for contacts and pipeline
 - All UI copy in Spanish
 
 ## Stack
 
 Next.js 16 (App Router) | Neon (Postgres) | Drizzle ORM | better-auth (Google OAuth) | shadcn/ui | Dexie.js (offline) | Biome | Vercel
-
-## Challenge Context
-
-Avanzar Rural Legacy Challenge 2026. UTEC Ventures + FIDA + Avanzar Rural.
-- Reto 4: Data management & traceability in low connectivity (primary)
-- Reto 2: Financial management & access to financial services (secondary)
-- Evaluation: Impact 35%, Viability 35%, Problem Understanding 20%, Innovation 10%
-- Closest competitor: Agros (complementary -- they do identity/blockchain, we do transactions/credit scoring)
