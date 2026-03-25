@@ -163,6 +163,11 @@ const MAX_YIELD_KG_PER_HA: Record<string, number> = {
 	corn: 5000,
 	papa: 20000,
 	potato: 20000,
+	palta: 12000,
+	"palta hass": 12000,
+	"palta fuerte": 10000,
+	aguacate: 12000,
+	avocado: 12000,
 };
 const DEFAULT_MAX_YIELD = 10000;
 

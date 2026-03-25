@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chacra — Guía rápida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #B7522A;
+      --primary-light: #D4845E;
+      --foreground: #2E2820;
+      --background: #FAF8F5;
+      --muted: #F2EFE9;
+      --border: #E5E0D8;
+      --success: #4D8B4A;
+      --accent: #A89050;
+      --secondary-text: #7A7168;
+    }
+
+    html {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--background);
+      color: var(--foreground);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 16px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 210mm;
+      min-height: 280mm;
+      background: white;
+      border-radius: 12px;
+      padding: 44px 48px 36px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(46, 40, 32, 0.06), 0 4px 16px rgba(46, 40, 32, 0.04);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .logo-icon { flex-shrink: 0; }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    .tagline {
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--foreground);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 28px;
+    }
+
+    .tagline em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    /* Divider */
+    .divider {
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 40%, var(--border) 100%);
+      border-radius: 2px;
+      margin-bottom: 40px;
+    }
+
+    /* Steps */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 22px;
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      width: 58px;
+      height: 58px;
+      background: var(--primary);
+      color: white;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .step-content {
+      flex: 1;
+      padding-top: 6px;
+    }
+
+    .step-title {
+      font-size: 23px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    .step-desc {
+      font-size: 18px;
+      color: var(--secondary-text);
+      line-height: 1.45;
+    }
+
+    .step-highlight {
+      color: var(--foreground);
+      font-weight: 500;
+    }
+
+    /* Benefits */
+    .benefits {
+      background: var(--muted);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      border: 1px solid var(--border);
+    }
+
+    .benefits-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-text);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 16px;
+    }
+
+    .benefits-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .benefits-list li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--foreground);
+    }
+
+    .b-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .b-icon.wifi { background: #E8F0E8; }
+    .b-icon.free { background: #F0EBD8; }
+    .b-icon.credit { background: #F0E0D8; }
+
+    /* Bottom */
+    .bottom {
+      margin-top: auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .contact {
+      flex: 1;
+      font-size: 17px;
+      color: var(--secondary-text);
+      line-height: 1.5;
+    }
+
+    .contact strong {
+      display: block;
+      color: var(--foreground);
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+
+    .qr-section {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .qr-box {
+      width: 148px;
+      height: 148px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    .qr-box svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .qr-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary);
+      text-align: center;
+    }
+
+    .qr-url {
+      font-size: 15px;
+      color: var(--secondary-text);
+      font-weight: 500;
+      text-align: center;
+      letter-spacing: 0.2px;
+    }
+
+    /* Print */
+    @media print {
+      body {
+        padding: 0;
+        background: white;
+        min-height: auto;
+      }
+
+      .page {
+        box-shadow: none;
+        border-radius: 0;
+        max-width: none;
+        width: 100%;
+        min-height: auto;
+        padding: 24px 28px 20px;
+        page-break-inside: avoid;
+      }
+
+      .step-number,
+      .benefits,
+      .b-icon,
+      .divider {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+
+    /* Small screens */
+    @media (max-width: 520px) {
+      body { padding: 8px; }
+      .page { padding: 24px 20px 20px; min-height: auto; }
+      .tagline { font-size: 24px; }
+      .step { gap: 14px; }
+      .step-number { width: 46px; height: 46px; font-size: 22px; border-radius: 10px; }
+      .step-title { font-size: 19px; }
+      .step-desc { font-size: 16px; }
+      .benefits-list li { font-size: 16px; }
+      .bottom { flex-direction: column; align-items: center; text-align: center; }
+      .qr-box { width: 130px; height: 130px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Header -->
+    <div class="header">
+      <svg class="logo-icon" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="42" height="42" rx="10" fill="#B7522A"/>
+        <!-- Leaf / sprout icon -->
+        <path d="M21 10c0 0-7 5-7 14a7 7 0 0 0 14 0c0-9-7-14-7-14z" fill="white" fill-opacity="0.2"/>
+        <path d="M21 14v12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <path d="M21 18c-3-1-5.5 1-6 4" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        <path d="M21 22c3-1 5.5 1 6 4" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      </svg>
+      <h1>Chacra</h1>
+    </div>
+
+    <p class="tagline">Registra tus ventas en <em>15 segundos</em></p>
+
+    <div class="divider"></div>
+
+    <!-- 3 Steps -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <div class="step-title">Abre Chacra</div>
+          <div class="step-desc">Escanea el código QR o escribe <span class="step-highlight">chacra.404tf.com</span> en tu celular.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <div class="step-title">Registra tu venta</div>
+          <div class="step-desc">Producto, cantidad, precio, comprador. <span class="step-highlight">4 campos, 15 segundos.</span></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <div class="step-title">Ve tu historial</div>
+          <div class="step-desc">Tus ventas, tus precios, tu progreso. <span class="step-highlight">Todo desde tu celular.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="benefits">
+      <div class="benefits-label">Ventajas</div>
+      <ul class="benefits-list">
+        <li>
+          <div class="b-icon wifi">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4D8B4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+              <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+              <circle cx="12" cy="20" r="1" fill="#4D8B4A"/>
+            </svg>
+          </div>
+          Funciona sin internet
+        </li>
+        <li>
+          <div class="b-icon free">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89050" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          Gratis para siempre
+        </li>
+        <li>
+          <div class="b-icon credit">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B7522A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="3"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+              <line x1="5" y1="15" x2="9" y2="15"/>
+            </svg>
+          </div>
+          En 6 meses tienes un historial crediticio
+        </li>
+      </ul>
+    </div>
+
+    <!-- Bottom: Contact + QR -->
+    <div class="bottom">
+      <div class="contact">
+        <strong>¿Dudas?</strong>
+        Habla con tu asociación.
+      </div>
+      <div class="qr-section">
+        <div class="qr-box">
+          
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 124 124">
+  <rect x="0" y="0" width="124" height="124" style="fill:white;shape-rendering:crispEdges;"/>
+  <path x="0" y="0" style="fill:#2E2820;shape-rendering:crispEdges;" d="M4,4 V8 H8 V4 H4 Z M8,4 V8 H12 V4 H8 Z M12,4 V8 H16 V4 H12 Z M16,4 V8 H20 V4 H16 Z M20,4 V8 H24 V4 H20 Z M24,4 V8 H28 V4 H24 Z M28,4 V8 H32 V4 H28 Z M36,4 V8 H40 V4 H36 Z M48,4 V8 H52 V4 H48 Z M52,4 V8 H56 V4 H52 Z M56,4 V8 H60 V4 H56 Z M60,4 V8 H64 V4 H60 Z M68,4 V8 H72 V4 H68 Z M72,4 V8 H76 V4 H72 Z M84,4 V8 H88 V4 H84 Z M92,4 V8 H96 V4 H92 Z M96,4 V8 H100 V4 H96 Z M100,4 V8 H104 V4 H100 Z M104,4 V8 H108 V4 H104 Z M108,4 V8 H112 V4 H108 Z M112,4 V8 H116 V4 H112 Z M116,4 V8 H120 V4 H116 Z M4,8 V12 H8 V8 H4 Z M28,8 V12 H32 V8 H28 Z M40,8 V12 H44 V8 H40 Z M44,8 V12 H48 V8 H44 Z M60,8 V12 H64 V8 H60 Z M68,8 V12 H72 V8 H68 Z M84,8 V12 H88 V8 H84 Z M92,8 V12 H96 V8 H92 Z M116,8 V12 H120 V8 H116 Z M4,12 V16 H8 V12 H4 Z M12,12 V16 H16 V12 H12 Z M16,12 V16 H20 V12 H16 Z M20,12 V16 H24 V12 H20 Z M28,12 V16 H32 V12 H28 Z M48,12 V16 H52 V12 H48 Z M60,12 V16 H64 V12 H60 Z M68,12 V16 H72 V12 H68 Z M72,12 V16 H76 V12 H72 Z M80,12 V16 H84 V12 H80 Z M84,12 V16 H88 V12 H84 Z M92,12 V16 H96 V12 H92 Z M100,12 V16 H104 V12 H100 Z M104,12 V16 H108 V12 H104 Z M108,12 V16 H112 V12 H108 Z M116,12 V16 H120 V12 H116 Z M4,16 V20 H8 V16 H4 Z M12,16 V20 H16 V16 H12 Z M16,16 V20 H20 V16 H16 Z M20,16 V20 H24 V16 H20 Z M28,16 V20 H32 V16 H28 Z M44,16 V20 H48 V16 H44 Z M60,16 V20 H64 V16 H60 Z M68,16 V20 H72 V16 H68 Z M84,16 V20 H88 V16 H84 Z M92,16 V20 H96 V16 H92 Z M100,16 V20 H104 V16 H100 Z M104,16 V20 H108 V16 H104 Z M108,16 V20 H112 V16 H108 Z M116,16 V20 H120 V16 H116 Z M4,20 V24 H8 V20 H4 Z M12,20 V24 H16 V20 H12 Z M16,20 V24 H20 V20 H16 Z M20,20 V24 H24 V20 H20 Z M28,20 V24 H32 V20 H28 Z M36,20 V24 H40 V20 H36 Z M44,20 V24 H48 V20 H44 Z M48,20 V24 H52 V20 H48 Z M52,20 V24 H56 V20 H52 Z M72,20 V24 H76 V20 H72 Z M76,20 V24 H80 V20 H76 Z M84,20 V24 H88 V20 H84 Z M92,20 V24 H96 V20 H92 Z M100,20 V24 H104 V20 H100 Z M104,20 V24 H108 V20 H104 Z M108,20 V24 H112 V20 H108 Z M116,20 V24 H120 V20 H116 Z M4,24 V28 H8 V24 H4 Z M28,24 V28 H32 V24 H28 Z M40,24 V28 H44 V24 H40 Z M44,24 V28 H48 V24 H44 Z M56,24 V28 H60 V24 H56 Z M92,24 V28 H96 V24 H92 Z M116,24 V28 H120 V24 H116 Z M4,28 V32 H8 V28 H4 Z M8,28 V32 H12 V28 H8 Z M12,28 V32 H16 V28 H12 Z M16,28 V32 H20 V28 H16 Z M20,28 V32 H24 V28 H20 Z M24,28 V32 H28 V28 H24 Z M28,28 V32 H32 V28 H28 Z M36,28 V32 H40 V28 H36 Z M44,28 V32 H48 V28 H44 Z M52,28 V32 H56 V28 H52 Z M60,28 V32 H64 V28 H60 Z M68,28 V32 H72 V28 H68 Z M76,28 V32 H80 V28 H76 Z M84,28 V32 H88 V28 H84 Z M92,28 V32 H96 V28 H92 Z M96,28 V32 H100 V28 H96 Z M100,28 V32 H104 V28 H100 Z M104,28 V32 H108 V28 H104 Z M108,28 V32 H112 V28 H108 Z M112,28 V32 H116 V28 H112 Z M116,28 V32 H120 V28 H116 Z M36,32 V36 H40 V32 H36 Z M40,32 V36 H44 V32 H40 Z M52,32 V36 H56 V32 H52 Z M56,32 V36 H60 V32 H56 Z M60,32 V36 H64 V32 H60 Z M76,32 V36 H80 V32 H76 Z M84,32 V36 H88 V32 H84 Z M4,36 V40 H8 V36 H4 Z M16,36 V40 H20 V36 H16 Z M20,36 V40 H24 V36 H20 Z M24,36 V40 H28 V36 H24 Z M28,36 V40 H32 V36 H28 Z M32,36 V40 H36 V36 H32 Z M36,36 V40 H40 V36 H36 Z M40,36 V40 H44 V36 H40 Z M56,36 V40 H60 V36 H56 Z M76,36 V40 H80 V36 H76 Z M80,36 V40 H84 V36 H80 Z M84,36 V40 H88 V36 H84 Z M88,36 V40 H92 V36 H88 Z M92,36 V40 H96 V36 H92 Z M100,36 V40 H104 V36 H100 Z M116,36 V40 H120 V36 H116 Z M4,40 V44 H8 V40 H4 Z M8,40 V44 H12 V40 H8 Z M20,40 V44 H24 V40 H20 Z M36,40 V44 H40 V40 H36 Z M40,40 V44 H44 V40 H40 Z M56,40 V44 H60 V40 H56 Z M60,40 V44 H64 V40 H60 Z M76,40 V44 H80 V40 H76 Z M92,40 V44 H96 V40 H92 Z M100,40 V44 H104 V40 H100 Z M112,40 V44 H116 V40 H112 Z M116,40 V44 H120 V40 H116 Z M4,44 V48 H8 V44 H4 Z M12,44 V48 H16 V44 H12 Z M20,44 V48 H24 V44 H20 Z M24,44 V48 H28 V44 H24 Z M28,44 V48 H32 V44 H28 Z M32,44 V48 H36 V44 H32 Z M40,44 V48 H44 V44 H40 Z M44,44 V48 H48 V44 H44 Z M48,44 V48 H52 V44 H48 Z M52,44 V48 H56 V44 H52 Z M56,44 V48 H60 V44 H56 Z M60,44 V48 H64 V44 H60 Z M64,44 V48 H68 V44 H64 Z M68,44 V48 H72 V44 H68 Z M72,44 V48 H76 V44 H72 Z M76,44 V48 H80 V44 H76 Z M88,44 V48 H92 V44 H88 Z M92,44 V48 H96 V44 H92 Z M100,44 V48 H104 V44 H100 Z M108,44 V48 H112 V44 H108 Z M4,48 V52 H8 V48 H4 Z M8,48 V52 H12 V48 H8 Z M16,48 V52 H20 V48 H16 Z M24,48 V52 H28 V48 H24 Z M36,48 V52 H40 V48 H36 Z M64,48 V52 H68 V48 H64 Z M76,48 V52 H80 V48 H76 Z M80,48 V52 H84 V48 H80 Z M84,48 V52 H88 V48 H84 Z M96,48 V52 H100 V48 H96 Z M104,48 V52 H108 V48 H104 Z M108,48 V52 H112 V48 H108 Z M112,48 V52 H116 V48 H112 Z M116,48 V52 H120 V48 H116 Z M4,52 V56 H8 V52 H4 Z M16,52 V56 H20 V52 H16 Z M24,52 V56 H28 V52 H24 Z M28,52 V56 H32 V52 H28 Z M36,52 V56 H40 V52 H36 Z M40,52 V56 H44 V52 H40 Z M44,52 V56 H48 V52 H44 Z M68,52 V56 H72 V52 H68 Z M92,52 V56 H96 V52 H92 Z M112,52 V56 H116 V52 H112 Z M116,52 V56 H120 V52 H116 Z M12,56 V60 H16 V56 H12 Z M20,56 V60 H24 V56 H20 Z M24,56 V60 H28 V56 H24 Z M36,56 V60 H40 V56 H36 Z M44,56 V60 H48 V56 H44 Z M48,56 V60 H52 V56 H48 Z M52,56 V60 H56 V56 H52 Z M56,56 V60 H60 V56 H56 Z M68,56 V60 H72 V56 H68 Z M76,56 V60 H80 V56 H76 Z M80,56 V60 H84 V56 H80 Z M84,56 V60 H88 V56 H84 Z M88,56 V60 H92 V56 H88 Z M100,56 V60 H104 V56 H100 Z M104,56 V60 H108 V56 H104 Z M108,56 V60 H112 V56 H108 Z M16,60 V64 H20 V60 H16 Z M20,60 V64 H24 V60 H20 Z M24,60 V64 H28 V60 H24 Z M28,60 V64 H32 V60 H28 Z M32,60 V64 H36 V60 H32 Z M36,60 V64 H40 V60 H36 Z M44,60 V64 H48 V60 H44 Z M56,60 V64 H60 V60 H56 Z M64,60 V64 H68 V60 H64 Z M68,60 V64 H72 V60 H68 Z M76,60 V64 H80 V60 H76 Z M88,60 V64 H92 V60 H88 Z M96,60 V64 H100 V60 H96 Z M100,60 V64 H104 V60 H100 Z M116,60 V64 H120 V60 H116 Z M12,64 V68 H16 V64 H12 Z M16,64 V68 H20 V64 H16 Z M24,64 V68 H28 V64 H24 Z M36,64 V68 H40 V64 H36 Z M44,64 V68 H48 V64 H44 Z M48,64 V68 H52 V64 H48 Z M68,64 V68 H72 V64 H68 Z M76,64 V68 H80 V64 H76 Z M80,64 V68 H84 V64 H80 Z M100,64 V68 H104 V64 H100 Z M108,64 V68 H112 V64 H108 Z M112,64 V68 H116 V64 H112 Z M8,68 V72 H12 V68 H8 Z M12,68 V72 H16 V68 H12 Z M16,68 V72 H20 V68 H16 Z M20,68 V72 H24 V68 H20 Z M28,68 V72 H32 V68 H28 Z M36,68 V72 H40 V68 H36 Z M48,68 V72 H52 V68 H48 Z M56,68 V72 H60 V68 H56 Z M60,68 V72 H64 V68 H60 Z M68,68 V72 H72 V68 H68 Z M80,68 V72 H84 V68 H80 Z M88,68 V72 H92 V68 H88 Z M92,68 V72 H96 V68 H92 Z M100,68 V72 H104 V68 H100 Z M112,68 V72 H116 V68 H112 Z M4,72 V76 H8 V72 H4 Z M8,72 V76 H12 V72 H8 Z M12,72 V76 H16 V72 H12 Z M20,72 V76 H24 V72 H20 Z M32,72 V76 H36 V72 H32 Z M40,72 V76 H44 V72 H40 Z M60,72 V76 H64 V72 H60 Z M64,72 V76 H68 V72 H64 Z M72,72 V76 H76 V72 H72 Z M92,72 V76 H96 V72 H92 Z M96,72 V76 H100 V72 H96 Z M104,72 V76 H108 V72 H104 Z M4,76 V80 H8 V76 H4 Z M12,76 V80 H16 V76 H12 Z M16,76 V80 H20 V76 H16 Z M20,76 V80 H24 V76 H20 Z M28,76 V80 H32 V76 H28 Z M32,76 V80 H36 V76 H32 Z M36,76 V80 H40 V76 H36 Z M40,76 V80 H44 V76 H40 Z M44,76 V80 H48 V76 H44 Z M56,76 V80 H60 V76 H56 Z M64,76 V80 H68 V76 H64 Z M68,76 V80 H72 V76 H68 Z M76,76 V80 H80 V76 H76 Z M88,76 V80 H92 V76 H88 Z M96,76 V80 H100 V76 H96 Z M100,76 V80 H104 V76 H100 Z M108,76 V80 H112 V76 H108 Z M8,80 V84 H12 V80 H8 Z M12,80 V84 H16 V80 H12 Z M24,80 V84 H28 V80 H24 Z M32,80 V84 H36 V80 H32 Z M48,80 V84 H52 V80 H48 Z M52,80 V84 H56 V80 H52 Z M68,80 V84 H72 V80 H68 Z M84,80 V84 H88 V80 H84 Z M92,80 V84 H96 V80 H92 Z M100,80 V84 H104 V80 H100 Z M104,80 V84 H108 V80 H104 Z M112,80 V84 H116 V80 H112 Z M116,80 V84 H120 V80 H116 Z M24,84 V88 H28 V84 H24 Z M28,84 V88 H32 V84 H28 Z M32,84 V88 H36 V84 H32 Z M36,84 V88 H40 V84 H36 Z M40,84 V88 H44 V84 H40 Z M48,84 V88 H52 V84 H48 Z M52,84 V88 H56 V84 H52 Z M64,84 V88 H68 V84 H64 Z M80,84 V88 H84 V84 H80 Z M84,84 V88 H88 V84 H84 Z M88,84 V88 H92 V84 H88 Z M92,84 V88 H96 V84 H92 Z M96,84 V88 H100 V84 H96 Z M100,84 V88 H104 V84 H100 Z M104,84 V88 H108 V84 H104 Z M112,84 V88 H116 V84 H112 Z M116,84 V88 H120 V84 H116 Z M36,88 V92 H40 V88 H36 Z M40,88 V92 H44 V88 H40 Z M44,88 V92 H48 V88 H44 Z M48,88 V92 H52 V88 H48 Z M52,88 V92 H56 V88 H52 Z M60,88 V92 H64 V88 H60 Z M80,88 V92 H84 V88 H80 Z M84,88 V92 H88 V88 H84 Z M100,88 V92 H104 V88 H100 Z M4,92 V96 H8 V92 H4 Z M8,92 V96 H12 V92 H8 Z M12,92 V96 H16 V92 H12 Z M16,92 V96 H20 V92 H16 Z M20,92 V96 H24 V92 H20 Z M24,92 V96 H28 V92 H24 Z M28,92 V96 H32 V92 H28 Z M36,92 V96 H40 V92 H36 Z M40,92 V96 H44 V92 H40 Z M44,92 V96 H48 V92 H44 Z M56,92 V96 H60 V92 H56 Z M60,92 V96 H64 V92 H60 Z M64,92 V96 H68 V92 H64 Z M72,92 V96 H76 V92 H72 Z M84,92 V96 H88 V92 H84 Z M92,92 V96 H96 V92 H92 Z M100,92 V96 H104 V92 H100 Z M112,92 V96 H116 V92 H112 Z M4,96 V100 H8 V96 H4 Z M28,96 V100 H32 V96 H28 Z M36,96 V100 H40 V96 H36 Z M40,96 V100 H44 V96 H40 Z M48,96 V100 H52 V96 H48 Z M56,96 V100 H60 V96 H56 Z M64,96 V100 H68 V96 H64 Z M72,96 V100 H76 V96 H72 Z M76,96 V100 H80 V96 H76 Z M80,96 V100 H84 V96 H80 Z M84,96 V100 H88 V96 H84 Z M100,96 V100 H104 V96 H100 Z M4,100 V104 H8 V100 H4 Z M12,100 V104 H16 V100 H12 Z M16,100 V104 H20 V100 H16 Z M20,100 V104 H24 V100 H20 Z M28,100 V104 H32 V100 H28 Z M36,100 V104 H40 V100 H36 Z M40,100 V104 H44 V100 H40 Z M44,100 V104 H48 V100 H44 Z M56,100 V104 H60 V100 H56 Z M72,100 V104 H76 V100 H72 Z M80,100 V104 H84 V100 H80 Z M84,100 V104 H88 V100 H84 Z M88,100 V104 H92 V100 H88 Z M92,100 V104 H96 V100 H92 Z M96,100 V104 H100 V100 H96 Z M100,100 V104 H104 V100 H100 Z M112,100 V104 H116 V100 H112 Z M116,100 V104 H120 V100 H116 Z M4,104 V108 H8 V104 H4 Z M12,104 V108 H16 V104 H12 Z M16,104 V108 H20 V104 H16 Z M20,104 V108 H24 V104 H20 Z M28,104 V108 H32 V104 H28 Z M36,104 V108 H40 V104 H36 Z M40,104 V108 H44 V104 H40 Z M48,104 V108 H52 V104 H48 Z M56,104 V108 H60 V104 H56 Z M60,104 V108 H64 V104 H60 Z M72,104 V108 H76 V104 H72 Z M84,104 V108 H88 V104 H84 Z M92,104 V108 H96 V104 H92 Z M100,104 V108 H104 V104 H100 Z M108,104 V108 H112 V104 H108 Z M112,104 V108 H116 V104 H112 Z M116,104 V108 H120 V104 H116 Z M4,108 V112 H8 V108 H4 Z M12,108 V112 H16 V108 H12 Z M16,108 V112 H20 V108 H16 Z M20,108 V112 H24 V108 H20 Z M28,108 V112 H32 V108 H28 Z M40,108 V112 H44 V108 H40 Z M56,108 V112 H60 V108 H56 Z M60,108 V112 H64 V108 H60 Z M76,108 V112 H80 V108 H76 Z M92,108 V112 H96 V108 H92 Z M108,108 V112 H112 V108 H108 Z M4,112 V116 H8 V112 H4 Z M28,112 V116 H32 V112 H28 Z M40,112 V116 H44 V112 H40 Z M48,112 V116 H52 V112 H48 Z M52,112 V116 H56 V112 H52 Z M56,112 V116 H60 V112 H56 Z M64,112 V116 H68 V112 H64 Z M68,112 V116 H72 V112 H68 Z M72,112 V116 H76 V112 H72 Z M80,112 V116 H84 V112 H80 Z M96,112 V116 H100 V112 H96 Z M104,112 V116 H108 V112 H104 Z M108,112 V116 H112 V112 H108 Z M112,112 V116 H116 V112 H112 Z M116,112 V116 H120 V112 H116 Z M4,116 V120 H8 V116 H4 Z M8,116 V120 H12 V116 H8 Z M12,116 V120 H16 V116 H12 Z M16,116 V120 H20 V116 H16 Z M20,116 V120 H24 V116 H20 Z M24,116 V120 H28 V116 H24 Z M28,116 V120 H32 V116 H28 Z M36,116 V120 H40 V116 H36 Z M40,116 V120 H44 V116 H40 Z M44,116 V120 H48 V116 H44 Z M48,116 V120 H52 V116 H48 Z M56,116 V120 H60 V116 H56 Z M60,116 V120 H64 V116 H60 Z M64,116 V120 H68 V116 H64 Z M72,116 V120 H76 V116 H72 Z M76,116 V120 H80 V116 H76 Z M80,116 V120 H84 V116 H80 Z M84,116 V120 H88 V116 H84 Z M88,116 V120 H92 V116 H88 Z M92,116 V120 H96 V116 H92 Z M96,116 V120 H100 V116 H96 Z M100,116 V120 H104 V116 H100 Z M108,116 V120 H112 V116 H108 Z M112,116 V120 H116 V116 H112 Z " /></svg>
+        </div>
+        <div class="qr-label">Escanea para empezar</div>
+        <div class="qr-url">chacra.404tf.com</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

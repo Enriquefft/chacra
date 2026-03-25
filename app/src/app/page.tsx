@@ -16,6 +16,7 @@ import {
 	ShieldCheck,
 	Smartphone,
 	Tag,
+	UsersGroupRounded,
 	WalletMoney,
 } from "@/components/landing/solar-icons";
 import { StatCounter } from "@/components/landing/stat-counter";
@@ -61,6 +62,7 @@ const navLinks = [
 	{ label: "Productores", href: "#productores" },
 	{ label: "Cooperativas", href: "#cooperativas" },
 	{ label: "Financieras", href: "#financieras" },
+	{ label: "Planes", href: "#planes" },
 ];
 
 export default function LandingPage() {
@@ -1306,7 +1308,204 @@ export default function LandingPage() {
 				</div>
 			</section>
 
-			{/* ─── 7. Validation / Social Proof ─── */}
+			{/* ─── 7. Pricing ─── */}
+			<section id="planes" className="border-t py-20 md:py-28">
+				<div className="mx-auto max-w-6xl px-4 sm:px-6">
+					<ScrollReveal>
+						<div className="mx-auto max-w-2xl text-center">
+							<h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl lg:text-4xl">
+								Planes para cada etapa
+							</h2>
+							<p className="mx-auto mt-4 max-w-[65ch] text-pretty text-base text-muted-foreground md:text-lg">
+								El agricultor nunca paga. La cooperativa elige el plan que
+								necesita.
+							</p>
+						</div>
+					</ScrollReveal>
+
+					<div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+						{/* Comunidad — highlighted/recommended */}
+						<ScrollReveal delay={0}>
+							<Card className="relative h-full border-2 border-primary bg-card shadow-lg shadow-primary/10 transition-all duration-150 hover:scale-[1.01] hover:shadow-xl hover:shadow-primary/15">
+								<Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
+									Recomendado
+								</Badge>
+								<CardContent className="pt-8">
+									<div className="flex size-10 items-center justify-center rounded-xl bg-primary/10">
+										<UsersGroupRounded
+											weight="BoldDuotone"
+											size={22}
+											className="text-primary"
+											aria-hidden="true"
+										/>
+									</div>
+									<h3 className="mt-3 text-xl font-semibold">Comunidad</h3>
+									<p className="mt-1 text-sm text-muted-foreground">
+										Hasta 50 productores
+									</p>
+									<div className="mt-4">
+										<span className="text-3xl font-semibold tracking-tight">
+											Gratis
+										</span>
+									</div>
+									<p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+										Para asociaciones pequenas. Todas las herramientas, sin
+										costo.
+									</p>
+									<Button
+										size="lg"
+										className="mt-6 w-full transition-transform duration-150 hover:scale-[1.02] active:scale-[0.97]"
+										asChild
+									>
+										<Link href="/dashboard">
+											Empezar gratis
+											<ArrowRight size={16} />
+										</Link>
+									</Button>
+								</CardContent>
+							</Card>
+						</ScrollReveal>
+
+						{/* Cosecha */}
+						<ScrollReveal delay={100}>
+							<Card className="h-full border-border/50 bg-card/80 transition-all duration-150 hover:scale-[1.01] hover:shadow-md">
+								<CardContent className="pt-6">
+									<div className="flex size-10 items-center justify-center rounded-xl bg-accent/10">
+										<Leaf
+											weight="BoldDuotone"
+											size={22}
+											className="text-accent"
+											aria-hidden="true"
+										/>
+									</div>
+									<h3 className="mt-3 text-xl font-semibold">Cosecha</h3>
+									<p className="mt-1 text-sm text-muted-foreground">
+										Hasta 200 productores
+									</p>
+									<div className="mt-4">
+										<span className="text-3xl font-semibold tracking-tight">
+											S/200
+										</span>
+										<span className="text-base text-muted-foreground">
+											/mes
+										</span>
+									</div>
+									<p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+										Para cooperativas en crecimiento. Trazabilidad completa +
+										exportacion CSV.
+									</p>
+									<Button
+										size="lg"
+										variant="outline"
+										className="mt-6 w-full transition-transform duration-150 hover:scale-[1.02] active:scale-[0.97]"
+										asChild
+									>
+										<Link href="/dashboard">Comenzar</Link>
+									</Button>
+								</CardContent>
+							</Card>
+						</ScrollReveal>
+
+						{/* Exporta */}
+						<ScrollReveal delay={200}>
+							<Card className="h-full border-border/50 bg-card/80 transition-all duration-150 hover:scale-[1.01] hover:shadow-md">
+								<CardContent className="pt-6">
+									<div className="flex size-10 items-center justify-center rounded-xl bg-success/10">
+										<GraphUp
+											weight="BoldDuotone"
+											size={22}
+											className="text-success"
+											aria-hidden="true"
+										/>
+									</div>
+									<h3 className="mt-3 text-xl font-semibold">Exporta</h3>
+									<p className="mt-1 text-sm text-muted-foreground">
+										Hasta 1,000 productores
+									</p>
+									<div className="mt-4">
+										<span className="text-3xl font-semibold tracking-tight">
+											S/500
+										</span>
+										<span className="text-base text-muted-foreground">
+											/mes
+										</span>
+									</div>
+									<p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+										Para cooperativas exportadoras. Todo incluido.
+									</p>
+									<Button
+										size="lg"
+										variant="outline"
+										className="mt-6 w-full transition-transform duration-150 hover:scale-[1.02] active:scale-[0.97]"
+										asChild
+									>
+										<Link href="/dashboard">Comenzar</Link>
+									</Button>
+								</CardContent>
+							</Card>
+						</ScrollReveal>
+
+						{/* Enterprise */}
+						<ScrollReveal delay={300}>
+							<Card className="h-full border-border/50 bg-card/80 transition-all duration-150 hover:scale-[1.01] hover:shadow-md">
+								<CardContent className="pt-6">
+									<div className="flex size-10 items-center justify-center rounded-xl bg-muted">
+										<ShieldCheck
+											weight="BoldDuotone"
+											size={22}
+											className="text-muted-foreground"
+											aria-hidden="true"
+										/>
+									</div>
+									<h3 className="mt-3 text-xl font-semibold">Enterprise</h3>
+									<p className="mt-1 text-sm text-muted-foreground">
+										1,000+ productores
+									</p>
+									<div className="mt-4">
+										<span className="text-3xl font-semibold tracking-tight">
+											Conversemos
+										</span>
+									</div>
+									<p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+										Personalizado para grandes organizaciones.
+									</p>
+									<Button
+										size="lg"
+										variant="outline"
+										className="mt-6 w-full transition-transform duration-150 hover:scale-[1.02] active:scale-[0.97]"
+										asChild
+									>
+										<a href={calLink} target="_blank" rel="noopener noreferrer">
+											Contactar
+										</a>
+									</Button>
+								</CardContent>
+							</Card>
+						</ScrollReveal>
+					</div>
+
+					{/* Farmer-free callout */}
+					<ScrollReveal delay={350}>
+						<div className="mx-auto mt-8 max-w-3xl">
+							<div className="flex items-start gap-3 rounded-xl border border-success/20 bg-success/5 px-5 py-4">
+								<CheckCircle
+									weight="BoldDuotone"
+									size={20}
+									className="mt-0.5 shrink-0 text-success"
+									aria-hidden="true"
+								/>
+								<p className="text-base leading-relaxed text-foreground">
+									<span className="font-medium">El agricultor nunca paga.</span>{" "}
+									Chacra es gratis para los productores. La cooperativa o
+									asociacion elige el plan que mejor se adapte a su tamano.
+								</p>
+							</div>
+						</div>
+					</ScrollReveal>
+				</div>
+			</section>
+
+			{/* ─── 8. Validation / Social Proof ─── */}
 			<section className="border-t py-20 md:py-28">
 				<div className="mx-auto max-w-6xl px-4 sm:px-6">
 					{/* Stats bar */}
@@ -1405,10 +1604,11 @@ export default function LandingPage() {
 				<div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
 					<ScrollReveal distance={8}>
 						<h2 className="text-balance text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
-							Registra tu cooperativa
+							Empieza gratis con hasta 50 productores
 						</h2>
 						<p className="mt-3 text-pretty text-lg text-primary-foreground/70">
-							Gratis, sin tarjeta. Empieza hoy.
+							Sin tarjeta. Sin costo para agricultores. Registra tu cooperativa
+							hoy.
 						</p>
 					</ScrollReveal>
 					<ScrollReveal delay={120} distance={8}>

@@ -1,6 +1,6 @@
 # Chacra — Playbook
 
-Outreach templates, pitch framing, and objection handling. Living doc — update as we learn what works.
+Outreach templates, pitch framing, objection handling, and demo scripts. Living doc — update as we learn what works.
 
 ---
 
@@ -9,8 +9,135 @@ Outreach templates, pitch framing, and objection handling. Living doc — update
 **One-liner:**
 > Chacra es la infraestructura de datos crediticios para la economía agrícola no bancarizada.
 
-**Elevator (30s):**
-> En Perú, S/1,800 millones en crédito agrícola se van a desplegar en 2026, en gran parte a ciegas. Capturamos datos transaccionales en el punto de venta — offline, en el momento de la transacción — y los convertimos en perfiles crediticios que las financieras pueden usar. Nuestra distribución son las cooperativas: una relación nos da 5,000 agricultores. La UE ahora exige exactamente estos datos para importaciones. No estamos construyendo una feature — estamos construyendo el buró de crédito para una economía que no tiene uno.
+**Elevator — institucional (30s):**
+> En Perú, S/1,800 millones en crédito agrícola se van a desplegar en 2026, en gran parte a ciegas. Capturamos datos transaccionales en el punto de venta — offline, en el momento de la transacción — y los convertimos en perfiles crediticios que las financieras pueden usar. Nuestra distribución son las cooperativas: una relación nos da 5,000 agricultores. No estamos construyendo una feature — estamos construyendo el buró de crédito para una economía que no tiene uno.
+
+**Elevator — para productores (30s):**
+> Chacra es una herramienta gratuita que funciona en tu celular, sin internet. Registras tus ventas en 15 segundos. En 6 meses tienes un historial que un banco puede ver. Hoy con tu cuaderno no tienes nada.
+
+---
+
+## Demo Script — Showcase a Productores
+
+Guía para presentaciones en vivo a asociaciones y cooperativas. ~15 minutos.
+No usar deck. El celular es la presentación.
+
+### Antes de empezar
+
+- [ ] App abierta en el celular, sesión de agricultor activa
+- [ ] Laptop lista con sesión de cooperativa (backup)
+- [ ] Guía impresa (guia.html) para repartir al final
+- [ ] Modo avión listo para demostrar offline
+- [ ] Saber el nombre de la asociación, el cultivo principal, y cuántos son
+
+### 1. Apertura (2 min)
+
+Joanie (o quien organiza) ya te presentó. Ir al grano.
+
+> "Gracias [organizador]. Soy [nombre], cofundador de Chacra. Les voy a mostrar algo que funciona hoy — no es una idea, no es un plan. Es una herramienta que pueden usar desde mañana."
+
+Conectar con su realidad:
+
+> "¿Cuántos de ustedes llevan un cuaderno con sus ventas? ¿Y cuántos han ido a pedir un préstamo y les han pedido documentación que no tienen?"
+
+*(No esperar respuestas — retórico. Dejar que aterrice.)*
+
+> "Ese es el problema. Ustedes producen, venden, trabajan — pero todo es invisible. Ningún banco les da crédito porque no hay registro. Chacra cambia eso."
+
+### 2. Demo — Agricultor (5 min)
+
+Abrir la app en el celular. Mostrar, no explicar. Narrar mientras tocas.
+
+**Paso 1 — Registrar una venta:**
+> "Miren. Cuatro campos: producto, cantidad, precio, comprador. 15 segundos."
+
+*(Registrar una venta en vivo frente a ellos.)*
+
+**Paso 2 — Modo sin internet (el momento wow):**
+> "Ahora lo importante."
+
+*(Activar modo avión. Registrar otra venta.)*
+
+> "Sin señal. Funciona igual. Cuando vuelven al pueblo o a la cooperativa y tienen wifi, se sincroniza solo."
+
+*(Reactivar wifi, mostrar la sincronización.)*
+
+**Paso 3 — Historial + precios:**
+> "Acá ven todas sus ventas."
+
+*(Cambiar a la pestaña Precios.)*
+
+> "Les muestra el precio promedio en su zona. Si les están pagando bien o por debajo. Esta información hoy no la tienen."
+
+**Paso 4 — Perfil:**
+> "Con 6 meses de registros, tienen algo que ningún cuaderno les da: un historial crediticio digital. Eso es lo que un banco necesita para darles un préstamo."
+
+### 3. Demo — Cooperativa (3 min)
+
+Cambiar a laptop. Solo si hay interés del organizador o la directiva.
+
+> "Ahora, lo que ve la asociación."
+
+Mostrar rápido:
+- **Dashboard:** "Producción total, ingresos, productores activos — todo en tiempo real."
+- **Lista de productores:** "Cada productor con su historial y nivel de confianza."
+- **Detalle:** "Pueden confirmar ventas, ver si los números tienen sentido."
+- **Configuración:** "Ustedes definen los productos y el código de invitación."
+
+> "Todo lo que sus productores registran, ustedes lo ven acá. Sin Excel, sin papeles."
+
+### 4. Scoring — solo mencionar (1 min)
+
+No mostrar en detalle. Solo plantar la semilla.
+
+> "Hay un tercer módulo para bancos y financieras. Toma los datos de ustedes y genera un perfil crediticio automático. Eso hace que un banco pueda decir 'sí, este productor es confiable.' Ese es el objetivo final."
+
+### 5. Cierre (3 min)
+
+**Pricing:**
+> "¿Cuánto cuesta? Para una asociación del tamaño de ustedes — hasta 50 productores — es gratis. Cero soles. Todas las herramientas, sin límites."
+
+*(Pausa. Dejar que aterrice.)*
+
+**El ask:**
+> "Lo que les pido es simple: pruébenlo un mes. Registren sus ventas. En 30 días nos juntamos de nuevo y ven si les sirve. Si no les sirve, no perdieron nada."
+
+**Speed (kicker de cierre — siempre después del demo, nunca antes):**
+> "Todo lo que vieron hoy lo construimos en semanas. Si necesitan algo específico para su asociación — un campo, un reporte, una alerta — lo tienen en días, no en meses. Esto lo estamos construyendo con ustedes, no para ustedes."
+
+**Onboarding:**
+> "Si les interesa, ahora mismo les puedo mostrar cómo instalarlo en su celular. Toma 2 minutos."
+
+*(Repartir la guía impresa.)*
+
+### 6. Preguntas para ellos (user research)
+
+Después del demo, si hay apertura. Estas respuestas son oro.
+
+1. ¿Cómo registran sus ventas hoy? (cuaderno, nada, Excel?)
+2. ¿A quién le venden? ¿Mercado local, acopiador, exportación?
+3. ¿Han pedido crédito alguna vez? ¿Qué pasó?
+4. ¿Qué apps usan? (WhatsApp, Yape, otra?)
+5. ¿Cuántas hectáreas manejan en promedio?
+6. ¿Qué información les gustaría tener que hoy no tienen?
+
+### 7. Reglas del demo
+
+1. **Celular en mano, no slides.** La app real es la presentación.
+2. **El momento avión es el wow.** Practicarlo antes.
+3. **No explicar lo que puedes mostrar.** Tocar, narrar, avanzar.
+4. **"Gratis" es la sorpresa del cierre,** no la apertura.
+5. **Terminar con acción:** "¿Lo instalamos ahora?" — no "¿Alguna pregunta?"
+
+### 8. Si vienen otras organizaciones
+
+Si Joanie invitó a otras asociaciones u organizaciones:
+
+- Usar la misma demo (es crop-agnostic — funciona para cualquier producto)
+- Adaptar ejemplos al cultivo de cada grupo si lo mencionan
+- Para contactos institucionales (ONGs, gobierno): tener el deck como backup en la laptop, pero no abrir con él
+- Tomar datos de contacto de cada organización presente
+- Hacer follow-up individual dentro de 48 horas
 
 ---
 
@@ -80,23 +207,48 @@ Outreach templates, pitch framing, and objection handling. Living doc — update
 
 ## Objection Handling
 
+### Productores (en demo)
+
+**"No tengo internet en mi chacra"**
+> Funciona sin internet. Registras offline, se sincroniza cuando tienes señal — en el pueblo, en la cooperativa, donde sea.
+
+**"No sé usar apps"**
+> Son 4 campos. Si usas WhatsApp, puedes usar esto. Te lo muestro en tu celular ahora mismo.
+
+**"¿Y si pongo datos mal?"**
+> El sistema detecta números raros y te avisa. Tu asociación también puede revisar.
+
+**"¿Para qué me sirve?"**
+> En 6 meses tienes un historial que un banco acepta. Hoy con tu cuaderno no tienes nada.
+
+**"¿Es gratis de verdad?"**
+> Sí. Para asociaciones de hasta 50 productores, gratis. Siempre. Chacra gana cuando los bancos usan los datos — no de ustedes.
+
+**"¿Y mis datos? ¿Quién los ve?"**
+> Solo tú y tu asociación. Las financieras solo ven perfiles anónimos y con tu permiso.
+
+**"Ya lo intentamos con otra app y no funcionó"**
+> ¿Funcionaba sin internet? Esta sí. Pruébenla un mes y juzguen.
+
+**"No tengo tiempo para eso"**
+> 15 segundos por venta. Menos que anotar en el cuaderno.
+
+### Institucional (cooperativas, organizaciones, directivos)
+
 **"Ya tenemos Excel / cuaderno"**
 > El cuaderno no sincroniza, no detecta anomalías, no genera un perfil crediticio, y se pierde. Chacra convierte esos mismos datos en información bancable. Y es gratis para los productores.
 
-**"El agricultor no va a usar otra app"**
-> Formulario de 4 campos, 15 segundos. Funciona sin internet. La cooperativa lo impulsa porque necesita los datos para sus contratos. El incentivo está alineado.
+**"¿Cómo monetizan?"**
+> El agricultor nunca paga. Asociaciones de hasta 50 productores: gratis. Cooperativas más grandes pagan un SaaS mensual (S/200-500 según tamaño). Las financieras pagan por perfiles crediticios.
 
 **"¿Qué pasa si el agricultor miente?"**
 > Tres capas: consistencia temporal (volumen y precio vs historial), validación cruzada (datos del agricultor vs registros de la cooperativa), y triaje humano (la cooperativa revisa casos sospechosos). Cada agricultor tiene un trust score de 0-100.
-
-**"¿Cómo monetizan?"**
-> La cooperativa o la financiera paga. El agricultor nunca paga. SaaS mensual por cooperativa, o scoring crediticio por perfil consumido. El valor para la financiera es reducción de riesgo; para la cooperativa, trazabilidad para exportación.
 
 **"¿Conocen Agros?"**
 > Sí. Son complementarios. Agros hace identidad + georreferenciación con agentes de campo. Nosotros capturamos transacciones — qué vende, cuánto, a qué precio — y lo convertimos en perfil crediticio. Ellos necesitan agentes; nosotros no. Juntos darían a una financiera el perfil completo.
 
 **"¿Y la EUDR?"**
-> La EUDR exige trazabilidad per-agricultor para café, cacao y otros productos importados a Europa. Las cooperativas que exportan necesitan exactamente los datos que Chacra captura. No es un nice-to-have — es compliance obligatorio.
+> La EUDR exige trazabilidad per-agricultor para café, cacao y otros productos importados a Europa. Las cooperativas que exportan necesitan exactamente los datos que Chacra captura. Nota: palta no está cubierta por EUDR actualmente, pero la trazabilidad igual agrega valor para acceso a mercados y crédito.
 
 **"¿Por qué no WhatsApp/SMS?"**
 > WhatsApp requiere parsear lenguaje natural, es frágil e impreciso. Un formulario estructurado genera datos limpios desde el origen. Menos errores, más confianza, y funciona sin internet — WhatsApp no.
@@ -116,9 +268,17 @@ Outreach templates, pitch framing, and objection handling. Living doc — update
 
 ## Conversation Goals
 
+**Showcase a productores (demo en vivo):**
+1. Que vean la app funcionando — especialmente offline
+2. Que entiendan: gratis, 15 segundos, sin internet
+3. Conseguir: "sí, lo quiero probar" → instalar en su celular ahí mismo
+4. Escuchar: cómo registran hoy, a quién venden, si han pedido crédito
+5. Datos de contacto del organizador para follow-up en 48h
+6. Agendar reunión de seguimiento en 30 días
+
 **First contact with a cooperative:**
 1. Understand their current traceability process (paper? Excel? nothing?)
-2. Ask about EUDR pressure
+2. Ask about EUDR pressure (si aplica a su cultivo)
 3. Get a "sí, nos interesaría evaluar un piloto"
 4. Ask: "¿quién les da crédito a sus productores?" (warm intro to financiera)
 
