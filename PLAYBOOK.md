@@ -13,7 +13,7 @@ Outreach templates, pitch framing, objection handling, and demo scripts. Living 
 > En Perú, S/1,800 millones en crédito agrícola se van a desplegar en 2026, en gran parte a ciegas. Capturamos datos transaccionales en el punto de venta — offline, en el momento de la transacción — y los convertimos en perfiles crediticios que las financieras pueden usar. Nuestra distribución son las cooperativas: una relación nos da 5,000 agricultores. No estamos construyendo una feature — estamos construyendo el buró de crédito para una economía que no tiene uno.
 
 **Elevator — para productores (30s):**
-> Chacra es una herramienta gratuita que funciona en tu celular, sin internet. Registras tus ventas en 15 segundos. En 6 meses tienes un historial que un banco puede ver. Hoy con tu cuaderno no tienes nada.
+> Chacra es una herramienta gratuita que funciona en tu celular, sin internet. Registras tus ventas en 15 segundos. Cada venta que registras construye tu historial. Cuando un banco pregunte, vas a tener datos — no un cuaderno.
 
 ---
 
@@ -70,7 +70,7 @@ Abrir la app en el celular. Mostrar, no explicar. Narrar mientras tocas.
 > "Les muestra el precio promedio en su zona. Si les están pagando bien o por debajo. Esta información hoy no la tienen."
 
 **Paso 4 — Perfil:**
-> "Con 6 meses de registros, tienen algo que ningún cuaderno les da: un historial crediticio digital. Eso es lo que un banco necesita para darles un préstamo."
+> "Cada venta que registran construye su historial. Cuando un banco pregunte, van a tener datos — no un cuaderno."
 
 ### 3. Demo — Cooperativa (3 min)
 
@@ -219,7 +219,7 @@ Si Joanie invitó a otras asociaciones u organizaciones:
 > El sistema detecta números raros y te avisa. Tu asociación también puede revisar.
 
 **"¿Para qué me sirve?"**
-> En 6 meses tienes un historial que un banco acepta. Hoy con tu cuaderno no tienes nada.
+> Cada venta que registras construye tu historial. Cuando un banco pregunte, vas a tener datos — no un cuaderno.
 
 **"¿Es gratis de verdad?"**
 > Sí. Para asociaciones de hasta 50 productores, gratis. Siempre. Chacra gana cuando los bancos usan los datos — no de ustedes.

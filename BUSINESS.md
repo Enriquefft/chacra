@@ -78,7 +78,7 @@ This invisibility creates a chain of failures:
 ## Value Proposition
 
 ### For Farmers
-> Registra tus ventas en 15 segundos, sin internet. En 6 meses, tienes un historial crediticio que ningun cuaderno te da.
+> Registra tus ventas en 15 segundos, sin internet. Cada venta que registras construye tu historial. Cuando un banco pregunte, vas a tener datos — no un cuaderno.
 
 - First-ever digital financial history
 - Price signals: know if you're selling above or below market average
