@@ -1,9 +1,9 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { createTransaction } from "@/actions/transactions";
-import { Cart } from "@/components/auth/solar-icons";
+import { Camera, Cart, CloseCircle } from "@/components/auth/solar-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { useOnlineStatus } from "@/hooks/use-online-status";
 import { usePendingCount } from "@/hooks/use-pending-count";
+import { compressImage } from "@/lib/compress-image";
 import { offlineDb } from "@/lib/offline-db";
 
 function getTodayString(): string {
@@ -36,6 +37,42 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 	const [buyer, setBuyer] = useState("");
 	const [date, setDate] = useState(getTodayString);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+	const [photoData, setPhotoData] = useState<ArrayBuffer | null>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	// Cleanup object URL on unmount or re-select
+	useEffect(() => {
+		return () => {
+			if (photoPreview) URL.revokeObjectURL(photoPreview);
+		};
+	}, [photoPreview]);
+
+	const handlePhotoSelect = useCallback(
+		async (e: React.ChangeEvent<HTMLInputElement>) => {
+			const file = e.target.files?.[0];
+			if (!file) return;
+
+			try {
+				const compressed = await compressImage(file);
+				if (photoPreview) URL.revokeObjectURL(photoPreview);
+				const preview = URL.createObjectURL(new Blob([compressed], { type: "image/jpeg" }));
+				setPhotoData(compressed);
+				setPhotoPreview(preview);
+			} catch {
+				toast.error("No se pudo procesar la imagen");
+			}
+			// Reset input so the same file can be re-selected
+			if (fileInputRef.current) fileInputRef.current.value = "";
+		},
+		[photoPreview],
+	);
+
+	function removePhoto() {
+		if (photoPreview) URL.revokeObjectURL(photoPreview);
+		setPhotoPreview(null);
+		setPhotoData(null);
+	}
 
 	function resetForm() {
 		setProduct("");
@@ -43,6 +80,7 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 		setPricePerKg("");
 		setBuyer("");
 		setDate(getTodayString());
+		removePhoto();
 	}
 
 	async function handleSubmit(e: React.FormEvent) {
@@ -74,12 +112,27 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 
 		try {
 			if (isOnline) {
+				// Upload photo first if present
+				let photoUrl: string | undefined;
+				if (photoData) {
+					const form = new FormData();
+					form.append("photo", new File([photoData], `${uuid}.jpg`, { type: "image/jpeg" }));
+					form.append("uuid", uuid);
+					const uploadRes = await fetch("/api/upload", { method: "POST", body: form });
+					if (uploadRes.ok) {
+						const { url } = await uploadRes.json();
+						photoUrl = url;
+					}
+					// If upload fails, continue without photo
+				}
+
 				const result = await createTransaction({
 					uuid,
 					product,
 					quantityKg: qty,
 					pricePerKg: price,
 					buyer: buyer.trim() || undefined,
+					photoUrl,
 					date,
 				});
 
@@ -100,6 +153,7 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 					date,
 					createdAt: Date.now(),
 					syncStatus: "pending",
+					photoData: photoData ?? undefined,
 				});
 
 				const newCount = pendingCount + 1;
@@ -119,6 +173,7 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 						date,
 						createdAt: Date.now(),
 						syncStatus: "pending",
+						photoData: photoData ?? undefined,
 					});
 					toast.info(
 						"Sin conexion. Guardado localmente para sincronizar despues.",
@@ -243,6 +298,46 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 					className="h-11 text-base"
 					required
 				/>
+			</div>
+
+			{/* Foto de boleta */}
+			<div className="flex flex-col gap-1.5">
+				<label className="text-base font-medium">Foto de boleta (opcional)</label>
+				<input
+					ref={fileInputRef}
+					type="file"
+					accept="image/*"
+					capture="environment"
+					onChange={handlePhotoSelect}
+					className="hidden"
+				/>
+				{photoPreview ? (
+					<div className="relative w-fit">
+						<img
+							src={photoPreview}
+							alt="Boleta"
+							className="h-24 w-24 rounded-lg border object-cover"
+						/>
+						<button
+							type="button"
+							onClick={removePhoto}
+							className="absolute -right-2 -top-2 rounded-full bg-background"
+						>
+							<CloseCircle weight="Bold" size={24} className="text-destructive" />
+						</button>
+					</div>
+				) : (
+					<Button
+						type="button"
+						variant="outline"
+						size="lg"
+						className="w-full gap-2"
+						onClick={() => fileInputRef.current?.click()}
+					>
+						<Camera weight="BoldDuotone" size={20} />
+						Tomar foto
+					</Button>
+				)}
 			</div>
 
 			{/* Total preview */}

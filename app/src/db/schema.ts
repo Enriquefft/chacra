@@ -65,6 +65,7 @@ export const transaction = chacraSchema.table(
 		quantityKg: numeric("quantity_kg", { precision: 10, scale: 2 }).notNull(),
 		pricePerKg: numeric("price_per_kg", { precision: 10, scale: 2 }).notNull(),
 		buyer: text("buyer"),
+		photoUrl: text("photo_url"),
 		date: date("date").notNull(),
 		integrityStatus: text("integrity_status", {
 			enum: ["confirmed", "flagged", "pending"],

@@ -10,6 +10,7 @@ export interface PendingTransaction {
 	createdAt: number;
 	syncStatus: "pending" | "syncing" | "failed";
 	errorMessage?: string;
+	photoData?: ArrayBuffer;
 }
 
 export interface CachedProductList {
@@ -25,6 +26,11 @@ class ChacraOfflineDB extends Dexie {
 	constructor() {
 		super("chacra-offline");
 		this.version(1).stores({
+			pendingTransactions: "uuid, syncStatus, createdAt",
+			cachedProducts: "cooperativeId",
+		});
+		// v2: adds photoData (ArrayBuffer) to pendingTransactions — additive, no index change
+		this.version(2).stores({
 			pendingTransactions: "uuid, syncStatus, createdAt",
 			cachedProducts: "cooperativeId",
 		});

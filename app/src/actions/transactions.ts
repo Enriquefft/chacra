@@ -17,6 +17,7 @@ type TransactionRow = {
 	quantityKg: number;
 	pricePerKg: number;
 	buyer: string | null;
+	photoUrl: string | null;
 	date: string;
 	integrityStatus: "confirmed" | "flagged" | "pending";
 	createdAt: Date;
@@ -127,6 +128,7 @@ export async function createTransaction(
 			quantityKg: input.quantityKg.toFixed(2),
 			pricePerKg: input.pricePerKg.toFixed(2),
 			buyer: buyerValue,
+			photoUrl: input.photoUrl ?? null,
 			date: input.date,
 			integrityStatus: "pending",
 		})
@@ -218,6 +220,7 @@ export async function getTransactionsByFarmer(
 				quantityKg: transaction.quantityKg,
 				pricePerKg: transaction.pricePerKg,
 				buyer: transaction.buyer,
+				photoUrl: transaction.photoUrl,
 				date: transaction.date,
 				integrityStatus: transaction.integrityStatus,
 				createdAt: transaction.createdAt,
@@ -240,6 +243,7 @@ export async function getTransactionsByFarmer(
 		quantityKg: Number(t.quantityKg),
 		pricePerKg: Number(t.pricePerKg),
 		buyer: t.buyer,
+		photoUrl: t.photoUrl,
 		date: t.date,
 		integrityStatus: t.integrityStatus as "confirmed" | "flagged" | "pending",
 		createdAt: t.createdAt,
@@ -300,6 +304,7 @@ export async function getTransactionsByCooperative(
 				quantityKg: transaction.quantityKg,
 				pricePerKg: transaction.pricePerKg,
 				buyer: transaction.buyer,
+				photoUrl: transaction.photoUrl,
 				date: transaction.date,
 				integrityStatus: transaction.integrityStatus,
 				createdAt: transaction.createdAt,
@@ -325,6 +330,7 @@ export async function getTransactionsByCooperative(
 		quantityKg: Number(t.quantityKg),
 		pricePerKg: Number(t.pricePerKg),
 		buyer: t.buyer,
+		photoUrl: t.photoUrl,
 		date: t.date,
 		integrityStatus: t.integrityStatus as "confirmed" | "flagged" | "pending",
 		createdAt: t.createdAt,

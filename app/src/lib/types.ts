@@ -45,6 +45,7 @@ export interface TransactionInput {
 	quantityKg: number;
 	pricePerKg: number;
 	buyer?: string;
+	photoUrl?: string;
 	date: string; // YYYY-MM-DD
 }
 
