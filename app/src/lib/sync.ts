@@ -127,6 +127,7 @@ export async function syncBatch(
 				quantityKg: input.quantityKg.toFixed(2),
 				pricePerKg: input.pricePerKg.toFixed(2),
 				buyer: input.buyer?.trim() || null,
+				photoUrl: input.photoUrl ?? null,
 				date: input.date,
 				integrityStatus: "pending",
 			})

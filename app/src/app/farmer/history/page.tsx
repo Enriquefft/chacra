@@ -53,6 +53,7 @@ export default async function FarmerHistoryPage() {
 			quantityKg: t.quantityKg,
 			pricePerKg: t.pricePerKg,
 			buyer: t.buyer,
+			photoUrl: t.photoUrl,
 			date: t.date,
 			integrityStatus: t.integrityStatus,
 			priceSignal,

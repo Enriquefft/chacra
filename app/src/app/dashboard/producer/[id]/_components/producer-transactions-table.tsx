@@ -22,6 +22,7 @@ type TransactionRow = {
 	quantityKg: number;
 	pricePerKg: number;
 	buyer: string | null;
+	photoUrl: string | null;
 	date: string;
 	integrityStatus: "confirmed" | "flagged" | "pending";
 	createdAt: Date;
@@ -81,6 +82,7 @@ export function ProducerTransactionsTable({
 							<TableRow className="bg-muted/30 hover:bg-muted/30">
 								<TableHead>Fecha</TableHead>
 								<TableHead>Producto</TableHead>
+								<TableHead className="hidden sm:table-cell">Boleta</TableHead>
 								<TableHead>Cantidad</TableHead>
 								<TableHead>Precio/kg</TableHead>
 								<TableHead className="hidden sm:table-cell">Total</TableHead>
@@ -105,6 +107,19 @@ export function ProducerTransactionsTable({
 											{tx.date}
 										</TableCell>
 										<TableCell>{tx.product}</TableCell>
+										<TableCell className="hidden sm:table-cell">
+											{tx.photoUrl ? (
+												<a href={tx.photoUrl} target="_blank" rel="noopener noreferrer">
+													<img
+														src={tx.photoUrl}
+														alt="Boleta"
+														className="h-8 w-8 rounded border object-cover"
+													/>
+												</a>
+											) : (
+												<span className="text-xs text-muted-foreground">—</span>
+											)}
+										</TableCell>
 										<TableCell
 											className={`tabular-nums ${isFlagged ? "font-semibold text-destructive" : ""}`}
 										>

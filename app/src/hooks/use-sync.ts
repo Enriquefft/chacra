@@ -31,6 +31,25 @@ export function useSync() {
 				.anyOf(pendingUuids)
 				.modify({ syncStatus: "syncing" });
 
+			// Upload photos for transactions that have photoData
+			const photoUrls: Record<string, string> = {};
+			for (const t of pending) {
+				if (t.photoData) {
+					try {
+						const form = new FormData();
+						form.append("photo", new File([t.photoData], `${t.uuid}.jpg`, { type: "image/jpeg" }));
+						form.append("uuid", t.uuid);
+						const uploadRes = await fetch("/api/upload", { method: "POST", body: form });
+						if (uploadRes.ok) {
+							const { url } = await uploadRes.json();
+							photoUrls[t.uuid] = url;
+						}
+					} catch {
+						// Photo upload failed — continue without photo
+					}
+				}
+			}
+
 			const response = await fetch("/api/sync", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -41,6 +60,7 @@ export function useSync() {
 						quantityKg: t.quantityKg,
 						pricePerKg: t.pricePerKg,
 						buyer: t.buyer ?? undefined,
+						photoUrl: photoUrls[t.uuid],
 						date: t.date,
 					})),
 				}),

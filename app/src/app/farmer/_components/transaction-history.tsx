@@ -15,6 +15,7 @@ interface SyncedTransaction {
 	quantityKg: number;
 	pricePerKg: number;
 	buyer: string | null;
+	photoUrl: string | null;
 	date: string;
 	integrityStatus: "confirmed" | "flagged" | "pending";
 	priceSignal: "above" | "below" | "at" | null;
@@ -162,9 +163,20 @@ export function TransactionHistory({
 											</p>
 										)}
 									</div>
-									<span className="text-sm text-muted-foreground">
-										{formatDate(tx.date)}
-									</span>
+									<div className="flex flex-col items-end gap-1.5">
+										<span className="text-sm text-muted-foreground">
+											{formatDate(tx.date)}
+										</span>
+										{tx.photoUrl && (
+											<a href={tx.photoUrl} target="_blank" rel="noopener noreferrer">
+												<img
+													src={tx.photoUrl}
+													alt="Boleta"
+													className="h-10 w-10 rounded border object-cover"
+												/>
+											</a>
+										)}
+									</div>
 								</div>
 								<div className="mt-2 flex flex-wrap items-center gap-2">
 									<IntegrityBadge status={tx.integrityStatus} />
