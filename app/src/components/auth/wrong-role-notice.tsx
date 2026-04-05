@@ -10,13 +10,13 @@ import {
 } from "@/components/ui/card";
 
 const roleURLs: Record<string, string> = {
-	farmer: "/farmer",
+	producer: "/productor",
 	cooperative: "/dashboard",
 	financiera: "/scoring",
 };
 
 const roleLabels: Record<string, string> = {
-	farmer: "agricultor",
+	producer: "productor",
 	cooperative: "cooperativa",
 	financiera: "financiera",
 };

@@ -1,4 +1,4 @@
-import { getAllFarmersForScoring } from "@/actions/farmers";
+import { getAllProducersForScoring } from "@/actions/producers";
 import { GraphUp } from "@/components/auth/solar-icons";
 import { EmptyState } from "@/components/empty-state";
 import { CreditCandidateTable } from "./_components/credit-candidate-table";
@@ -7,7 +7,7 @@ import { PortfolioRiskSummary } from "./_components/portfolio-risk-summary";
 import { TierDistributionChart } from "./_components/tier-distribution-chart";
 
 export default async function ScoringPage() {
-	const result = await getAllFarmersForScoring();
+	const result = await getAllProducersForScoring();
 
 	if ("error" in result) {
 		return (
@@ -22,9 +22,9 @@ export default async function ScoringPage() {
 		);
 	}
 
-	const { farmers } = result.data;
+	const { producers } = result.data;
 
-	if (farmers.length === 0) {
+	if (producers.length === 0) {
 		return (
 			<div className="flex flex-col gap-6">
 				<h1 className="text-3xl font-semibold tracking-tight">Scoring</h1>
@@ -37,18 +37,18 @@ export default async function ScoringPage() {
 		);
 	}
 
-	// Compute aggregates from farmers list
+	// Compute aggregates from producers list
 	const tierCounts = { A: 0, B: 0, C: 0 };
 	let totalTrustScore = 0;
 	let totalTransactions = 0;
 
-	for (const farmer of farmers) {
-		tierCounts[farmer.tier]++;
-		totalTrustScore += farmer.trustScore;
-		totalTransactions += farmer.transactionCount;
+	for (const producer of producers) {
+		tierCounts[producer.tier]++;
+		totalTrustScore += producer.trustScore;
+		totalTransactions += producer.transactionCount;
 	}
 
-	const totalProducers = farmers.length;
+	const totalProducers = producers.length;
 	const avgTrustScore = Math.round(totalTrustScore / totalProducers);
 
 	const distribution = [
@@ -83,9 +83,9 @@ export default async function ScoringPage() {
 					distribution={distribution}
 					totalProducers={totalProducers}
 				/>
-				<PortfolioRiskSummary farmers={farmers} />
+				<PortfolioRiskSummary producers={producers} />
 			</div>
-			<CreditCandidateTable farmers={farmers} />
+			<CreditCandidateTable producers={producers} />
 		</div>
 	);
 }

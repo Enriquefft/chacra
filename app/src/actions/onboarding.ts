@@ -15,10 +15,10 @@ function generateInviteCode(): string {
 	return code;
 }
 
-export async function completeFarmerOnboarding(
+export async function completeProducerOnboarding(
 	inviteCode: string,
-	farmerName: string,
-	farmerRegion: string,
+	producerName: string,
+	producerRegion: string,
 ): Promise<{
 	error?: string;
 	success?: boolean;
@@ -50,14 +50,14 @@ export async function completeFarmerOnboarding(
 	await db
 		.update(user)
 		.set({
-			role: "farmer",
+			role: "producer",
 			cooperativeId: coop.id,
-			farmerName: farmerName.trim(),
-			farmerRegion: farmerRegion.trim(),
+			producerName: producerName.trim(),
+			producerRegion: producerRegion.trim(),
 		})
 		.where(eq(user.id, session.user.id));
 
-	revalidatePath("/farmer");
+	revalidatePath("/productor");
 
 	return { success: true, cooperativeName: coop.name };
 }

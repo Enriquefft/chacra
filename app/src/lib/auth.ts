@@ -29,49 +29,49 @@ export const auth = betterAuth({
 				defaultValue: null,
 				input: false,
 			},
-			farmerName: {
+			producerName: {
 				type: "string",
 				required: false,
 				defaultValue: null,
 				input: true,
 			},
-			farmerRegion: {
+			producerRegion: {
 				type: "string",
 				required: false,
 				defaultValue: null,
 				input: true,
 			},
-			farmerHectares: {
+			producerHectares: {
 				type: "number",
 				required: false,
 				defaultValue: null,
 				input: true,
 			},
-			farmerPhone: {
+			producerPhone: {
 				type: "string",
 				required: false,
 				defaultValue: null,
 				input: true,
 			},
-			farmerCrops: {
+			producerCrops: {
 				type: "string",
 				required: false,
 				defaultValue: null,
 				input: true,
 			},
-			farmerDistrict: {
+			producerDistrict: {
 				type: "string",
 				required: false,
 				defaultValue: null,
 				input: true,
 			},
-			farmerExperience: {
+			producerExperience: {
 				type: "number",
 				required: false,
 				defaultValue: null,
 				input: true,
 			},
-			farmerLandOwnership: {
+			producerLandOwnership: {
 				type: "string",
 				required: false,
 				defaultValue: null,
@@ -101,9 +101,9 @@ export async function requireAuth() {
 	return session;
 }
 
-export async function requireFarmer() {
+export async function requireProducer() {
 	const session = await requireAuth();
-	if (session.user.role !== "farmer") {
+	if (session.user.role !== "producer") {
 		redirect("/");
 	}
 	return session;

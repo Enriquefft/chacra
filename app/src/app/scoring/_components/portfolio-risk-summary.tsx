@@ -1,29 +1,29 @@
 import { Card, CardContent } from "@/components/ui/card";
-import type { ScoringFarmerItem } from "@/lib/types";
+import type { ScoringProducerItem } from "@/lib/types";
 
 export function PortfolioRiskSummary({
-	farmers,
+	producers,
 }: {
-	farmers: ScoringFarmerItem[];
+	producers: ScoringProducerItem[];
 }) {
 	const uniqueCooperatives = new Set(
-		farmers.map((f) => f.cooperativeName).filter(Boolean),
+		producers.map((f) => f.cooperativeName).filter(Boolean),
 	).size;
 
-	const uniqueRegions = new Set(farmers.map((f) => f.region).filter(Boolean))
+	const uniqueRegions = new Set(producers.map((f) => f.region).filter(Boolean))
 		.size;
 
 	const avgActiveMonths =
-		farmers.length > 0
+		producers.length > 0
 			? Math.round(
-					farmers.reduce((sum, f) => sum + f.activeMonths, 0) / farmers.length,
+					producers.reduce((sum, f) => sum + f.activeMonths, 0) / producers.length,
 				)
 			: 0;
 
 	const avgTrustScore =
-		farmers.length > 0
+		producers.length > 0
 			? Math.round(
-					farmers.reduce((sum, f) => sum + f.trustScore, 0) / farmers.length,
+					producers.reduce((sum, f) => sum + f.trustScore, 0) / producers.length,
 				)
 			: 0;
 

@@ -1,7 +1,7 @@
 /**
  * Demo seed script for Chacra — palta association demo (2026-03-26)
  *
- * Seeds 3 real Google OAuth accounts + 3 additional fake farmers,
+ * Seeds 3 real Google OAuth accounts + 3 additional fake producers,
  * one cooperative, transactions, input advances, and all supporting data.
  *
  * Usage:
@@ -39,27 +39,27 @@ const COOP_ID = "demo-coop-palta-001";
 const INVITE_CODE = "PALTA1";
 
 // Demo users (real Google OAuth emails)
-const FARMER_EMAIL = "enriquefft2001@gmail.com";
+const PRODUCER_EMAIL = "enriquefft2001@gmail.com";
 const COOP_EMAIL = "enriquefft@404tf.com";
 const FINANCIERA_EMAIL = "enrique.flores@utec.edu.pe";
 
-// Farmer IDs (deterministic for idempotency)
-const FARMER_ID = "demo-farmer-main";
+// Producer IDs (deterministic for idempotency)
+const PRODUCER_ID = "demo-producer-main";
 const COOP_USER_ID = "demo-coop-user";
 const FINANCIERA_USER_ID = "demo-financiera-user";
 
-// Additional fake farmers
-const FARMER_2_ID = "demo-farmer-rosa";
-const FARMER_3_ID = "demo-farmer-carlos";
-const FARMER_4_ID = "demo-farmer-maria";
+// Additional fake producers
+const PRODUCER_2_ID = "demo-producer-rosa";
+const PRODUCER_3_ID = "demo-producer-carlos";
+const PRODUCER_4_ID = "demo-producer-maria";
 
 const ALL_USER_IDS = [
-	FARMER_ID,
+	PRODUCER_ID,
 	COOP_USER_ID,
 	FINANCIERA_USER_ID,
-	FARMER_2_ID,
-	FARMER_3_ID,
-	FARMER_4_ID,
+	PRODUCER_2_ID,
+	PRODUCER_3_ID,
+	PRODUCER_4_ID,
 ];
 
 // ─── Helpers ────────────────────────────────────────────────────────
@@ -79,15 +79,15 @@ function uuid(): string {
 async function cleanDemoData() {
 	console.log("Cleaning existing demo data...");
 
-	// Delete transactions for demo farmers
+	// Delete transactions for demo producers
 	await db
 		.delete(transaction)
-		.where(inArray(transaction.farmerId, ALL_USER_IDS));
+		.where(inArray(transaction.producerId, ALL_USER_IDS));
 
-	// Delete input advances for demo farmers
+	// Delete input advances for demo producers
 	await db
 		.delete(inputAdvance)
-		.where(inArray(inputAdvance.farmerId, ALL_USER_IDS));
+		.where(inArray(inputAdvance.producerId, ALL_USER_IDS));
 
 	// Delete sessions for demo users
 	await db.delete(session).where(inArray(session.userId, ALL_USER_IDS));
@@ -102,21 +102,21 @@ async function cleanDemoData() {
 	await db.delete(cooperative).where(eq(cooperative.id, COOP_ID));
 
 	// Also clean by email in case IDs changed
-	for (const email of [FARMER_EMAIL, COOP_EMAIL, FINANCIERA_EMAIL]) {
+	for (const email of [PRODUCER_EMAIL, COOP_EMAIL, FINANCIERA_EMAIL]) {
 		const existing = await db
 			.select({ id: user.id })
 			.from(user)
 			.where(eq(user.email, email));
 		for (const u of existing) {
-			await db.delete(transaction).where(eq(transaction.farmerId, u.id));
-			await db.delete(inputAdvance).where(eq(inputAdvance.farmerId, u.id));
+			await db.delete(transaction).where(eq(transaction.producerId, u.id));
+			await db.delete(inputAdvance).where(eq(inputAdvance.producerId, u.id));
 			await db.delete(session).where(eq(session.userId, u.id));
 			await db.delete(account).where(eq(account.userId, u.id));
 			await db.delete(user).where(eq(user.id, u.id));
 		}
 	}
 
-	// Clean fake farmer emails too
+	// Clean fake producer emails too
 	for (const email of [
 		"rosa.quispe@demo.chacra.pe",
 		"carlos.huaman@demo.chacra.pe",
@@ -127,8 +127,8 @@ async function cleanDemoData() {
 			.from(user)
 			.where(eq(user.email, email));
 		for (const u of existing) {
-			await db.delete(transaction).where(eq(transaction.farmerId, u.id));
-			await db.delete(inputAdvance).where(eq(inputAdvance.farmerId, u.id));
+			await db.delete(transaction).where(eq(transaction.producerId, u.id));
+			await db.delete(inputAdvance).where(eq(inputAdvance.producerId, u.id));
 			await db.delete(session).where(eq(session.userId, u.id));
 			await db.delete(account).where(eq(account.userId, u.id));
 			await db.delete(user).where(eq(user.id, u.id));
@@ -186,14 +186,14 @@ async function seedUsers() {
 		updatedAt: now,
 		role: "cooperative",
 		cooperativeId: COOP_ID,
-		farmerName: null,
-		farmerRegion: null,
-		farmerPhone: null,
-		farmerCrops: null,
-		farmerDistrict: null,
-		farmerHectares: null,
-		farmerExperience: null,
-		farmerLandOwnership: null,
+		producerName: null,
+		producerRegion: null,
+		producerPhone: null,
+		producerCrops: null,
+		producerDistrict: null,
+		producerHectares: null,
+		producerExperience: null,
+		producerLandOwnership: null,
 	});
 
 	await db.insert(account).values({
@@ -214,32 +214,32 @@ async function seedUsers() {
 
 	console.log(`  Cooperative user: ${COOP_EMAIL}`);
 
-	// ── Main farmer (demo) ──
+	// ── Main producer (demo) ──
 	await db.insert(user).values({
-		id: FARMER_ID,
+		id: PRODUCER_ID,
 		name: "Enrique Flores T.",
-		email: FARMER_EMAIL,
+		email: PRODUCER_EMAIL,
 		emailVerified: true,
 		image: null,
 		createdAt: now,
 		updatedAt: now,
-		role: "farmer",
+		role: "producer",
 		cooperativeId: COOP_ID,
-		farmerName: "Enrique Flores T.",
-		farmerRegion: "Lima",
-		farmerPhone: "987654321",
-		farmerCrops: "Palta Hass, Palta Fuerte",
-		farmerDistrict: "Luringancho-Chosica",
-		farmerHectares: "3",
-		farmerExperience: 8,
-		farmerLandOwnership: "propia",
+		producerName: "Enrique Flores T.",
+		producerRegion: "Lima",
+		producerPhone: "987654321",
+		producerCrops: "Palta Hass, Palta Fuerte",
+		producerDistrict: "Luringancho-Chosica",
+		producerHectares: "3",
+		producerExperience: 8,
+		producerLandOwnership: "propia",
 	});
 
 	await db.insert(account).values({
-		id: `acct-${FARMER_ID}`,
-		accountId: FARMER_EMAIL,
+		id: `acct-${PRODUCER_ID}`,
+		accountId: PRODUCER_EMAIL,
 		providerId: "google",
-		userId: FARMER_ID,
+		userId: PRODUCER_ID,
 		accessToken: null,
 		refreshToken: null,
 		idToken: null,
@@ -251,7 +251,7 @@ async function seedUsers() {
 		updatedAt: now,
 	});
 
-	console.log(`  Farmer (main): ${FARMER_EMAIL}`);
+	console.log(`  Producer (main): ${PRODUCER_EMAIL}`);
 
 	// ── Financiera user ──
 	await db.insert(user).values({
@@ -264,14 +264,14 @@ async function seedUsers() {
 		updatedAt: now,
 		role: "financiera",
 		cooperativeId: null,
-		farmerName: null,
-		farmerRegion: null,
-		farmerPhone: null,
-		farmerCrops: null,
-		farmerDistrict: null,
-		farmerHectares: null,
-		farmerExperience: null,
-		farmerLandOwnership: null,
+		producerName: null,
+		producerRegion: null,
+		producerPhone: null,
+		producerCrops: null,
+		producerDistrict: null,
+		producerHectares: null,
+		producerExperience: null,
+		producerLandOwnership: null,
 	});
 
 	await db.insert(account).values({
@@ -292,32 +292,32 @@ async function seedUsers() {
 
 	console.log(`  Financiera: ${FINANCIERA_EMAIL}`);
 
-	// ── Additional farmer: Rosa Quispe (good history) ──
+	// ── Additional producer: Rosa Quispe (good history) ──
 	await db.insert(user).values({
-		id: FARMER_2_ID,
+		id: PRODUCER_2_ID,
 		name: "Rosa Quispe",
 		email: "rosa.quispe@demo.chacra.pe",
 		emailVerified: true,
 		image: null,
 		createdAt: now,
 		updatedAt: now,
-		role: "farmer",
+		role: "producer",
 		cooperativeId: COOP_ID,
-		farmerName: "Rosa Quispe Mamani",
-		farmerRegion: "Lima",
-		farmerPhone: "956789012",
-		farmerCrops: "Palta Hass",
-		farmerDistrict: "Luringancho-Chosica",
-		farmerHectares: "5",
-		farmerExperience: 12,
-		farmerLandOwnership: "propia",
+		producerName: "Rosa Quispe Mamani",
+		producerRegion: "Lima",
+		producerPhone: "956789012",
+		producerCrops: "Palta Hass",
+		producerDistrict: "Luringancho-Chosica",
+		producerHectares: "5",
+		producerExperience: 12,
+		producerLandOwnership: "propia",
 	});
 
 	await db.insert(account).values({
-		id: `acct-${FARMER_2_ID}`,
+		id: `acct-${PRODUCER_2_ID}`,
 		accountId: "rosa.quispe@demo.chacra.pe",
 		providerId: "google",
-		userId: FARMER_2_ID,
+		userId: PRODUCER_2_ID,
 		accessToken: null,
 		refreshToken: null,
 		idToken: null,
@@ -329,34 +329,34 @@ async function seedUsers() {
 		updatedAt: now,
 	});
 
-	console.log("  Farmer 2: Rosa Quispe (experienced, good data)");
+	console.log("  Producer 2: Rosa Quispe (experienced, good data)");
 
-	// ── Additional farmer: Carlos Huaman (moderate history) ──
+	// ── Additional producer: Carlos Huaman (moderate history) ──
 	await db.insert(user).values({
-		id: FARMER_3_ID,
+		id: PRODUCER_3_ID,
 		name: "Carlos Huaman",
 		email: "carlos.huaman@demo.chacra.pe",
 		emailVerified: true,
 		image: null,
 		createdAt: now,
 		updatedAt: now,
-		role: "farmer",
+		role: "producer",
 		cooperativeId: COOP_ID,
-		farmerName: "Carlos Huaman Rojas",
-		farmerRegion: "Lima",
-		farmerPhone: "934567890",
-		farmerCrops: "Palta Hass, Palta Fuerte",
-		farmerDistrict: "Luringancho-Chosica",
-		farmerHectares: "2",
-		farmerExperience: 5,
-		farmerLandOwnership: "alquilada",
+		producerName: "Carlos Huaman Rojas",
+		producerRegion: "Lima",
+		producerPhone: "934567890",
+		producerCrops: "Palta Hass, Palta Fuerte",
+		producerDistrict: "Luringancho-Chosica",
+		producerHectares: "2",
+		producerExperience: 5,
+		producerLandOwnership: "alquilada",
 	});
 
 	await db.insert(account).values({
-		id: `acct-${FARMER_3_ID}`,
+		id: `acct-${PRODUCER_3_ID}`,
 		accountId: "carlos.huaman@demo.chacra.pe",
 		providerId: "google",
-		userId: FARMER_3_ID,
+		userId: PRODUCER_3_ID,
 		accessToken: null,
 		refreshToken: null,
 		idToken: null,
@@ -368,34 +368,34 @@ async function seedUsers() {
 		updatedAt: now,
 	});
 
-	console.log("  Farmer 3: Carlos Huaman (moderate)");
+	console.log("  Producer 3: Carlos Huaman (moderate)");
 
-	// ── Additional farmer: Maria Condori (sparse data) ──
+	// ── Additional producer: Maria Condori (sparse data) ──
 	await db.insert(user).values({
-		id: FARMER_4_ID,
+		id: PRODUCER_4_ID,
 		name: "Maria Condori",
 		email: "maria.condori@demo.chacra.pe",
 		emailVerified: true,
 		image: null,
 		createdAt: now,
 		updatedAt: now,
-		role: "farmer",
+		role: "producer",
 		cooperativeId: COOP_ID,
-		farmerName: "Maria Condori Pari",
-		farmerRegion: "Lima",
-		farmerPhone: null,
-		farmerCrops: null,
-		farmerDistrict: null,
-		farmerHectares: "1.5",
-		farmerExperience: null,
-		farmerLandOwnership: null,
+		producerName: "Maria Condori Pari",
+		producerRegion: "Lima",
+		producerPhone: null,
+		producerCrops: null,
+		producerDistrict: null,
+		producerHectares: "1.5",
+		producerExperience: null,
+		producerLandOwnership: null,
 	});
 
 	await db.insert(account).values({
-		id: `acct-${FARMER_4_ID}`,
+		id: `acct-${PRODUCER_4_ID}`,
 		accountId: "maria.condori@demo.chacra.pe",
 		providerId: "google",
-		userId: FARMER_4_ID,
+		userId: PRODUCER_4_ID,
 		accessToken: null,
 		refreshToken: null,
 		idToken: null,
@@ -407,7 +407,7 @@ async function seedUsers() {
 		updatedAt: now,
 	});
 
-	console.log("  Farmer 4: Maria Condori (sparse data, incomplete profile)");
+	console.log("  Producer 4: Maria Condori (sparse data, incomplete profile)");
 }
 
 // ─── Seed transactions ──────────────────────────────────────────────
@@ -417,7 +417,7 @@ async function seedTransactions() {
 
 	const txns: Array<{
 		uuid: string;
-		farmerId: string;
+		producerId: string;
 		cooperativeId: string;
 		product: string;
 		quantityKg: string;
@@ -427,7 +427,7 @@ async function seedTransactions() {
 		integrityStatus: "confirmed" | "flagged" | "pending";
 	}> = [];
 
-	// ── Main farmer: 18 transactions over 6 months ──
+	// ── Main producer: 18 transactions over 6 months ──
 	// Palta Hass: 2.50-4.50 soles/kg, 200-800 kg
 	// Palta Fuerte: 1.50-3.00 soles/kg, 100-500 kg
 	const hassEntries = [
@@ -448,7 +448,7 @@ async function seedTransactions() {
 	for (const entry of hassEntries) {
 		txns.push({
 			uuid: uuid(),
-			farmerId: FARMER_ID,
+			producerId: PRODUCER_ID,
 			cooperativeId: COOP_ID,
 			product: "Palta Hass",
 			quantityKg: entry.qty.toFixed(2),
@@ -471,7 +471,7 @@ async function seedTransactions() {
 	for (const entry of fuerteEntries) {
 		txns.push({
 			uuid: uuid(),
-			farmerId: FARMER_ID,
+			producerId: PRODUCER_ID,
 			cooperativeId: COOP_ID,
 			product: "Palta Fuerte",
 			quantityKg: entry.qty.toFixed(2),
@@ -483,7 +483,7 @@ async function seedTransactions() {
 	}
 
 	console.log(
-		`  Main farmer: ${hassEntries.length + fuerteEntries.length} transactions`,
+		`  Main producer: ${hassEntries.length + fuerteEntries.length} transactions`,
 	);
 
 	// ── Rosa Quispe: 15 transactions (experienced, good data, Tier A candidate) ──
@@ -506,7 +506,7 @@ async function seedTransactions() {
 	for (const entry of rosaHass) {
 		txns.push({
 			uuid: uuid(),
-			farmerId: FARMER_2_ID,
+			producerId: PRODUCER_2_ID,
 			cooperativeId: COOP_ID,
 			product: "Palta Hass",
 			quantityKg: entry.qty.toFixed(2),
@@ -525,7 +525,7 @@ async function seedTransactions() {
 	for (const entry of rosaFuerte) {
 		txns.push({
 			uuid: uuid(),
-			farmerId: FARMER_2_ID,
+			producerId: PRODUCER_2_ID,
 			cooperativeId: COOP_ID,
 			product: "Palta Fuerte",
 			quantityKg: entry.qty.toFixed(2),
@@ -603,7 +603,7 @@ async function seedTransactions() {
 	for (const entry of carlosEntries) {
 		txns.push({
 			uuid: uuid(),
-			farmerId: FARMER_3_ID,
+			producerId: PRODUCER_3_ID,
 			cooperativeId: COOP_ID,
 			product: entry.product,
 			quantityKg: entry.qty.toFixed(2),
@@ -644,7 +644,7 @@ async function seedTransactions() {
 	for (const entry of mariaEntries) {
 		txns.push({
 			uuid: uuid(),
-			farmerId: FARMER_4_ID,
+			producerId: PRODUCER_4_ID,
 			cooperativeId: COOP_ID,
 			product: entry.product,
 			quantityKg: entry.qty.toFixed(2),
@@ -672,7 +672,7 @@ async function seedAdvances() {
 
 	const advances: Array<{
 		uuid: string;
-		farmerId: string;
+		producerId: string;
 		cooperativeId: string;
 		loggedBy: string;
 		category: string;
@@ -681,8 +681,8 @@ async function seedAdvances() {
 		date: string;
 	}> = [];
 
-	// ── Main farmer: 7 expense entries ──
-	const mainFarmerAdvances = [
+	// ── Main producer: 7 expense entries ──
+	const mainProducerAdvances = [
 		{
 			category: "fertilizante",
 			description: "Guano de isla - 20 sacos",
@@ -727,10 +727,10 @@ async function seedAdvances() {
 		},
 	];
 
-	for (const entry of mainFarmerAdvances) {
+	for (const entry of mainProducerAdvances) {
 		advances.push({
 			uuid: uuid(),
-			farmerId: FARMER_ID,
+			producerId: PRODUCER_ID,
 			cooperativeId: COOP_ID,
 			loggedBy: COOP_USER_ID,
 			category: entry.category,
@@ -740,7 +740,7 @@ async function seedAdvances() {
 		});
 	}
 
-	console.log(`  Main farmer: ${mainFarmerAdvances.length} advances`);
+	console.log(`  Main producer: ${mainProducerAdvances.length} advances`);
 
 	// ── Rosa Quispe: 5 expenses ──
 	const rosaAdvances = [
@@ -779,7 +779,7 @@ async function seedAdvances() {
 	for (const entry of rosaAdvances) {
 		advances.push({
 			uuid: uuid(),
-			farmerId: FARMER_2_ID,
+			producerId: PRODUCER_2_ID,
 			cooperativeId: COOP_ID,
 			loggedBy: COOP_USER_ID,
 			category: entry.category,
@@ -816,7 +816,7 @@ async function seedAdvances() {
 	for (const entry of carlosAdvances) {
 		advances.push({
 			uuid: uuid(),
-			farmerId: FARMER_3_ID,
+			producerId: PRODUCER_3_ID,
 			cooperativeId: COOP_ID,
 			loggedBy: COOP_USER_ID,
 			category: entry.category,
@@ -850,12 +850,12 @@ async function verify() {
 	const [txCount] = await db
 		.select({ count: sql<number>`count(*)::int` })
 		.from(transaction)
-		.where(inArray(transaction.farmerId, ALL_USER_IDS));
+		.where(inArray(transaction.producerId, ALL_USER_IDS));
 
 	const [advCount] = await db
 		.select({ count: sql<number>`count(*)::int` })
 		.from(inputAdvance)
-		.where(inArray(inputAdvance.farmerId, ALL_USER_IDS));
+		.where(inArray(inputAdvance.producerId, ALL_USER_IDS));
 
 	const [coopCount] = await db
 		.select({ count: sql<number>`count(*)::int` })
@@ -874,9 +874,9 @@ async function verify() {
 	console.log(`  Input advances: ${advCount.count} (expected 15)`);
 
 	// Check tier distribution expectations
-	const farmers = await db
+	const producers = await db
 		.select({
-			name: user.farmerName,
+			name: user.producerName,
 			txnCount: sql<number>`count(${transaction.id})::int`,
 			activeMonths: sql<number>`count(distinct to_char(${transaction.date}::date, 'YYYY-MM'))::int`,
 		})
@@ -884,22 +884,22 @@ async function verify() {
 		.leftJoin(
 			transaction,
 			and(
-				eq(user.id, transaction.farmerId),
+				eq(user.id, transaction.producerId),
 				sql`${transaction.integrityStatus} != 'flagged'`,
 			),
 		)
-		.where(and(eq(user.role, "farmer"), inArray(user.id, ALL_USER_IDS)))
+		.where(and(eq(user.role, "producer"), inArray(user.id, ALL_USER_IDS)))
 		.groupBy(user.id);
 
-	console.log("\n  Farmer summary:");
-	for (const f of farmers) {
+	console.log("\n  Producer summary:");
+	for (const f of producers) {
 		console.log(
 			`    ${f.name}: ${f.txnCount} txns, ${f.activeMonths} active months`,
 		);
 	}
 
 	console.log("\n  Demo accounts:");
-	console.log(`    Farmer PWA:    ${FARMER_EMAIL} (farmer)`);
+	console.log(`    Producer PWA:    ${PRODUCER_EMAIL} (producer)`);
 	console.log(`    Coop dashboard: ${COOP_EMAIL} (cooperative)`);
 	console.log(`    Scoring view:   ${FINANCIERA_EMAIL} (financiera)`);
 	console.log(`    Invite code:    ${INVITE_CODE}`);

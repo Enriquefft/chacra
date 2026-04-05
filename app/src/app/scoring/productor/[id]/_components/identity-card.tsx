@@ -1,11 +1,11 @@
 import { TierBadge } from "@/components/tier-badge";
-import type { CreditScore, FarmerProfile } from "@/lib/types";
+import type { CreditScore, ProducerProfile } from "@/lib/types";
 
 export function IdentityCard({
 	profile,
 	creditScore,
 }: {
-	profile: FarmerProfile;
+	profile: ProducerProfile;
 	creditScore: CreditScore;
 }) {
 	const initials = profile.name

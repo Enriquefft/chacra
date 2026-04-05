@@ -613,7 +613,7 @@ function ProducerCard({
 // ─── 9. Producer Detail Panel ───
 
 function ProducerDetail({ producer }: { producer: Producer }) {
-  const farmerTx = getProducerTransactions(producer.name)
+  const producerTx = getProducerTransactions(producer.name)
   const deliveryPct = Math.round((producer.kgCafe / producer.expectedKg) * 100)
   const initials = producer.name.split(" ").map((w) => w[0]).join("")
   const tier = getTrustTier(producer.trust)
@@ -665,7 +665,7 @@ function ProducerDetail({ producer }: { producer: Producer }) {
             </div>
             <div className="rounded-lg border bg-background p-3">
               <p className="text-xs text-muted-foreground">Transacciones</p>
-              <p className="mt-1 text-lg font-semibold tabular-nums">{farmerTx.length}</p>
+              <p className="mt-1 text-lg font-semibold tabular-nums">{producerTx.length}</p>
               <p className="text-xs text-muted-foreground">este periodo</p>
             </div>
             <div className="rounded-lg border bg-background p-3">
@@ -676,7 +676,7 @@ function ProducerDetail({ producer }: { producer: Producer }) {
           </div>
 
           {/* Transactions table */}
-          {farmerTx.length > 0 ? (
+          {producerTx.length > 0 ? (
             <div className="mt-5 overflow-x-auto rounded-lg border">
               <Table>
                 <TableHeader>
@@ -690,7 +690,7 @@ function ProducerDetail({ producer }: { producer: Producer }) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {farmerTx.map((tx) => {
+                  {producerTx.map((tx) => {
                     const isFlagged = tx.status === "flaggeado"
                     return (
                       <TableRow key={tx.id} className={isFlagged ? "bg-destructive/5" : undefined}>

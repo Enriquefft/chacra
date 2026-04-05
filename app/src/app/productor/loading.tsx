@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function FarmerLoading() {
+export default function ProducerLoading() {
 	return (
 		<div className="flex flex-col gap-4">
 			{/* Title */}

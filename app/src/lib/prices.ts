@@ -6,7 +6,7 @@ import type { PriceBenchmark } from "@/lib/types";
 
 /**
  * Get price benchmark for a product in a region.
- * Uses non-flagged transactions from the last 90 days where the farmer's region matches.
+ * Uses non-flagged transactions from the last 90 days where the producer's region matches.
  * Returns null if fewer than 5 data points.
  */
 export async function getPriceBenchmark(
@@ -20,11 +20,11 @@ export async function getPriceBenchmark(
 	const rows = await db
 		.select({ pricePerKg: transaction.pricePerKg })
 		.from(transaction)
-		.innerJoin(user, eq(transaction.farmerId, user.id))
+		.innerJoin(user, eq(transaction.producerId, user.id))
 		.where(
 			and(
 				eq(transaction.product, product),
-				eq(user.farmerRegion, region),
+				eq(user.producerRegion, region),
 				ne(transaction.integrityStatus, "flagged"),
 				gte(transaction.date, cutoff),
 			),

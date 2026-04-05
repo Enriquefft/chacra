@@ -8,14 +8,14 @@ import { ProfileCompletion } from "./profile-completion";
 import { TransactionForm } from "./transaction-form";
 
 interface ProfileFields {
-	farmerPhone: string | null;
-	farmerCrops: string | null;
-	farmerDistrict: string | null;
-	farmerExperience: number | null;
-	farmerLandOwnership: string | null;
+	producerPhone: string | null;
+	producerCrops: string | null;
+	producerDistrict: string | null;
+	producerExperience: number | null;
+	producerLandOwnership: string | null;
 }
 
-export function FarmerHome({
+export function ProducerHome({
 	productList,
 	profileFields,
 	priceData,
@@ -26,12 +26,12 @@ export function FarmerHome({
 }) {
 	// Check if profile is complete
 	const isProfileComplete =
-		!!profileFields.farmerPhone &&
-		!!profileFields.farmerCrops &&
-		!!profileFields.farmerDistrict &&
-		profileFields.farmerExperience !== null &&
-		profileFields.farmerExperience !== undefined &&
-		!!profileFields.farmerLandOwnership;
+		!!profileFields.producerPhone &&
+		!!profileFields.producerCrops &&
+		!!profileFields.producerDistrict &&
+		profileFields.producerExperience !== null &&
+		profileFields.producerExperience !== undefined &&
+		!!profileFields.producerLandOwnership;
 
 	return (
 		<div className="flex flex-col gap-4">

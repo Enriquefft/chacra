@@ -65,26 +65,26 @@ export async function createAdvance(
 		return { error: "Fecha no puede ser en el futuro" };
 	}
 
-	// Validate farmerId
-	if (!input.farmerId) {
-		return { error: "Se requiere el ID del agricultor" };
+	// Validate producerId
+	if (!input.producerId) {
+		return { error: "Se requiere el ID del productor" };
 	}
 
-	// Verify farmer belongs to the caller's cooperative
-	const [farmer] = await db
+	// Verify producer belongs to the caller's cooperative
+	const [producer] = await db
 		.select({ id: user.id })
 		.from(user)
 		.where(
 			and(
-				eq(user.id, input.farmerId),
+				eq(user.id, input.producerId),
 				eq(user.cooperativeId, session.user.cooperativeId),
-				eq(user.role, "farmer"),
+				eq(user.role, "producer"),
 			),
 		)
 		.limit(1);
 
-	if (!farmer) {
-		return { error: "Agricultor no encontrado en la cooperativa" };
+	if (!producer) {
+		return { error: "Productor no encontrado en la cooperativa" };
 	}
 
 	// Validate description (optional)
@@ -105,7 +105,7 @@ export async function createAdvance(
 		.insert(inputAdvance)
 		.values({
 			uuid,
-			farmerId: input.farmerId,
+			producerId: input.producerId,
 			cooperativeId: session.user.cooperativeId,
 			loggedBy: session.user.id,
 			category: input.category,
@@ -125,10 +125,10 @@ export async function createAdvance(
 	return { success: true, data: { id: result[0].id, uuid: result[0].uuid } };
 }
 
-// ─── getAdvancesByFarmer ─────────────────────────────────────────────
+// ─── getAdvancesByProducer ─────────────────────────────────────────────
 
-export async function getAdvancesByFarmer(
-	farmerId: string,
+export async function getAdvancesByProducer(
+	producerId: string,
 ): Promise<
 	ActionResult<{ advances: AdvanceItem[]; total: number; totalAmount: number }>
 > {
@@ -145,38 +145,38 @@ export async function getAdvancesByFarmer(
 		return { error: "No autorizado" };
 	}
 
-	if (!farmerId) {
-		return { error: "Se requiere el ID del agricultor" };
+	if (!producerId) {
+		return { error: "Se requiere el ID del productor" };
 	}
 
-	// For cooperatives, verify farmer belongs to their cooperative
+	// For cooperatives, verify producer belongs to their cooperative
 	if (session.user.role === "cooperative") {
 		if (!session.user.cooperativeId) {
 			return { error: "No hay cooperativa asociada" };
 		}
-		const [farmer] = await db
+		const [producer] = await db
 			.select({ id: user.id })
 			.from(user)
 			.where(
 				and(
-					eq(user.id, farmerId),
+					eq(user.id, producerId),
 					eq(user.cooperativeId, session.user.cooperativeId),
-					eq(user.role, "farmer"),
+					eq(user.role, "producer"),
 				),
 			)
 			.limit(1);
-		if (!farmer) {
-			return { error: "Agricultor no encontrado en la cooperativa" };
+		if (!producer) {
+			return { error: "Productor no encontrado en la cooperativa" };
 		}
 	} else {
-		// Financiera: verify farmer exists
-		const [farmer] = await db
+		// Financiera: verify producer exists
+		const [producer] = await db
 			.select({ id: user.id })
 			.from(user)
-			.where(and(eq(user.id, farmerId), eq(user.role, "farmer")))
+			.where(and(eq(user.id, producerId), eq(user.role, "producer")))
 			.limit(1);
-		if (!farmer) {
-			return { error: "Agricultor no encontrado" };
+		if (!producer) {
+			return { error: "Productor no encontrado" };
 		}
 	}
 
@@ -185,8 +185,8 @@ export async function getAdvancesByFarmer(
 			.select({
 				id: inputAdvance.id,
 				uuid: inputAdvance.uuid,
-				farmerId: inputAdvance.farmerId,
-				farmerName: user.farmerName,
+				producerId: inputAdvance.producerId,
+				producerName: user.producerName,
 				category: inputAdvance.category,
 				description: inputAdvance.description,
 				amount: inputAdvance.amount,
@@ -194,24 +194,24 @@ export async function getAdvancesByFarmer(
 				createdAt: inputAdvance.createdAt,
 			})
 			.from(inputAdvance)
-			.innerJoin(user, eq(inputAdvance.farmerId, user.id))
-			.where(eq(inputAdvance.farmerId, farmerId))
+			.innerJoin(user, eq(inputAdvance.producerId, user.id))
+			.where(eq(inputAdvance.producerId, producerId))
 			.orderBy(desc(inputAdvance.date)),
 		db
 			.select({ total: count() })
 			.from(inputAdvance)
-			.where(eq(inputAdvance.farmerId, farmerId)),
+			.where(eq(inputAdvance.producerId, producerId)),
 		db
 			.select({ totalAmount: sum(inputAdvance.amount) })
 			.from(inputAdvance)
-			.where(eq(inputAdvance.farmerId, farmerId)),
+			.where(eq(inputAdvance.producerId, producerId)),
 	]);
 
 	const rows: AdvanceItem[] = advances.map((a) => ({
 		id: a.id,
 		uuid: a.uuid,
-		farmerId: a.farmerId,
-		farmerName: a.farmerName ?? "Sin nombre",
+		producerId: a.producerId,
+		producerName: a.producerName ?? "Sin nombre",
 		category: a.category as AdvanceCategory,
 		description: a.description,
 		amount: Number(a.amount),
@@ -258,8 +258,8 @@ export async function getAdvancesByCooperative(opts?: {
 			.select({
 				id: inputAdvance.id,
 				uuid: inputAdvance.uuid,
-				farmerId: inputAdvance.farmerId,
-				farmerName: user.farmerName,
+				producerId: inputAdvance.producerId,
+				producerName: user.producerName,
 				category: inputAdvance.category,
 				description: inputAdvance.description,
 				amount: inputAdvance.amount,
@@ -267,7 +267,7 @@ export async function getAdvancesByCooperative(opts?: {
 				createdAt: inputAdvance.createdAt,
 			})
 			.from(inputAdvance)
-			.innerJoin(user, eq(inputAdvance.farmerId, user.id))
+			.innerJoin(user, eq(inputAdvance.producerId, user.id))
 			.where(whereClause)
 			.orderBy(desc(inputAdvance.date))
 			.limit(limit)
@@ -282,8 +282,8 @@ export async function getAdvancesByCooperative(opts?: {
 	const rows: AdvanceItem[] = advances.map((a) => ({
 		id: a.id,
 		uuid: a.uuid,
-		farmerId: a.farmerId,
-		farmerName: a.farmerName ?? "Sin nombre",
+		producerId: a.producerId,
+		producerName: a.producerName ?? "Sin nombre",
 		category: a.category as AdvanceCategory,
 		description: a.description,
 		amount: Number(a.amount),

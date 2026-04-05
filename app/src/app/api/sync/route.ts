@@ -4,9 +4,9 @@ import { syncBatch } from "@/lib/sync";
 import type { SyncRequest } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
-	// 1. Auth: require farmer role + cooperativeId
+	// 1. Auth: require producer role + cooperativeId
 	const session = await getSession();
-	if (!session || session.user.role !== "farmer") {
+	if (!session || session.user.role !== "producer") {
 		return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 	}
 	if (!session.user.cooperativeId) {

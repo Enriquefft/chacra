@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useId } from "react";
-import { completeFarmerOnboarding } from "@/actions/onboarding";
+import { completeProducerOnboarding } from "@/actions/onboarding";
 import { Logo } from "@/components/landing/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,17 +21,17 @@ type State = {
 
 function formAction(_prev: State, formData: FormData): Promise<State> {
 	const inviteCode = (formData.get("inviteCode") as string) ?? "";
-	const farmerName = (formData.get("farmerName") as string) ?? "";
-	const farmerRegion = (formData.get("farmerRegion") as string) ?? "";
-	return completeFarmerOnboarding(inviteCode, farmerName, farmerRegion);
+	const producerName = (formData.get("producerName") as string) ?? "";
+	const producerRegion = (formData.get("producerRegion") as string) ?? "";
+	return completeProducerOnboarding(inviteCode, producerName, producerRegion);
 }
 
-export function FarmerOnboarding({ userName }: { userName: string }) {
+export function ProducerOnboarding({ userName }: { userName: string }) {
 	const [state, action, pending] = useActionState(formAction, {});
 	const id = useId();
 	const inviteCodeId = `${id}-inviteCode`;
-	const farmerNameId = `${id}-farmerName`;
-	const farmerRegionId = `${id}-farmerRegion`;
+	const producerNameId = `${id}-producerName`;
+	const producerRegionId = `${id}-producerRegion`;
 
 	if (state.success) {
 		return (
@@ -83,14 +83,14 @@ export function FarmerOnboarding({ userName }: { userName: string }) {
 						</div>
 						<div className="flex flex-col gap-1">
 							<label
-								htmlFor={farmerNameId}
+								htmlFor={producerNameId}
 								className="text-sm text-muted-foreground"
 							>
 								Tu nombre
 							</label>
 							<Input
-								id={farmerNameId}
-								name="farmerName"
+								id={producerNameId}
+								name="producerName"
 								defaultValue={userName}
 								className="h-11 text-base"
 								required
@@ -98,14 +98,14 @@ export function FarmerOnboarding({ userName }: { userName: string }) {
 						</div>
 						<div className="flex flex-col gap-1">
 							<label
-								htmlFor={farmerRegionId}
+								htmlFor={producerRegionId}
 								className="text-sm text-muted-foreground"
 							>
 								Region
 							</label>
 							<Input
-								id={farmerRegionId}
-								name="farmerRegion"
+								id={producerRegionId}
+								name="producerRegion"
 								placeholder="Ej: Jaen, Cajamarca"
 								className="h-11 text-base"
 								required

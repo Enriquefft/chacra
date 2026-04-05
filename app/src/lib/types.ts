@@ -19,7 +19,7 @@ export const ADVANCE_CATEGORIES = [
 export type AdvanceCategory = (typeof ADVANCE_CATEGORIES)[number];
 
 export interface AdvanceInput {
-	farmerId: string;
+	producerId: string;
 	category: AdvanceCategory;
 	description?: string;
 	amount: number;
@@ -29,8 +29,8 @@ export interface AdvanceInput {
 export interface AdvanceItem {
 	id: number;
 	uuid: string;
-	farmerId: string;
-	farmerName: string;
+	producerId: string;
+	producerName: string;
 	category: AdvanceCategory;
 	description: string | null;
 	amount: number;
@@ -73,14 +73,14 @@ export type FlagType =
 
 export interface IntegrityFlag {
 	transactionUuid: string;
-	farmerId: string;
+	producerId: string;
 	flagType: FlagType;
 	message: string;
 	details: Record<string, number>;
 }
 
 export interface TrustScoreResult {
-	farmerId: string;
+	producerId: string;
 	trustScore: number; // 0-100
 	confirmedCount: number;
 	flaggedCount: number;
@@ -118,8 +118,8 @@ export interface CreditScore {
 	expenseBreakdown: { category: string; total: number }[];
 }
 
-// Farmer types
-export interface FarmerProfile {
+// Producer types
+export interface ProducerProfile {
 	id: string;
 	name: string;
 	email: string;
@@ -127,15 +127,15 @@ export interface FarmerProfile {
 	cooperativeId: string;
 	cooperativeName: string;
 	createdAt: Date;
-	farmerPhone: string | null;
-	farmerCrops: string | null;
-	farmerDistrict: string | null;
-	farmerExperience: number | null;
-	farmerLandOwnership: string | null;
-	farmerHectares: number | null;
+	producerPhone: string | null;
+	producerCrops: string | null;
+	producerDistrict: string | null;
+	producerExperience: number | null;
+	producerLandOwnership: string | null;
+	producerHectares: number | null;
 }
 
-export interface FarmerListItem {
+export interface ProducerListItem {
 	id: string;
 	name: string;
 	region: string | null;
@@ -146,7 +146,7 @@ export interface FarmerListItem {
 	integrityStatus: "on_track" | "needs_attention";
 }
 
-export interface ScoringFarmerItem {
+export interface ScoringProducerItem {
 	id: string;
 	name: string;
 	region: string | null;
@@ -193,8 +193,8 @@ export interface CooperativeProfileData {
 }
 
 export interface CooperativeStats {
-	activeFarmers: number;
-	totalFarmers: number;
+	activeProducers: number;
+	totalProducers: number;
 	totalProductionKg: number;
 	periodRevenueTotal: number;
 	activeAlerts: number;

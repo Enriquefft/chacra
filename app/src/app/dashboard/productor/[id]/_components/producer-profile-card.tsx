@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import type { FarmerProfile, TrustScoreResult } from "@/lib/types";
+import type { ProducerProfile, TrustScoreResult } from "@/lib/types";
 
 function getTrustColor(score: number) {
 	if (score >= 70) return "text-success";
@@ -14,11 +14,11 @@ function getTrustProgressClass(score: number) {
 	return "[&>[data-slot=progress-indicator]]:bg-destructive";
 }
 
-export function FarmerProfileCard({
+export function ProducerProfileCard({
 	profile,
 	trustScore,
 }: {
-	profile: FarmerProfile;
+	profile: ProducerProfile;
 	trustScore: TrustScoreResult;
 }) {
 	const initials = profile.name

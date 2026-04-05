@@ -50,10 +50,10 @@ export async function exportTransactionsCSV(): Promise<
 			buyer: transaction.buyer,
 			date: transaction.date,
 			integrityStatus: transaction.integrityStatus,
-			farmerName: user.farmerName,
+			producerName: user.producerName,
 		})
 		.from(transaction)
-		.innerJoin(user, eq(transaction.farmerId, user.id))
+		.innerJoin(user, eq(transaction.producerId, user.id))
 		.where(eq(transaction.cooperativeId, cooperativeId))
 		.orderBy(sql`${transaction.date} DESC`);
 
@@ -77,7 +77,7 @@ export async function exportTransactionsCSV(): Promise<
 
 		return [
 			t.date,
-			escapeCSV(t.farmerName ?? "Sin nombre"),
+			escapeCSV(t.producerName ?? "Sin nombre"),
 			escapeCSV(t.product ?? ""),
 			qty != null ? qty.toFixed(2) : "",
 			price != null ? price.toFixed(2) : "",

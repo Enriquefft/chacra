@@ -50,11 +50,11 @@ Everything the app needs before any features can work.
 | better-auth config + Google OAuth (`lib/auth.ts`) | DONE | customSession, additionalFields, role guards |
 | Auth API route (`/api/auth/[...all]`) | DONE | /api/auth/ok returns {"ok":true} |
 | Role assignment by entry point | DONE | Deferred to onboarding server actions |
-| App shell: `/farmer` layout with auth guard | DONE | 5-state auth pattern, mobile-first shell |
+| App shell: `/productor` layout with auth guard | DONE | 5-state auth pattern, mobile-first shell |
 | App shell: `/dashboard` layout with auth guard | DONE | Sidebar shell, coop name from DB |
 | App shell: `/scoring` layout with auth guard | DONE | Auto-onboard, minimal shell |
 | Env vars configured (.env) | DONE | |
-| Onboarding flows (farmer, coop, financiera) | DONE | Server actions + client forms |
+| Onboarding flows (producer, coop, financiera) | DONE | Server actions + client forms |
 | Settings page (products, invite code) | DONE | Real CRUD functionality |
 | Verify auth flows in browser | DONE | All 3 roles work correctly |
 
@@ -70,9 +70,9 @@ Two parallel tracks once Phase 1 is complete.
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Server Actions: transactions (`actions/transactions.ts`) | DONE | create, getByFarmer, getByCoop, confirm, reject |
+| Server Actions: transactions (`actions/transactions.ts`) | DONE | create, getByProducer, getByCoop, confirm, reject |
 | Server Actions: cooperatives (`actions/cooperatives.ts`) | DONE | Extended: exportGoals + getCooperativeStats |
-| Server Actions: farmers (`actions/farmers.ts`) | DONE | getFarmersForCooperative, getFarmerProfile |
+| Server Actions: producers (`actions/producers.ts`) | DONE | getProducersForCooperative, getProducerProfile |
 | Sync module (`lib/sync.ts`) | DONE | Batch validation, UUID dedup, integrity check |
 | Sync API route (`/api/sync`) | DONE | POST with auth, max 100 per batch |
 | Price benchmark module (`lib/prices.ts`) | DONE | p10/p90/avg, min 5 data points |
@@ -93,7 +93,7 @@ Two parallel tracks once Phase 1 is complete.
 
 Two parallel tracks once Phase 2 modules exist.
 
-### Track A — Farmer PWA
+### Track A — Producer PWA
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -103,7 +103,7 @@ Two parallel tracks once Phase 2 modules exist.
 | Sync button + offline banner | DONE | Auto-sync on mount/reconnect |
 | Transaction history with price signals | DONE | Cards with IntegrityBadge + PriceSignal |
 | PWA manifest | DONE | manifest.ts, standalone mode |
-| Service worker (scoped to /farmer/*) | DONE | public/sw.js |
+| Service worker (scoped to /productor/*) | DONE | public/sw.js |
 | Add-to-homescreen | DONE | Via PWA manifest |
 
 ### Track B — Dashboards
@@ -131,8 +131,8 @@ Two parallel tracks once Phase 2 modules exist.
 |------|--------|-------|
 | Empty states for all data-dependent views | DONE | EmptyState component, used across all views |
 | Loading states (Skeleton) for all pages | DONE | 8 loading.tsx files for all dynamic routes |
-| Error boundaries | DONE | 3 error.tsx files (farmer, dashboard, scoring) + not-found.tsx |
-| Mobile audit (touch targets, contrast, one-thumb reach) | DONE | Farmer labels text-base, history text-base, timestamps text-sm |
+| Error boundaries | DONE | 3 error.tsx files (producer, dashboard, scoring) + not-found.tsx |
+| Mobile audit (touch targets, contrast, one-thumb reach) | DONE | Producer labels text-base, history text-base, timestamps text-sm |
 | CSV export | DONE | Server action + ExportButton, UTF-8 BOM, Spanish headers |
 
 **Completed.**
@@ -149,33 +149,33 @@ and group pitch to other organizations.
 | Task | Status | Notes |
 |------|--------|-------|
 | DB: `input_advance` table + migration | DONE | Schema in ARCHITECTURE.md, pushed to Neon |
-| Server Actions: `actions/advances.ts` | DONE | create, getByFarmer, getByCoop, delete |
-| Coop dashboard: input advance logging UI | DONE | Per-farmer form with category/description/amount/date |
-| Coop dashboard: advance summary per farmer | DONE | Total, breakdown by category, in producer detail |
+| Server Actions: `actions/advances.ts` | DONE | create, getByProducer, getByCoop, delete |
+| Coop dashboard: input advance logging UI | DONE | Per-producer form with category/description/amount/date |
+| Coop dashboard: advance summary per producer | DONE | Total, breakdown by category, in producer detail |
 | Scoring: factor in expenses (net margin) | DONE | Loan range based on revenue − expenses |
 | Financiera: repayment capacity view | DONE | Monthly margin, expense breakdown chart |
 
-### Track B — Farmer Price Transparency
+### Track B — Producer Price Transparency
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Farmer PWA: two-tab layout (Registrar / Precios) | DONE | shadcn Tabs, full-width |
+| Producer PWA: two-tab layout (Registrar / Precios) | DONE | shadcn Tabs, full-width |
 | Precios tab: price range per product in zone | DONE | Min/avg/max from lib/prices.ts |
-| Precios tab: farmer's last price vs average | DONE | "Tu último precio" comparison |
+| Precios tab: producer's last price vs average | DONE | "Tu último precio" comparison |
 | Precios tab: simple signal + trend | DONE | "Buen precio" / "Precio bajo" + arrow |
 
 ### Track C — KYC & Profile
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Farmer onboarding: add DNI + hectáreas fields | DONE | Required fields in onboarding form |
-| Farmer profile completion UI | DONE | "Completa tu perfil" card with progress, 5 optional fields |
-| Farmer profile: update user additionalFields + migration | DONE | 7 new fields, schema pushed |
+| Producer onboarding: add DNI + hectáreas fields | DONE | Required fields in onboarding form |
+| Producer profile completion UI | DONE | "Completa tu perfil" card with progress, 5 optional fields |
+| Producer profile: update user additionalFields + migration | DONE | 7 new fields, schema pushed |
 | Coop onboarding: add representative name + phone | DONE | Required fields in onboarding form |
 | Coop profile completion UI | DONE | RUC, org type, members, address, year — in settings |
 | Coop profile: update cooperative table + migration | DONE | 7 new columns, schema pushed |
 | Integrity: plausibility checks using hectáreas | DONE | Max yield per crop/ha, single + cumulative checks |
-| Financiera: show profile completeness per farmer | DONE | Progress bar + field checklist in credit profile |
+| Financiera: show profile completeness per producer | DONE | Progress bar + field checklist in credit profile |
 
 ### Track D — Landing Page
 

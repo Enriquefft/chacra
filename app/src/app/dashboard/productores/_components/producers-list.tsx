@@ -13,7 +13,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { FarmerListItem } from "@/lib/types";
+import type { ProducerListItem } from "@/lib/types";
 
 function TrustBadge({ score }: { score: number }) {
 	if (score >= 70) {
@@ -37,21 +37,21 @@ function TrustBadge({ score }: { score: number }) {
 	);
 }
 
-export function ProducersList({ farmers }: { farmers: FarmerListItem[] }) {
+export function ProducersList({ producers }: { producers: ProducerListItem[] }) {
 	const router = useRouter();
 	const [search, setSearch] = useState("");
 	const [, startTransition] = useTransition();
 
-	const onTrack = farmers.filter((f) => f.integrityStatus === "on_track");
-	const needsAttention = farmers.filter(
+	const onTrack = producers.filter((f) => f.integrityStatus === "on_track");
+	const needsAttention = producers.filter(
 		(f) => f.integrityStatus === "needs_attention",
 	);
 
 	const filteredAll = useMemo(() => {
-		if (!search) return farmers;
+		if (!search) return producers;
 		const term = search.toLowerCase();
-		return farmers.filter((f) => f.name.toLowerCase().includes(term));
-	}, [farmers, search]);
+		return producers.filter((f) => f.name.toLowerCase().includes(term));
+	}, [producers, search]);
 
 	const filteredOnTrack = useMemo(() => {
 		if (!search) return onTrack;
@@ -65,9 +65,9 @@ export function ProducersList({ farmers }: { farmers: FarmerListItem[] }) {
 		return needsAttention.filter((f) => f.name.toLowerCase().includes(term));
 	}, [needsAttention, search]);
 
-	function handleRowClick(farmerId: string) {
+	function handleRowClick(producerId: string) {
 		startTransition(() => {
-			router.push(`/dashboard/producer/${farmerId}`);
+			router.push(`/dashboard/productor/${producerId}`);
 		});
 	}
 
@@ -75,7 +75,7 @@ export function ProducersList({ farmers }: { farmers: FarmerListItem[] }) {
 		<Tabs defaultValue="all">
 			<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 				<TabsList>
-					<TabsTrigger value="all">Todos ({farmers.length})</TabsTrigger>
+					<TabsTrigger value="all">Todos ({producers.length})</TabsTrigger>
 					<TabsTrigger value="on_track">En meta ({onTrack.length})</TabsTrigger>
 					<TabsTrigger value="attention">
 						Atencion ({needsAttention.length})
@@ -90,26 +90,26 @@ export function ProducersList({ farmers }: { farmers: FarmerListItem[] }) {
 			</div>
 
 			<TabsContent value="all">
-				<FarmerTable farmers={filteredAll} onRowClick={handleRowClick} />
+				<ProducerTable producers={filteredAll} onRowClick={handleRowClick} />
 			</TabsContent>
 			<TabsContent value="on_track">
-				<FarmerTable farmers={filteredOnTrack} onRowClick={handleRowClick} />
+				<ProducerTable producers={filteredOnTrack} onRowClick={handleRowClick} />
 			</TabsContent>
 			<TabsContent value="attention">
-				<FarmerTable farmers={filteredAttention} onRowClick={handleRowClick} />
+				<ProducerTable producers={filteredAttention} onRowClick={handleRowClick} />
 			</TabsContent>
 		</Tabs>
 	);
 }
 
-function FarmerTable({
-	farmers,
+function ProducerTable({
+	producers,
 	onRowClick,
 }: {
-	farmers: FarmerListItem[];
+	producers: ProducerListItem[];
 	onRowClick: (id: string) => void;
 }) {
-	if (farmers.length === 0) {
+	if (producers.length === 0) {
 		return (
 			<div className="flex items-center justify-center py-12">
 				<p className="text-sm text-muted-foreground">
@@ -135,27 +135,27 @@ function FarmerTable({
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{farmers.map((farmer) => (
+					{producers.map((producer) => (
 						<TableRow
-							key={farmer.id}
+							key={producer.id}
 							className="cursor-pointer"
-							onClick={() => onRowClick(farmer.id)}
+							onClick={() => onRowClick(producer.id)}
 						>
-							<TableCell className="font-medium">{farmer.name}</TableCell>
+							<TableCell className="font-medium">{producer.name}</TableCell>
 							<TableCell className="hidden text-muted-foreground sm:table-cell">
-								{farmer.region ?? "—"}
+								{producer.region ?? "—"}
 							</TableCell>
 							<TableCell className="tabular-nums">
-								{farmer.transactionCount}
+								{producer.transactionCount}
 							</TableCell>
 							<TableCell className="hidden text-muted-foreground md:table-cell">
-								{farmer.lastTransactionDate ?? "Sin actividad"}
+								{producer.lastTransactionDate ?? "Sin actividad"}
 							</TableCell>
 							<TableCell>
-								<TrustBadge score={farmer.trustScore} />
+								<TrustBadge score={producer.trustScore} />
 							</TableCell>
 							<TableCell>
-								{farmer.integrityStatus === "on_track" ? (
+								{producer.integrityStatus === "on_track" ? (
 									<Badge className="border-success/20 bg-success/10 text-success">
 										En meta
 									</Badge>

@@ -96,7 +96,7 @@ function validateTransactionInput(
  * Caller is responsible for auth — this module does not check permissions.
  */
 export async function syncBatch(
-	farmerId: string,
+	producerId: string,
 	cooperativeId: string,
 	transactions: TransactionInput[],
 ): Promise<SyncResponse> {
@@ -127,7 +127,7 @@ export async function syncBatch(
 			.insert(transaction)
 			.values({
 				uuid: input.uuid,
-				farmerId,
+				producerId,
 				cooperativeId,
 				product: input.product ?? null,
 				quantityKg:

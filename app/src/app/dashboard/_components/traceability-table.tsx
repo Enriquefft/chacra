@@ -13,8 +13,8 @@ import {
 type TransactionRow = {
 	id: number;
 	uuid: string;
-	farmerId: string;
-	farmerName: string | null;
+	producerId: string;
+	producerName: string | null;
 	product: string | null;
 	quantityKg: number | null;
 	pricePerKg: number | null;
@@ -60,10 +60,10 @@ export function TraceabilityTable({
 									>
 										<TableCell className="max-w-[140px] truncate font-medium">
 											<Link
-												href={`/dashboard/producer/${tx.farmerId}`}
+												href={`/dashboard/productor/${tx.producerId}`}
 												className="hover:underline"
 											>
-												{tx.farmerName ?? "Sin nombre"}
+												{tx.producerName ?? "Sin nombre"}
 											</Link>
 										</TableCell>
 										<TableCell>{tx.product ?? "—"}</TableCell>

@@ -42,22 +42,22 @@ import {
 } from "@solar-icons/react"
 
 import {
-  FARMERS,
-  AVAILABLE_FARMER_NAMES,
+  PRODUCERS,
+  AVAILABLE_PRODUCER_NAMES,
   PORTFOLIO_KPIS,
   PORTFOLIO_RISK,
   TIER_DISTRIBUTION,
   VERIFICATION_LAYERS,
-  getFarmerIncome,
-  getFarmerSources,
-  getFarmerTrustChecks,
-  getFarmerFlag,
+  getProducerIncome,
+  getProducerSources,
+  getProducerTrustChecks,
+  getProducerFlag,
   getLoanRange,
-  getFarmerCooperative,
-  getFarmerHectares,
-  getFarmerStability,
-  getFarmerDataSources,
-  type Farmer,
+  getProducerCooperative,
+  getProducerHectares,
+  getProducerStability,
+  getProducerDataSources,
+  type Producer,
   type Tier,
 } from "./_data"
 
@@ -285,7 +285,7 @@ function PortafolioView() {
           </Card>
         </ScrollReveal>
 
-        {/* Farmer Table */}
+        {/* Producer Table */}
         <ScrollReveal delay={200}>
           <Card className="border-border/50 bg-card/80">
             <CardContent className="pt-5 pb-2">
@@ -303,14 +303,14 @@ function PortafolioView() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {FARMERS.map((farmer) => (
-                      <TableRow key={farmer.name}>
-                        <TableCell className="font-medium">{farmer.name}</TableCell>
-                        <TableCell className="hidden text-muted-foreground sm:table-cell">{farmer.region}</TableCell>
-                        <TableCell className="text-muted-foreground">{farmer.crop}</TableCell>
-                        <TableCell className="text-right font-medium tabular-nums">S/{farmer.monthlyIncome.toLocaleString()}</TableCell>
-                        <TableCell className="hidden md:table-cell text-right text-muted-foreground tabular-nums">{farmer.months}</TableCell>
-                        <TableCell className="text-center"><TierBadge tier={farmer.tier} /></TableCell>
+                    {PRODUCERS.map((producer) => (
+                      <TableRow key={producer.name}>
+                        <TableCell className="font-medium">{producer.name}</TableCell>
+                        <TableCell className="hidden text-muted-foreground sm:table-cell">{producer.region}</TableCell>
+                        <TableCell className="text-muted-foreground">{producer.crop}</TableCell>
+                        <TableCell className="text-right font-medium tabular-nums">S/{producer.monthlyIncome.toLocaleString()}</TableCell>
+                        <TableCell className="hidden md:table-cell text-right text-muted-foreground tabular-nums">{producer.months}</TableCell>
+                        <TableCell className="text-center"><TierBadge tier={producer.tier} /></TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -346,12 +346,12 @@ function PortafolioView() {
   )
 }
 
-// ─── Farmer selector ───
+// ─── Producer selector ───
 
-const AVAILABLE_FARMERS = FARMERS.filter((f) => AVAILABLE_FARMER_NAMES.has(f.name))
-const LOCKED_FARMERS = FARMERS.filter((f) => !AVAILABLE_FARMER_NAMES.has(f.name))
+const AVAILABLE_PRODUCERS = PRODUCERS.filter((f) => AVAILABLE_PRODUCER_NAMES.has(f.name))
+const LOCKED_PRODUCERS = PRODUCERS.filter((f) => !AVAILABLE_PRODUCER_NAMES.has(f.name))
 
-function FarmerSelect({
+function ProducerSelect({
   value,
   onValueChange,
 }: {
@@ -364,13 +364,13 @@ function FarmerSelect({
         <SelectValue placeholder="Seleccionar productor..." />
       </SelectTrigger>
       <SelectContent position="popper" align="start">
-        {AVAILABLE_FARMERS.map((f) => (
+        {AVAILABLE_PRODUCERS.map((f) => (
           <SelectItem key={f.name} value={f.name}>
             {f.name} — {f.region}
           </SelectItem>
         ))}
         <SelectSeparator />
-        {LOCKED_FARMERS.map((f) => (
+        {LOCKED_PRODUCERS.map((f) => (
           <SelectItem key={f.name} value={f.name} disabled>
             {f.name} — {f.region}
           </SelectItem>
@@ -382,7 +382,7 @@ function FarmerSelect({
 
 // ─── Perfil empty state ───
 
-function PerfilEmptyState({ onSelectMaria }: { onSelectMaria: () => void }) {
+function ProfileEmptyState({ onSelectMaria }: { onSelectMaria: () => void }) {
   return (
     <Card className="border-border/50 bg-card/80">
       <CardContent className="flex flex-col items-center justify-center py-16 text-center">
@@ -408,19 +408,19 @@ function PerfilEmptyState({ onSelectMaria }: { onSelectMaria: () => void }) {
 
 // ─── Perfil de Crédito content ───
 
-function PerfilContent({ farmer }: { farmer: Farmer }) {
-  const initials = farmer.name.split(" ").map((w) => w[0]).join("")
-  const incomeData = getFarmerIncome(farmer)
-  const incomeSources = getFarmerSources(farmer)
-  const trustChecks = getFarmerTrustChecks(farmer)
-  const flag = getFarmerFlag(farmer)
-  const loanRange = getLoanRange(farmer)
-  const dataSources = getFarmerDataSources(farmer)
-  const cooperative = getFarmerCooperative(farmer)
-  const hectares = getFarmerHectares(farmer)
-  const stability = getFarmerStability(farmer)
-  const trustPct = Math.round(farmer.trustScore * 10)
-  const txCount = farmer.months * 5 + (seed(farmer.name) % 8)
+function PerfilContent({ producer }: { producer: Producer }) {
+  const initials = producer.name.split(" ").map((w) => w[0]).join("")
+  const incomeData = getProducerIncome(producer)
+  const incomeSources = getProducerSources(producer)
+  const trustChecks = getProducerTrustChecks(producer)
+  const flag = getProducerFlag(producer)
+  const loanRange = getLoanRange(producer)
+  const dataSources = getProducerDataSources(producer)
+  const cooperative = getProducerCooperative(producer)
+  const hectares = getProducerHectares(producer)
+  const stability = getProducerStability(producer)
+  const trustPct = Math.round(producer.trustScore * 10)
+  const txCount = producer.months * 5 + (seed(producer.name) % 8)
 
   return (
     <>
@@ -434,11 +434,11 @@ function PerfilContent({ farmer }: { farmer: Farmer }) {
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold tracking-tight">{farmer.name}</h2>
-            <TierBadge tier={farmer.tier} />
+            <h2 className="text-xl font-semibold tracking-tight">{producer.name}</h2>
+            <TierBadge tier={producer.tier} />
           </div>
           <p className="text-sm text-muted-foreground">
-            {farmer.region} &middot; {farmer.crop} &middot; {farmer.months} meses activo
+            {producer.region} &middot; {producer.crop} &middot; {producer.months} meses activo
           </p>
           <p className="text-xs text-muted-foreground">
             {cooperative} &middot; {hectares} ha
@@ -449,10 +449,10 @@ function PerfilContent({ farmer }: { farmer: Farmer }) {
       {/* KPI row */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
-          { label: "Ingreso mensual", value: farmer.monthlyIncome, prefix: "S/", suffix: "/mes", decimals: 0 },
+          { label: "Ingreso mensual", value: producer.monthlyIncome, prefix: "S/", suffix: "/mes", decimals: 0 },
           { label: "Estabilidad de ingreso", value: stability, prefix: "", suffix: "%", decimals: 0 },
           { label: "Transacciones", value: txCount, prefix: "", suffix: " txns", decimals: 0 },
-          { label: "Chacra Score", value: farmer.trustScore, prefix: "", suffix: "/10", decimals: 1 },
+          { label: "Chacra Score", value: producer.trustScore, prefix: "", suffix: "/10", decimals: 1 },
         ].map((kpi, i) => {
           const isChacraScore = i === 3
           return (
@@ -484,7 +484,7 @@ function PerfilContent({ farmer }: { farmer: Farmer }) {
           <Card className="border-border/50 bg-card/80">
             <CardContent className="pt-5">
               <p className="mb-3 text-sm font-medium text-muted-foreground">
-                Tendencia de ingreso ({farmer.months} meses)
+                Tendencia de ingreso ({producer.months} meses)
               </p>
               <ChartContainer
                 config={{ income: { label: "Ingreso", color: "var(--chart-2)" } }}
@@ -530,9 +530,9 @@ function PerfilContent({ farmer }: { farmer: Farmer }) {
             {/* Integrity score */}
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-muted-foreground">Verificación de datos</p>
-              <span className={`text-lg font-semibold ${TIER_TEXT_COLOR[farmer.tier]}`}>{trustPct}%</span>
+              <span className={`text-lg font-semibold ${TIER_TEXT_COLOR[producer.tier]}`}>{trustPct}%</span>
             </div>
-            <AnimatedProgress target={trustPct} className={`mt-2 h-2.5 ${TIER_PROGRESS_COLOR[farmer.tier]}`} />
+            <AnimatedProgress target={trustPct} className={`mt-2 h-2.5 ${TIER_PROGRESS_COLOR[producer.tier]}`} />
 
             {/* Trust checks */}
             <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -599,7 +599,7 @@ function PerfilContent({ farmer }: { farmer: Farmer }) {
                 <div className="flex-1">
                   <p className="text-sm font-medium">Transacción marcada</p>
                   <p className="mt-0.5 text-xs text-muted-foreground">
-                    {farmer.name} &middot; {farmer.region}
+                    {producer.name} &middot; {producer.region}
                   </p>
                 </div>
                 <Badge variant="destructive" className="shrink-0">Requiere revisión</Badge>
@@ -640,7 +640,7 @@ function PerfilContent({ farmer }: { farmer: Farmer }) {
                   S/{loanRange.min.toLocaleString()} — S/{loanRange.max.toLocaleString()}
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Basado en {farmer.months} meses de datos verificados. Sujeto a su evaluación crediticia.
+                  Basado en {producer.months} meses de datos verificados. Sujeto a su evaluación crediticia.
                 </p>
               </div>
             </CardContent>
@@ -669,25 +669,25 @@ function PerfilContent({ farmer }: { farmer: Farmer }) {
 // ─── Perfil tab wrapper ───
 
 function PerfilTab({
-  farmer,
+  producer,
   selectedName,
-  onSelectFarmer,
+  onSelectProducer,
 }: {
-  farmer: Farmer | null
+  producer: Producer | null
   selectedName: string
-  onSelectFarmer: (name: string) => void
+  onSelectProducer: (name: string) => void
 }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <FarmerSelect value={selectedName} onValueChange={onSelectFarmer} />
-        {farmer && (
+        <ProducerSelect value={selectedName} onValueChange={onSelectProducer} />
+        {producer && (
           <Button variant="outline" size="sm" disabled className="shrink-0 opacity-50">
             Exportar reporte
           </Button>
         )}
       </div>
-      {farmer ? <PerfilContent farmer={farmer} /> : <PerfilEmptyState onSelectMaria={() => onSelectFarmer("María Quispe")} />}
+      {producer ? <PerfilContent producer={producer} /> : <ProfileEmptyState onSelectMaria={() => onSelectProducer("María Quispe")} />}
     </div>
   )
 }
@@ -719,10 +719,10 @@ function FooterCTA() {
 // ─── Page Root ───
 
 export default function DemoFinancierasPage() {
-  const [selectedFarmerName, setSelectedFarmerName] = useState("")
+  const [selectedProducerName, setSelectedProducerName] = useState("")
 
-  const selectedFarmer = selectedFarmerName
-    ? FARMERS.find((f) => f.name === selectedFarmerName) ?? null
+  const selectedProducer = selectedProducerName
+    ? PRODUCERS.find((f) => f.name === selectedProducerName) ?? null
     : null
 
   return (
@@ -740,9 +740,9 @@ export default function DemoFinancierasPage() {
         </TabsContent>
         <TabsContent value="perfil">
           <PerfilTab
-            farmer={selectedFarmer}
-            selectedName={selectedFarmerName}
-            onSelectFarmer={setSelectedFarmerName}
+            producer={selectedProducer}
+            selectedName={selectedProducerName}
+            onSelectProducer={setSelectedProducerName}
           />
         </TabsContent>
       </Tabs>

@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
 		name: "Chacra",
 		short_name: "Chacra",
 		description: "Registra tus ventas agricolas",
-		start_url: "/farmer",
+		start_url: "/productor",
 		display: "standalone",
 		background_color: "#FAF8F5",
 		theme_color: "#B7522A",

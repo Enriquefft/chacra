@@ -19,8 +19,8 @@ src/
     demo-cooperativas/           # Static demo (existing, keep as-is)
     demo-financieras/            # Static demo (existing, keep as-is)
 
-    farmer/                      # Farmer PWA (to build)
-      layout.tsx                 # Farmer shell + offline detection
+    producer/                    # Producer PWA (to build)
+      layout.tsx                 # Producer shell + offline detection
       page.tsx                   # Transaction form + sign-in
       history/page.tsx           # Transaction history
 
@@ -34,7 +34,7 @@ src/
     scoring/                     # Financiera scoring (to build)
       layout.tsx                 # Scoring shell + auth guard
       page.tsx                   # Portfolio view
-      farmer/[id]/page.tsx       # Individual credit profile
+      producer/[id]/page.tsx     # Individual credit profile
 
     api/
       auth/[...all]/route.ts     # better-auth catch-all
@@ -56,7 +56,7 @@ src/
 
   actions/
     transactions.ts              # Server Actions: create, confirm, correct
-    farmers.ts                   # Server Actions: register, update profile
+    producers.ts                 # Server Actions: register, update profile
     cooperatives.ts              # Server Actions: manage coop, products, goals
 
   components/
@@ -113,7 +113,7 @@ Our tables defined manually in `src/db/schema.ts` which re-exports auth-schema.
 |--------|------|-------------|-------|
 | id | SERIAL | PK | Auto-increment |
 | uuid | TEXT | NOT NULL, UNIQUE | Client-generated, ON CONFLICT DO NOTHING |
-| farmer_id | TEXT | NOT NULL, FK(user.id) | |
+| producer_id | TEXT | NOT NULL, FK(user.id) | |
 | cooperative_id | TEXT | NOT NULL, FK(cooperative.id) | Denormalized for query perf |
 | product | TEXT | NOT NULL | Must be in cooperative's productList |
 | quantity_kg | NUMERIC(10,2) | NOT NULL | Kilograms |
@@ -124,22 +124,22 @@ Our tables defined manually in `src/db/schema.ts` which re-exports auth-schema.
 | created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Server receive time |
 | synced_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
 
-Indexes: farmer_id, cooperative_id, date
+Indexes: producer_id, cooperative_id, date
 
 ### user (additional fields via better-auth)
 
 | Field | Type | Default | input | Notes |
 |-------|------|---------|-------|-------|
-| role | enum | null | false | 'farmer' / 'cooperative' / 'financiera'. Set by server only. |
+| role | enum | null | false | 'producer' / 'cooperative' / 'financiera'. Set by server only. |
 | cooperativeId | string | null | false | FK to cooperative |
-| farmerName | string | null | true | Display name (may differ from Google) |
-| farmerRegion | string | null | true | Farmer's region |
+| producerName | string | null | true | Display name (may differ from Google) |
+| producerRegion | string | null | true | Producer's region |
 
 ### Relations
 
 ```
 cooperative 1---* user (via user.cooperativeId)
-user 1---* transaction (via transaction.farmerId)
+user 1---* transaction (via transaction.producerId)
 cooperative 1---* transaction (via transaction.cooperativeId)
 ```
 
@@ -150,7 +150,7 @@ cooperative 1---* transaction (via transaction.cooperativeId)
 ### Role assignment: deferred to onboarding (not OAuth hooks)
 
 1. User signs in with Google → better-auth creates user with `role = null`
-2. `callbackURL` sends them back to entry point (`/farmer`, `/dashboard`, `/scoring`)
+2. `callbackURL` sends them back to entry point (`/productor`, `/dashboard`, `/scoring`)
 3. Layout checks: no role? → show onboarding form for that entry point
 4. Onboarding server action sets role + associated data
 
@@ -161,7 +161,7 @@ This is robust because:
 
 ### Session enrichment
 
-`customSession` plugin adds role, cooperativeId, farmerName, farmerRegion to every session response.
+`customSession` plugin adds role, cooperativeId, producerName, producerRegion to every session response.
 No extra DB query needed for role checks.
 
 ### Layout auth pattern
@@ -177,7 +177,7 @@ Each section layout handles 4 states:
 ```
 getSession()          → Session | null (server-side)
 requireAuth()         → Session (redirects if null)
-requireFarmer()       → Session (redirects if not farmer)
+requireProducer()     → Session (redirects if not producer)
 requireCooperative()  → Session (redirects if not cooperative)
 requireFinanciera()   → Session (redirects if not financiera)
 ```
@@ -197,14 +197,14 @@ Returns null if < 5 data points. Excludes flagged transactions. 90-day window.
 ### `lib/integrity.ts`
 ```
 checkTransaction(transactionId)           → IntegrityFlag[]
-computeTrustScore(farmerId)               → TrustScoreResult
-checkCrossValidation(farmerId, coopId, period) → IntegrityFlag[]
+computeTrustScore(producerId)             → TrustScoreResult
+checkCrossValidation(producerId, coopId, period) → IntegrityFlag[]
 ```
-Trust formula: `clamp(50 + confirmed - 5*flagged, 0, 100)`. New farmer = 50.
+Trust formula: `clamp(50 + confirmed - 5*flagged, 0, 100)`. New producer = 50.
 
 ### `lib/scoring.ts`
 ```
-computeCreditScore(farmerId)              → CreditScore
+computeCreditScore(producerId)            → CreditScore
 ```
 Tier A: 6+ months, 500+ PEN avg, 70+ trust, 60+ consistency.
 Tier B: 3+ months, 200+ PEN avg, 40+ trust. Tier C: everything else.
@@ -212,7 +212,7 @@ Loan range: A = 2-6x monthly, B = 1-3x monthly, C = null.
 
 ### `lib/sync.ts`
 ```
-syncBatch(farmerId, coopId, transactions) → SyncResponse
+syncBatch(producerId, coopId, transactions) → SyncResponse
 ```
 Validates, deduplicates by UUID (ON CONFLICT DO NOTHING), runs integrity checks.
 Max 100 per batch (enforced at API route level).
@@ -220,16 +220,16 @@ Max 100 per batch (enforced at API route level).
 ### `actions/transactions.ts`
 ```
 createTransaction(input)                  → ActionResult<{ id, uuid }>
-getTransactionsByFarmer(farmerId?, opts)  → ActionResult<{ transactions, total }>
+getTransactionsByProducer(producerId?, opts) → ActionResult<{ transactions, total }>
 getTransactionsByCooperative(opts)        → ActionResult<{ transactions, total }>
 confirmTransaction(transactionId)         → ActionResult<void>
 rejectTransaction(transactionId)          → ActionResult<void>
 ```
 
-### `actions/farmers.ts`
+### `actions/producers.ts`
 ```
-getFarmersForCooperative(opts?)            → ActionResult<{ farmers: FarmerListItem[] }>
-getFarmerProfile(farmerId)                 → ActionResult<FarmerProfile>
+getProducersForCooperative(opts?)          → ActionResult<{ producers: ProducerListItem[] }>
+getProducerProfile(producerId)             → ActionResult<ProducerProfile>
 ```
 
 ### `actions/cooperatives.ts`
@@ -242,7 +242,7 @@ getCooperativeStats()                      → ActionResult<CooperativeStats>
 ```
 
 ### Shared types: `lib/types.ts`
-All module interfaces use types from this file. Key shapes: `CreditScore`, `PriceBenchmark`, `IntegrityFlag`, `SyncResponse`, `CooperativeStats`, `FarmerListItem`.
+All module interfaces use types from this file. Key shapes: `CreditScore`, `PriceBenchmark`, `IntegrityFlag`, `SyncResponse`, `CooperativeStats`, `ProducerListItem`.
 
 ---
 

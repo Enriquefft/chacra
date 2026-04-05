@@ -1,7 +1,7 @@
 import { CheckCircle, DangerTriangle } from "@/components/auth/solar-icons";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import type { FarmerProfile } from "@/lib/types";
+import type { ProducerProfile } from "@/lib/types";
 
 interface ProfileField {
 	key: string;
@@ -9,35 +9,35 @@ interface ProfileField {
 	filled: boolean;
 }
 
-function getProfileFields(profile: FarmerProfile): ProfileField[] {
+function getProfileFields(profile: ProducerProfile): ProfileField[] {
 	return [
 		{
-			key: "farmerPhone",
+			key: "producerPhone",
 			label: "Telefono",
-			filled: profile.farmerPhone !== null && profile.farmerPhone !== "",
+			filled: profile.producerPhone !== null && profile.producerPhone !== "",
 		},
 		{
-			key: "farmerCrops",
+			key: "producerCrops",
 			label: "Cultivos principales",
-			filled: profile.farmerCrops !== null && profile.farmerCrops !== "",
+			filled: profile.producerCrops !== null && profile.producerCrops !== "",
 		},
 		{
-			key: "farmerDistrict",
+			key: "producerDistrict",
 			label: "Distrito / provincia",
 			filled:
-				profile.farmerDistrict !== null && profile.farmerDistrict !== "",
+				profile.producerDistrict !== null && profile.producerDistrict !== "",
 		},
 		{
-			key: "farmerExperience",
+			key: "producerExperience",
 			label: "Anos de experiencia",
-			filled: profile.farmerExperience !== null,
+			filled: profile.producerExperience !== null,
 		},
 		{
-			key: "farmerLandOwnership",
+			key: "producerLandOwnership",
 			label: "Tenencia de tierra",
 			filled:
-				profile.farmerLandOwnership !== null &&
-				profile.farmerLandOwnership !== "",
+				profile.producerLandOwnership !== null &&
+				profile.producerLandOwnership !== "",
 		},
 	];
 }
@@ -45,7 +45,7 @@ function getProfileFields(profile: FarmerProfile): ProfileField[] {
 export function ProfileCompleteness({
 	profile,
 }: {
-	profile: FarmerProfile;
+	profile: ProducerProfile;
 }) {
 	const fields = getProfileFields(profile);
 	const filledCount = fields.filter((f) => f.filled).length;

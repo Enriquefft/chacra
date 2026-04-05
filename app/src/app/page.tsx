@@ -506,7 +506,7 @@ export default function LandingPage() {
 				</div>
 			</section>
 
-			{/* ─── 3. For Farmers (Socios) ─── */}
+			{/* ─── 3. For Producers (Socios) ─── */}
 			<section id="productores" className="border-t py-20 md:py-28">
 				<div className="mx-auto max-w-6xl px-4 sm:px-6">
 					<ScrollReveal>
@@ -1019,7 +1019,7 @@ export default function LandingPage() {
 									</div>
 								</div>
 								<div className="p-5">
-									{/* Farmer identity */}
+									{/* Producer identity */}
 									<div className="flex items-center gap-3 pb-4">
 										<div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
 											<span className="text-sm font-semibold text-primary">
@@ -1317,7 +1317,7 @@ export default function LandingPage() {
 								Planes para cada etapa
 							</h2>
 							<p className="mx-auto mt-4 max-w-[65ch] text-pretty text-base text-muted-foreground md:text-lg">
-								El agricultor nunca paga. La cooperativa elige el plan que
+								El productor nunca paga. La cooperativa elige el plan que
 								necesita.
 							</p>
 						</div>
@@ -1484,7 +1484,7 @@ export default function LandingPage() {
 						</ScrollReveal>
 					</div>
 
-					{/* Farmer-free callout */}
+					{/* Producer-free callout */}
 					<ScrollReveal delay={350}>
 						<div className="mx-auto mt-8 max-w-3xl">
 							<div className="flex items-start gap-3 rounded-xl border border-success/20 bg-success/5 px-5 py-4">
@@ -1495,7 +1495,7 @@ export default function LandingPage() {
 									aria-hidden="true"
 								/>
 								<p className="text-base leading-relaxed text-foreground">
-									<span className="font-medium">El agricultor nunca paga.</span>{" "}
+									<span className="font-medium">El productor nunca paga.</span>{" "}
 									Chacra es gratis para los productores. La cooperativa o
 									asociacion elige el plan que mejor se adapte a su tamano.
 								</p>
@@ -1607,7 +1607,7 @@ export default function LandingPage() {
 							Empieza gratis con hasta 50 productores
 						</h2>
 						<p className="mt-3 text-pretty text-lg text-primary-foreground/70">
-							Sin tarjeta. Sin costo para agricultores. Registra tu cooperativa
+							Sin tarjeta. Sin costo para productores. Registra tu cooperativa
 							hoy.
 						</p>
 					</ScrollReveal>

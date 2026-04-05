@@ -2,7 +2,7 @@
 
 import { useId, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { updateFarmerProfile } from "@/actions/farmers";
+import { updateProducerProfile } from "@/actions/producers";
 import { CheckCircle, UserRounded } from "@/components/auth/solar-icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -17,29 +17,29 @@ import {
 } from "@/components/ui/select";
 
 interface ProfileFields {
-	farmerPhone: string | null;
-	farmerCrops: string | null;
-	farmerDistrict: string | null;
-	farmerExperience: number | null;
-	farmerLandOwnership: string | null;
+	producerPhone: string | null;
+	producerCrops: string | null;
+	producerDistrict: string | null;
+	producerExperience: number | null;
+	producerLandOwnership: string | null;
 }
 
 const FIELD_LABELS: Record<keyof ProfileFields, string> = {
-	farmerPhone: "Telefono",
-	farmerCrops: "Cultivos principales",
-	farmerDistrict: "Distrito / provincia",
-	farmerExperience: "Anos de experiencia",
-	farmerLandOwnership: "Tenencia de tierra",
+	producerPhone: "Telefono",
+	producerCrops: "Cultivos principales",
+	producerDistrict: "Distrito / provincia",
+	producerExperience: "Anos de experiencia",
+	producerLandOwnership: "Tenencia de tierra",
 };
 
 function countFilledFields(fields: ProfileFields): number {
 	let count = 0;
-	if (fields.farmerPhone) count++;
-	if (fields.farmerCrops) count++;
-	if (fields.farmerDistrict) count++;
-	if (fields.farmerExperience !== null && fields.farmerExperience !== undefined)
+	if (fields.producerPhone) count++;
+	if (fields.producerCrops) count++;
+	if (fields.producerDistrict) count++;
+	if (fields.producerExperience !== null && fields.producerExperience !== undefined)
 		count++;
-	if (fields.farmerLandOwnership) count++;
+	if (fields.producerLandOwnership) count++;
 	return count;
 }
 
@@ -56,16 +56,16 @@ export function ProfileCompletion({
 	const [fields, setFields] = useState<ProfileFields>(initialFields);
 
 	// Form state
-	const [phone, setPhone] = useState(fields.farmerPhone ?? "");
-	const [crops, setCrops] = useState(fields.farmerCrops ?? "");
-	const [district, setDistrict] = useState(fields.farmerDistrict ?? "");
+	const [phone, setPhone] = useState(fields.producerPhone ?? "");
+	const [crops, setCrops] = useState(fields.producerCrops ?? "");
+	const [district, setDistrict] = useState(fields.producerDistrict ?? "");
 	const [experience, setExperience] = useState(
-		fields.farmerExperience !== null && fields.farmerExperience !== undefined
-			? String(fields.farmerExperience)
+		fields.producerExperience !== null && fields.producerExperience !== undefined
+			? String(fields.producerExperience)
 			: "",
 	);
 	const [landOwnership, setLandOwnership] = useState(
-		fields.farmerLandOwnership ?? "",
+		fields.producerLandOwnership ?? "",
 	);
 
 	const filledCount = countFilledFields(fields);
@@ -81,27 +81,27 @@ export function ProfileCompletion({
 		startTransition(async () => {
 			const data: Record<string, string | number | undefined> = {};
 
-			if (phone.trim() && !fields.farmerPhone) {
-				data.farmerPhone = phone.trim();
+			if (phone.trim() && !fields.producerPhone) {
+				data.producerPhone = phone.trim();
 			}
-			if (crops.trim() && !fields.farmerCrops) {
-				data.farmerCrops = crops.trim();
+			if (crops.trim() && !fields.producerCrops) {
+				data.producerCrops = crops.trim();
 			}
-			if (district.trim() && !fields.farmerDistrict) {
-				data.farmerDistrict = district.trim();
+			if (district.trim() && !fields.producerDistrict) {
+				data.producerDistrict = district.trim();
 			}
 			if (
 				experience.trim() &&
-				(fields.farmerExperience === null ||
-					fields.farmerExperience === undefined)
+				(fields.producerExperience === null ||
+					fields.producerExperience === undefined)
 			) {
 				const parsed = Number.parseInt(experience, 10);
 				if (!Number.isNaN(parsed)) {
-					data.farmerExperience = parsed;
+					data.producerExperience = parsed;
 				}
 			}
-			if (landOwnership && !fields.farmerLandOwnership) {
-				data.farmerLandOwnership = landOwnership;
+			if (landOwnership && !fields.producerLandOwnership) {
+				data.producerLandOwnership = landOwnership;
 			}
 
 			if (Object.keys(data).length === 0) {
@@ -109,7 +109,7 @@ export function ProfileCompletion({
 				return;
 			}
 
-			const result = await updateFarmerProfile(data);
+			const result = await updateProducerProfile(data);
 
 			if ("error" in result) {
 				toast.error(result.error);
@@ -118,15 +118,15 @@ export function ProfileCompletion({
 
 			// Update local state to reflect saved fields
 			setFields((prev) => ({
-				farmerPhone: (data.farmerPhone as string) ?? prev.farmerPhone,
-				farmerCrops: (data.farmerCrops as string) ?? prev.farmerCrops,
-				farmerDistrict: (data.farmerDistrict as string) ?? prev.farmerDistrict,
-				farmerExperience:
-					data.farmerExperience !== undefined
-						? (data.farmerExperience as number)
-						: prev.farmerExperience,
-				farmerLandOwnership:
-					(data.farmerLandOwnership as string) ?? prev.farmerLandOwnership,
+				producerPhone: (data.producerPhone as string) ?? prev.producerPhone,
+				producerCrops: (data.producerCrops as string) ?? prev.producerCrops,
+				producerDistrict: (data.producerDistrict as string) ?? prev.producerDistrict,
+				producerExperience:
+					data.producerExperience !== undefined
+						? (data.producerExperience as number)
+						: prev.producerExperience,
+				producerLandOwnership:
+					(data.producerLandOwnership as string) ?? prev.producerLandOwnership,
 			}));
 
 			toast.success("Perfil actualizado");
@@ -136,12 +136,12 @@ export function ProfileCompletion({
 	const progressPercent = Math.round((filledCount / TOTAL_FIELDS) * 100);
 
 	// Determine which fields still need filling
-	const needsPhone = !fields.farmerPhone;
-	const needsCrops = !fields.farmerCrops;
-	const needsDistrict = !fields.farmerDistrict;
+	const needsPhone = !fields.producerPhone;
+	const needsCrops = !fields.producerCrops;
+	const needsDistrict = !fields.producerDistrict;
 	const needsExperience =
-		fields.farmerExperience === null || fields.farmerExperience === undefined;
-	const needsLandOwnership = !fields.farmerLandOwnership;
+		fields.producerExperience === null || fields.producerExperience === undefined;
+	const needsLandOwnership = !fields.producerLandOwnership;
 
 	const remaining = TOTAL_FIELDS - filledCount;
 
@@ -186,7 +186,7 @@ export function ProfileCompletion({
 								htmlFor={`${formId}-phone`}
 								className="text-base font-medium"
 							>
-								{FIELD_LABELS.farmerPhone}
+								{FIELD_LABELS.producerPhone}
 							</label>
 							<Input
 								id={`${formId}-phone`}
@@ -206,7 +206,7 @@ export function ProfileCompletion({
 								htmlFor={`${formId}-crops`}
 								className="text-base font-medium"
 							>
-								{FIELD_LABELS.farmerCrops}
+								{FIELD_LABELS.producerCrops}
 							</label>
 							<Input
 								id={`${formId}-crops`}
@@ -225,7 +225,7 @@ export function ProfileCompletion({
 								htmlFor={`${formId}-district`}
 								className="text-base font-medium"
 							>
-								{FIELD_LABELS.farmerDistrict}
+								{FIELD_LABELS.producerDistrict}
 							</label>
 							<Input
 								id={`${formId}-district`}
@@ -244,7 +244,7 @@ export function ProfileCompletion({
 								htmlFor={`${formId}-experience`}
 								className="text-base font-medium"
 							>
-								{FIELD_LABELS.farmerExperience}
+								{FIELD_LABELS.producerExperience}
 							</label>
 							<Input
 								id={`${formId}-experience`}
@@ -267,7 +267,7 @@ export function ProfileCompletion({
 								htmlFor={`${formId}-land`}
 								className="text-base font-medium"
 							>
-								{FIELD_LABELS.farmerLandOwnership}
+								{FIELD_LABELS.producerLandOwnership}
 							</label>
 							<Select value={landOwnership} onValueChange={setLandOwnership}>
 								<SelectTrigger className="h-11 w-full text-base">

@@ -11,7 +11,7 @@ export function KpiRow({ stats }: { stats: CooperativeStats }) {
 	const kpis = [
 		{
 			label: "Productores Activos",
-			value: `${stats.activeFarmers} / ${stats.totalFarmers}`,
+			value: `${stats.activeProducers} / ${stats.totalProducers}`,
 			icon: UsersGroupRounded,
 			iconBg: "bg-chart-2/10",
 			iconColor: "text-chart-2",

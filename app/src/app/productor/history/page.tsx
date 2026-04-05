@@ -1,19 +1,19 @@
-import { getTransactionsByFarmer } from "@/actions/transactions";
+import { getTransactionsByProducer } from "@/actions/transactions";
 import { getSession } from "@/lib/auth";
 import { getPriceBenchmark } from "@/lib/prices";
 import { TransactionHistory } from "../_components/transaction-history";
 
-export default async function FarmerHistoryPage() {
+export default async function ProducerHistoryPage() {
 	const session = await getSession();
 	if (!session) return null;
 
-	const result = await getTransactionsByFarmer();
+	const result = await getTransactionsByProducer();
 	if ("error" in result) return null;
 
 	const { transactions } = result.data;
 
 	// Build price benchmarks for unique (product, region) pairs
-	const region = session.user.farmerRegion ?? "";
+	const region = session.user.producerRegion ?? "";
 	const uniqueProducts = [
 		...new Set(
 			transactions.map((t) => t.product).filter((p): p is string => p != null),

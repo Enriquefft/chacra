@@ -8,19 +8,19 @@ import { db } from "@/lib/db";
 import { getPriceBenchmark } from "@/lib/prices";
 import type {
 	ActionResult,
-	FarmerListItem,
-	FarmerProfile,
 	PriceBenchmark,
+	ProducerListItem,
+	ProducerProfile,
 	ProductPriceData,
-	ScoringFarmerItem,
+	ScoringProducerItem,
 	Tier,
 } from "@/lib/types";
 
-// ─── getFarmersForCooperative ────────────────────────────────────────
+// ─── getProducersForCooperative ────────────────────────────────────────
 
-export async function getFarmersForCooperative(options?: {
+export async function getProducersForCooperative(options?: {
 	search?: string;
-}): Promise<ActionResult<{ farmers: FarmerListItem[] }>> {
+}): Promise<ActionResult<{ producers: ProducerListItem[] }>> {
 	const session = await getSession();
 	if (!session || session.user.role !== "cooperative") {
 		return { error: "No autorizado" };
@@ -31,12 +31,12 @@ export async function getFarmersForCooperative(options?: {
 
 	const conditions = [
 		eq(user.cooperativeId, session.user.cooperativeId),
-		eq(user.role, "farmer"),
+		eq(user.role, "producer"),
 	];
 
 	if (options?.search) {
 		const searchTerm = `%${options.search}%`;
-		conditions.push(ilike(user.farmerName, searchTerm));
+		conditions.push(ilike(user.producerName, searchTerm));
 	}
 
 	const whereClause = and(...conditions);
@@ -44,8 +44,8 @@ export async function getFarmersForCooperative(options?: {
 	const rows = await db
 		.select({
 			id: user.id,
-			name: user.farmerName,
-			region: user.farmerRegion,
+			name: user.producerName,
+			region: user.producerRegion,
 			email: user.email,
 			transactionCount: sql<number>`count(${transaction.id})::int`,
 			lastTransactionDate: sql<string | null>`max(${transaction.date})`,
@@ -53,11 +53,11 @@ export async function getFarmersForCooperative(options?: {
 			flaggedCount: sql<number>`COUNT(CASE WHEN ${transaction.integrityStatus} = 'flagged' THEN 1 END)::int`,
 		})
 		.from(user)
-		.leftJoin(transaction, eq(user.id, transaction.farmerId))
+		.leftJoin(transaction, eq(user.id, transaction.producerId))
 		.where(whereClause)
 		.groupBy(user.id);
 
-	const farmers: FarmerListItem[] = rows.map((row) => ({
+	const producers: ProducerListItem[] = rows.map((row) => ({
 		id: row.id,
 		name: row.name ?? "",
 		region: row.region,
@@ -71,14 +71,14 @@ export async function getFarmersForCooperative(options?: {
 				: "on_track",
 	}));
 
-	return { success: true, data: { farmers } };
+	return { success: true, data: { producers } };
 }
 
-// ─── getFarmerProfile ────────────────────────────────────────────────
+// ─── getProducerProfile ────────────────────────────────────────────────
 
-export async function getFarmerProfile(
-	farmerId: string,
-): Promise<ActionResult<FarmerProfile>> {
+export async function getProducerProfile(
+	producerId: string,
+): Promise<ActionResult<ProducerProfile>> {
 	const session = await getSession();
 	if (!session) {
 		return { error: "No autorizado" };
@@ -90,9 +90,9 @@ export async function getFarmerProfile(
 		return { error: "No autorizado" };
 	}
 
-	const conditions = [eq(user.id, farmerId), eq(user.role, "farmer")];
+	const conditions = [eq(user.id, producerId), eq(user.role, "producer")];
 
-	// Cooperative can only see farmers in their cooperative
+	// Cooperative can only see producers in their cooperative
 	if (role === "cooperative") {
 		if (!session.user.cooperativeId) {
 			return { error: "No hay cooperativa asociada" };
@@ -103,18 +103,18 @@ export async function getFarmerProfile(
 	const [result] = await db
 		.select({
 			id: user.id,
-			name: user.farmerName,
+			name: user.producerName,
 			email: user.email,
-			region: user.farmerRegion,
+			region: user.producerRegion,
 			cooperativeId: user.cooperativeId,
 			cooperativeName: cooperative.name,
 			createdAt: user.createdAt,
-			farmerPhone: user.farmerPhone,
-			farmerCrops: user.farmerCrops,
-			farmerDistrict: user.farmerDistrict,
-			farmerExperience: user.farmerExperience,
-			farmerLandOwnership: user.farmerLandOwnership,
-			farmerHectares: user.farmerHectares,
+			producerPhone: user.producerPhone,
+			producerCrops: user.producerCrops,
+			producerDistrict: user.producerDistrict,
+			producerExperience: user.producerExperience,
+			producerLandOwnership: user.producerLandOwnership,
+			producerHectares: user.producerHectares,
 		})
 		.from(user)
 		.innerJoin(cooperative, eq(user.cooperativeId, cooperative.id))
@@ -122,7 +122,7 @@ export async function getFarmerProfile(
 		.limit(1);
 
 	if (!result) {
-		return { error: "Agricultor no encontrado" };
+		return { error: "Productor no encontrado" };
 	}
 
 	return {
@@ -135,40 +135,40 @@ export async function getFarmerProfile(
 			cooperativeId: result.cooperativeId!,
 			cooperativeName: result.cooperativeName,
 			createdAt: result.createdAt,
-			farmerPhone: result.farmerPhone,
-			farmerCrops: result.farmerCrops,
-			farmerDistrict: result.farmerDistrict,
-			farmerExperience: result.farmerExperience,
-			farmerLandOwnership: result.farmerLandOwnership,
-			farmerHectares: result.farmerHectares
-				? Number(result.farmerHectares)
+			producerPhone: result.producerPhone,
+			producerCrops: result.producerCrops,
+			producerDistrict: result.producerDistrict,
+			producerExperience: result.producerExperience,
+			producerLandOwnership: result.producerLandOwnership,
+			producerHectares: result.producerHectares
+				? Number(result.producerHectares)
 				: null,
 		},
 	};
 }
 
-// ─── getAllFarmersForScoring ─────────────────────────────────────────
+// ─── getAllProducersForScoring ─────────────────────────────────────────
 
-export async function getAllFarmersForScoring(opts?: {
+export async function getAllProducersForScoring(opts?: {
 	search?: string;
-}): Promise<ActionResult<{ farmers: ScoringFarmerItem[] }>> {
+}): Promise<ActionResult<{ producers: ScoringProducerItem[] }>> {
 	const session = await getSession();
 	if (!session || session.user.role !== "financiera") {
 		return { error: "No autorizado" };
 	}
 
-	const conditions = [eq(user.role, "farmer")];
+	const conditions = [eq(user.role, "producer")];
 
 	if (opts?.search) {
 		const searchTerm = `%${opts.search}%`;
-		conditions.push(ilike(user.farmerName, searchTerm));
+		conditions.push(ilike(user.producerName, searchTerm));
 	}
 
 	const rows = await db
 		.select({
 			id: user.id,
-			name: user.farmerName,
-			region: user.farmerRegion,
+			name: user.producerName,
+			region: user.producerRegion,
 			cooperativeName: cooperative.name,
 			transactionCount: sql<number>`COUNT(${transaction.id})::int`,
 			avgMonthlyRevenue: sql<string>`COALESCE(
@@ -182,11 +182,11 @@ export async function getAllFarmersForScoring(opts?: {
 		})
 		.from(user)
 		.leftJoin(cooperative, eq(user.cooperativeId, cooperative.id))
-		.leftJoin(transaction, eq(user.id, transaction.farmerId))
+		.leftJoin(transaction, eq(user.id, transaction.producerId))
 		.where(and(...conditions))
 		.groupBy(user.id, cooperative.name);
 
-	const farmers: ScoringFarmerItem[] = rows.map((row) => {
+	const producers: ScoringProducerItem[] = rows.map((row) => {
 		const activeMonths = row.activeMonths;
 		const avgMonthlyRevenue = Number(row.avgMonthlyRevenue);
 		const trustScore = row.trustScore;
@@ -215,61 +215,61 @@ export async function getAllFarmersForScoring(opts?: {
 		};
 	});
 
-	return { success: true, data: { farmers } };
+	return { success: true, data: { producers } };
 }
 
-// ─── updateFarmerProfile ────────────────────────────────────────────
+// ─── updateProducerProfile ────────────────────────────────────────────
 
 const LAND_OWNERSHIP_VALUES = ["propia", "alquilada", "comunal"] as const;
 
-export async function updateFarmerProfile(data: {
-	farmerPhone?: string;
-	farmerCrops?: string;
-	farmerDistrict?: string;
-	farmerExperience?: number;
-	farmerLandOwnership?: string;
+export async function updateProducerProfile(data: {
+	producerPhone?: string;
+	producerCrops?: string;
+	producerDistrict?: string;
+	producerExperience?: number;
+	producerLandOwnership?: string;
 }): Promise<ActionResult<void>> {
 	const session = await getSession();
-	if (!session || session.user.role !== "farmer") {
+	if (!session || session.user.role !== "producer") {
 		return { error: "No autorizado" };
 	}
 
 	const updates: Record<string, unknown> = {};
 
-	if (data.farmerPhone !== undefined) {
-		const phone = data.farmerPhone.trim();
+	if (data.producerPhone !== undefined) {
+		const phone = data.producerPhone.trim();
 		if (phone && (phone.length < 6 || phone.length > 20)) {
 			return { error: "Telefono debe tener entre 6 y 20 caracteres" };
 		}
-		updates.farmerPhone = phone || null;
+		updates.producerPhone = phone || null;
 	}
 
-	if (data.farmerCrops !== undefined) {
-		const crops = data.farmerCrops.trim();
+	if (data.producerCrops !== undefined) {
+		const crops = data.producerCrops.trim();
 		if (crops && crops.length > 200) {
 			return { error: "Cultivos excede 200 caracteres" };
 		}
-		updates.farmerCrops = crops || null;
+		updates.producerCrops = crops || null;
 	}
 
-	if (data.farmerDistrict !== undefined) {
-		const district = data.farmerDistrict.trim();
+	if (data.producerDistrict !== undefined) {
+		const district = data.producerDistrict.trim();
 		if (district && district.length > 200) {
 			return { error: "Distrito excede 200 caracteres" };
 		}
-		updates.farmerDistrict = district || null;
+		updates.producerDistrict = district || null;
 	}
 
-	if (data.farmerExperience !== undefined) {
-		const exp = data.farmerExperience;
+	if (data.producerExperience !== undefined) {
+		const exp = data.producerExperience;
 		if (exp !== null && (exp < 0 || exp > 100 || !Number.isInteger(exp))) {
 			return { error: "Experiencia debe ser un numero entero entre 0 y 100" };
 		}
-		updates.farmerExperience = exp;
+		updates.producerExperience = exp;
 	}
 
-	if (data.farmerLandOwnership !== undefined) {
-		const ownership = data.farmerLandOwnership;
+	if (data.producerLandOwnership !== undefined) {
+		const ownership = data.producerLandOwnership;
 		if (
 			ownership &&
 			!LAND_OWNERSHIP_VALUES.includes(
@@ -278,7 +278,7 @@ export async function updateFarmerProfile(data: {
 		) {
 			return { error: "Tenencia de tierra no valida" };
 		}
-		updates.farmerLandOwnership = ownership || null;
+		updates.producerLandOwnership = ownership || null;
 	}
 
 	if (Object.keys(updates).length === 0) {
@@ -287,18 +287,18 @@ export async function updateFarmerProfile(data: {
 
 	await db.update(user).set(updates).where(eq(user.id, session.user.id));
 
-	revalidatePath("/farmer");
+	revalidatePath("/productor");
 
 	return { success: true, data: undefined };
 }
 
-// ─── getFarmerPriceData ─────────────────────────────────────────────
+// ─── getProducerPriceData ─────────────────────────────────────────────
 
-export async function getFarmerPriceData(): Promise<
+export async function getProducerPriceData(): Promise<
 	ActionResult<{ products: ProductPriceData[] }>
 > {
 	const session = await getSession();
-	if (!session || session.user.role !== "farmer") {
+	if (!session || session.user.role !== "producer") {
 		return { error: "No autorizado" };
 	}
 	if (!session.user.cooperativeId) {
@@ -324,8 +324,8 @@ export async function getFarmerPriceData(): Promise<
 		return { success: true, data: { products: [] } };
 	}
 
-	// Fetch benchmarks and farmer's last prices in parallel
-	const [benchmarks, farmerTransactions] = await Promise.all([
+	// Fetch benchmarks and producer's last prices in parallel
+	const [benchmarks, producerTransactions] = await Promise.all([
 		Promise.all(
 			products.map((product) => getPriceBenchmark(product, coop.region)),
 		),
@@ -336,7 +336,7 @@ export async function getFarmerPriceData(): Promise<
 				date: transaction.date,
 			})
 			.from(transaction)
-			.where(eq(transaction.farmerId, session.user.id))
+			.where(eq(transaction.producerId, session.user.id))
 			.orderBy(desc(transaction.date)),
 	]);
 
@@ -345,7 +345,7 @@ export async function getFarmerPriceData(): Promise<
 		string,
 		{ lastPrice: number; lastDate: string; previousPrice: number | null }
 	>();
-	for (const tx of farmerTransactions) {
+	for (const tx of producerTransactions) {
 		if (tx.product == null || tx.pricePerKg == null) continue;
 		const existing = pricesByProduct.get(tx.product);
 		if (!existing) {
@@ -360,13 +360,13 @@ export async function getFarmerPriceData(): Promise<
 	}
 
 	const result: ProductPriceData[] = products.map((product, i) => {
-		const farmerData = pricesByProduct.get(product);
+		const producerData = pricesByProduct.get(product);
 		return {
 			product,
 			benchmark: benchmarks[i],
-			lastPrice: farmerData?.lastPrice ?? null,
-			lastDate: farmerData?.lastDate ?? null,
-			previousPrice: farmerData?.previousPrice ?? null,
+			lastPrice: producerData?.lastPrice ?? null,
+			lastDate: producerData?.lastDate ?? null,
+			previousPrice: producerData?.previousPrice ?? null,
 		};
 	});
 

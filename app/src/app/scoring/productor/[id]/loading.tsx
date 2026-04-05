@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function ScoringFarmerLoading() {
+export default function ScoringProducerLoading() {
 	return (
 		<div className="flex flex-col gap-6">
 			{/* Back link */}

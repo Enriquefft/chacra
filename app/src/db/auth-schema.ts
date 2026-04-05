@@ -24,14 +24,14 @@ export const user = chacraSchema.table("user", {
 		.notNull(),
 	role: text("role"),
 	cooperativeId: text("cooperative_id"),
-	farmerName: text("farmer_name"),
-	farmerRegion: text("farmer_region"),
-	farmerPhone: text("farmer_phone"),
-	farmerCrops: text("farmer_crops"),
-	farmerDistrict: text("farmer_district"),
-	farmerHectares: numeric("farmer_hectares"),
-	farmerExperience: integer("farmer_experience"),
-	farmerLandOwnership: text("farmer_land_ownership"),
+	producerName: text("producer_name"),
+	producerRegion: text("producer_region"),
+	producerPhone: text("producer_phone"),
+	producerCrops: text("producer_crops"),
+	producerDistrict: text("producer_district"),
+	producerHectares: numeric("producer_hectares"),
+	producerExperience: integer("producer_experience"),
+	producerLandOwnership: text("producer_land_ownership"),
 });
 
 export const session = chacraSchema.table(

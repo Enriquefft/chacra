@@ -93,13 +93,13 @@ export async function updateCooperativeProfile(
 	return { success: true, data: undefined };
 }
 
-// ─── getProductListForFarmer ─────────────────────────────────────────
+// ─── getProductListForProducer ─────────────────────────────────────────
 
-export async function getProductListForFarmer(): Promise<
+export async function getProductListForProducer(): Promise<
 	ActionResult<{ products: string[] }>
 > {
 	const session = await getSession();
-	if (!session || session.user.role !== "farmer") {
+	if (!session || session.user.role !== "producer") {
 		return { error: "No autorizado" };
 	}
 	if (!session.user.cooperativeId) {
@@ -346,23 +346,23 @@ export async function getCooperativeStats(): Promise<
 
 	// Run queries in parallel
 	const [
-		[totalFarmersResult],
-		[activeFarmersResult],
+		[totalProducersResult],
+		[activeProducersResult],
 		[totalProductionResult],
 		[periodRevenueResult],
 		[activeAlertsResult],
 		coopData,
 	] = await Promise.all([
-		// 1. Total farmers
+		// 1. Total producers
 		db
 			.select({ total: count() })
 			.from(user)
 			.where(
-				and(eq(user.cooperativeId, cooperativeId), eq(user.role, "farmer")),
+				and(eq(user.cooperativeId, cooperativeId), eq(user.role, "producer")),
 			),
-		// 2. Active farmers (distinct farmer IDs in last 30 days)
+		// 2. Active producers (distinct producer IDs in last 30 days)
 		db
-			.select({ total: countDistinct(transaction.farmerId) })
+			.select({ total: countDistinct(transaction.producerId) })
 			.from(transaction)
 			.where(
 				and(
@@ -446,8 +446,8 @@ export async function getCooperativeStats(): Promise<
 	return {
 		success: true,
 		data: {
-			totalFarmers: totalFarmersResult.total,
-			activeFarmers: activeFarmersResult.total,
+			totalProducers: totalProducersResult.total,
+			activeProducers: activeProducersResult.total,
 			totalProductionKg: Number(totalProductionResult.total),
 			periodRevenueTotal: Number(periodRevenueResult.total),
 			activeAlerts: activeAlertsResult.total,

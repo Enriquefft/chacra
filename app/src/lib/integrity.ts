@@ -12,8 +12,8 @@ function clamp(value: number, min: number, max: number): number {
 }
 
 /**
- * Check if the transaction volume is a spike compared to farmer's history.
- * Flags if current quantity > 3x the farmer's average for this product.
+ * Check if the transaction volume is a spike compared to producer's history.
+ * Flags if current quantity > 3x the producer's average for this product.
  * Requires at least 3 prior transactions to have enough history.
  */
 async function checkVolumeSpike(
@@ -29,7 +29,7 @@ async function checkVolumeSpike(
 		.from(transaction)
 		.where(
 			and(
-				eq(transaction.farmerId, txn.farmerId),
+				eq(transaction.producerId, txn.producerId),
 				eq(transaction.product, txn.product),
 				ne(transaction.id, txn.id),
 			),
@@ -45,7 +45,7 @@ async function checkVolumeSpike(
 	if (currentQty > 3 * avgQty) {
 		return {
 			transactionUuid: txn.uuid,
-			farmerId: txn.farmerId,
+			producerId: txn.producerId,
 			flagType: "volume_spike",
 			message: `Volumen inusual: ${currentQty} kg es mas de 3x el promedio de ${avgQty.toFixed(2)} kg`,
 			details: { currentQty, avgQty, ratio: currentQty / avgQty },
@@ -102,7 +102,7 @@ async function checkPriceOutlier(
 	if (deviation > 2 * stddev) {
 		return {
 			transactionUuid: txn.uuid,
-			farmerId: txn.farmerId,
+			producerId: txn.producerId,
 			flagType: "price_outlier",
 			message: `Precio atipico: S/${currentPrice.toFixed(2)}/kg esta fuera de 2 desviaciones del promedio S/${avgPrice.toFixed(2)}/kg`,
 			details: { currentPrice, avgPrice, stddev, deviation },
@@ -113,7 +113,7 @@ async function checkPriceOutlier(
 }
 
 /**
- * Check if the farmer has submitted too many transactions recently.
+ * Check if the producer has submitted too many transactions recently.
  * Flags if 3 or more other transactions in the last 24 hours.
  */
 async function checkFrequency(
@@ -130,7 +130,7 @@ async function checkFrequency(
 		.from(transaction)
 		.where(
 			and(
-				eq(transaction.farmerId, txn.farmerId),
+				eq(transaction.producerId, txn.producerId),
 				ne(transaction.id, txn.id),
 				gte(transaction.createdAt, twentyFourHoursAgo),
 			),
@@ -142,7 +142,7 @@ async function checkFrequency(
 
 	return {
 		transactionUuid: txn.uuid,
-		farmerId: txn.farmerId,
+		producerId: txn.producerId,
 		flagType: "high_frequency",
 		message: `Alta frecuencia: ${result.count + 1} transacciones en las ultimas 24 horas`,
 		details: { recentCount: result.count + 1 },
@@ -153,7 +153,7 @@ async function checkFrequency(
 
 /**
  * Approximate maximum yields per crop in kg/ha/year.
- * Used for physical plausibility checks against farmer's declared hectareas.
+ * Used for physical plausibility checks against producer's declared hectareas.
  */
 const MAX_YIELD_KG_PER_HA: Record<string, number> = {
 	cafe: 1500,
@@ -181,26 +181,26 @@ function getMaxYield(product: string): number {
 }
 
 /**
- * Check if a single transaction volume exceeds the farmer's annual capacity.
+ * Check if a single transaction volume exceeds the producer's annual capacity.
  * Annual capacity = hectareas x max yield per crop.
- * Skips if farmer has no hectareas data.
+ * Skips if producer has no hectareas data.
  */
 async function checkPlausibilitySingle(
 	txn: TransactionRow,
 ): Promise<IntegrityFlag | null> {
 	if (txn.product == null || txn.quantityKg == null) return null;
 
-	const [farmer] = await db
-		.select({ hectares: user.farmerHectares })
+	const [producer] = await db
+		.select({ hectares: user.producerHectares })
 		.from(user)
-		.where(eq(user.id, txn.farmerId))
+		.where(eq(user.id, txn.producerId))
 		.limit(1);
 
-	if (!farmer?.hectares) {
+	if (!producer?.hectares) {
 		return null;
 	}
 
-	const hectares = Number(farmer.hectares);
+	const hectares = Number(producer.hectares);
 	if (hectares <= 0) {
 		return null;
 	}
@@ -212,7 +212,7 @@ async function checkPlausibilitySingle(
 	if (currentQty > annualCapacity) {
 		return {
 			transactionUuid: txn.uuid,
-			farmerId: txn.farmerId,
+			producerId: txn.producerId,
 			flagType: "plausibility_single",
 			message: `Volumen implausible: ${currentQty} kg excede la capacidad anual estimada de ${annualCapacity.toFixed(0)} kg (${hectares} ha x ${maxYield} kg/ha)`,
 			details: {
@@ -230,24 +230,24 @@ async function checkPlausibilitySingle(
 /**
  * Check if cumulative volume in the last 12 months exceeds 1.5x annual capacity.
  * Allows some margin for timing variations, storage, etc.
- * Skips if farmer has no hectareas data.
+ * Skips if producer has no hectareas data.
  */
 async function checkPlausibilityCumulative(
 	txn: TransactionRow,
 ): Promise<IntegrityFlag | null> {
 	if (txn.product == null || txn.quantityKg == null) return null;
 
-	const [farmer] = await db
-		.select({ hectares: user.farmerHectares })
+	const [producer] = await db
+		.select({ hectares: user.producerHectares })
 		.from(user)
-		.where(eq(user.id, txn.farmerId))
+		.where(eq(user.id, txn.producerId))
 		.limit(1);
 
-	if (!farmer?.hectares) {
+	if (!producer?.hectares) {
 		return null;
 	}
 
-	const hectares = Number(farmer.hectares);
+	const hectares = Number(producer.hectares);
 	if (hectares <= 0) {
 		return null;
 	}
@@ -268,7 +268,7 @@ async function checkPlausibilityCumulative(
 		.from(transaction)
 		.where(
 			and(
-				eq(transaction.farmerId, txn.farmerId),
+				eq(transaction.producerId, txn.producerId),
 				eq(transaction.product, txn.product),
 				gte(transaction.date, cutoff),
 			),
@@ -279,7 +279,7 @@ async function checkPlausibilityCumulative(
 	if (cumulativeKg > threshold) {
 		return {
 			transactionUuid: txn.uuid,
-			farmerId: txn.farmerId,
+			producerId: txn.producerId,
 			flagType: "plausibility_cumulative",
 			message: `Volumen acumulado implausible: ${cumulativeKg.toFixed(0)} kg de ${txn.product} en 12 meses excede 1.5x la capacidad anual (${threshold.toFixed(0)} kg)`,
 			details: {
@@ -340,12 +340,12 @@ export async function checkTransaction(
 }
 
 /**
- * Compute trust score for a farmer.
+ * Compute trust score for a producer.
  * Formula: clamp(50 + confirmed - 5 * flagged, 0, 100)
- * New farmer with 0 transactions gets score 50.
+ * New producer with 0 transactions gets score 50.
  */
 export async function computeTrustScore(
-	farmerId: string,
+	producerId: string,
 ): Promise<TrustScoreResult> {
 	const [result] = await db
 		.select({
@@ -354,7 +354,7 @@ export async function computeTrustScore(
 			flaggedCount: sql<number>`count(case when ${transaction.integrityStatus} = 'flagged' then 1 end)::int`,
 		})
 		.from(transaction)
-		.where(eq(transaction.farmerId, farmerId));
+		.where(eq(transaction.producerId, producerId));
 
 	const totalCount = result?.totalCount ?? 0;
 	const confirmedCount = result?.confirmedCount ?? 0;
@@ -363,7 +363,7 @@ export async function computeTrustScore(
 	const trustScore = clamp(50 + confirmedCount - 5 * flaggedCount, 0, 100);
 
 	return {
-		farmerId,
+		producerId,
 		trustScore,
 		confirmedCount,
 		flaggedCount,
@@ -372,16 +372,16 @@ export async function computeTrustScore(
 }
 
 /**
- * Cross-validation: compare farmer's production vs cooperative total per product.
- * Flags if farmer accounts for > 50% of cooperative's volume for any product.
+ * Cross-validation: compare producer's production vs cooperative total per product.
+ * Flags if producer accounts for > 50% of cooperative's volume for any product.
  */
 export async function checkCrossValidation(
-	farmerId: string,
+	producerId: string,
 	cooperativeId: string,
 	period: { start: string; end: string },
 ): Promise<IntegrityFlag[]> {
-	// Get farmer's totals per product in period
-	const farmerTotals = await db
+	// Get producer's totals per product in period
+	const producerTotals = await db
 		.select({
 			product: transaction.product,
 			totalKg: sql<string>`sum(${transaction.quantityKg})`,
@@ -389,7 +389,7 @@ export async function checkCrossValidation(
 		.from(transaction)
 		.where(
 			and(
-				eq(transaction.farmerId, farmerId),
+				eq(transaction.producerId, producerId),
 				eq(transaction.cooperativeId, cooperativeId),
 				gte(transaction.date, period.start),
 				sql`${transaction.date} <= ${period.end}`,
@@ -422,21 +422,21 @@ export async function checkCrossValidation(
 
 	const flags: IntegrityFlag[] = [];
 
-	for (const row of farmerTotals) {
+	for (const row of producerTotals) {
 		if (row.product == null) continue;
-		const farmerKg = Number(row.totalKg);
+		const producerKg = Number(row.totalKg);
 		const coopKg = coopMap.get(row.product) ?? 0;
 
-		if (coopKg > 0 && farmerKg / coopKg > 0.5) {
+		if (coopKg > 0 && producerKg / coopKg > 0.5) {
 			flags.push({
 				transactionUuid: "",
-				farmerId,
+				producerId,
 				flagType: "cross_validation_excess",
-				message: `Concentracion excesiva: ${row.product} — agricultor representa ${((farmerKg / coopKg) * 100).toFixed(1)}% del volumen de la cooperativa`,
+				message: `Concentracion excesiva: ${row.product} — productor representa ${((producerKg / coopKg) * 100).toFixed(1)}% del volumen de la cooperativa`,
 				details: {
-					farmerKg,
+					producerKg,
 					coopKg,
-					percentage: (farmerKg / coopKg) * 100,
+					percentage: (producerKg / coopKg) * 100,
 				},
 			});
 		}

@@ -93,7 +93,7 @@ export default function DesignSystemPage() {
           <p className="text-3xl font-semibold tracking-tight">Titulo Principal — 30px semibold</p>
           <p className="text-2xl font-semibold tracking-tight">Titulo Seccion — 24px semibold</p>
           <p className="text-xl font-medium">Subtitulo — 20px medium</p>
-          <p className="text-lg">Cuerpo grande — 18px regular (pantallas agricultor)</p>
+          <p className="text-lg">Cuerpo grande — 18px regular (pantallas productor)</p>
           <p className="text-base">Cuerpo — 16px regular (minimo)</p>
           <p className="text-sm text-muted-foreground">Texto secundario — 14px muted</p>
           <p className="text-xs text-muted-foreground">Etiqueta — 12px muted</p>
@@ -123,7 +123,7 @@ export default function DesignSystemPage() {
               <Button size="xs">XS</Button>
               <Button size="sm">SM</Button>
               <Button size="default">Default</Button>
-              <Button size="lg">LG — Agricultor</Button>
+              <Button size="lg">LG — Productor</Button>
             </div>
           </div>
         </div>
@@ -155,7 +155,7 @@ export default function DesignSystemPage() {
             <Input placeholder="Escribe aqui..." />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium">Agricultor (h-11 touch target)</label>
+            <label className="text-sm font-medium">Productor (h-11 touch target)</label>
             <Input className="h-11 text-base" placeholder="Escribe aqui..." />
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function DesignSystemPage() {
           <Card>
             <CardHeader>
               <CardTitle>Puntaje Crediticio</CardTitle>
-              <CardDescription>Agricultor: Maria Lopez</CardDescription>
+              <CardDescription>Productor: Maria Lopez</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-3">

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { getAdvancesByFarmer } from "@/actions/advances";
-import { getFarmerProfile } from "@/actions/farmers";
-import { getTransactionsByFarmer } from "@/actions/transactions";
+import { getAdvancesByProducer } from "@/actions/advances";
+import { getProducerProfile } from "@/actions/producers";
+import { getTransactionsByProducer } from "@/actions/transactions";
 import { ArrowLeft, UserRounded } from "@/components/auth/solar-icons";
 import { EmptyState } from "@/components/empty-state";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { computeTrustScore } from "@/lib/integrity";
 import { AdvanceForm } from "./_components/advance-form";
 import { AdvanceSummary } from "./_components/advance-summary";
-import { FarmerProfileCard } from "./_components/farmer-profile-card";
+import { ProducerProfileCard } from "./_components/producer-profile-card";
 import { ProducerTransactionsTable } from "./_components/producer-transactions-table";
 
 export default async function ProducerDetailPage({
@@ -21,10 +21,10 @@ export default async function ProducerDetailPage({
 
 	const [profileResult, txResult, trustScore, advancesResult] =
 		await Promise.all([
-			getFarmerProfile(id),
-			getTransactionsByFarmer(id),
+			getProducerProfile(id),
+			getTransactionsByProducer(id),
 			computeTrustScore(id),
-			getAdvancesByFarmer(id),
+			getAdvancesByProducer(id),
 		]);
 
 	if ("error" in profileResult) {
@@ -57,13 +57,13 @@ export default async function ProducerDetailPage({
 		<div className="flex flex-col gap-6">
 			<div className="flex items-center gap-3">
 				<Button variant="outline" size="default" asChild>
-					<Link href="/dashboard/producers">
+					<Link href="/dashboard/productores">
 						<ArrowLeft size={16} aria-hidden="true" />
 						Productores
 					</Link>
 				</Button>
 			</div>
-			<FarmerProfileCard profile={profile} trustScore={trustScore} />
+			<ProducerProfileCard profile={profile} trustScore={trustScore} />
 			<ProducerTransactionsTable transactions={transactions} total={total} />
 
 			<Separator />
@@ -74,7 +74,7 @@ export default async function ProducerDetailPage({
 					Adelantos de insumos
 				</h2>
 				<div className="grid gap-4 lg:grid-cols-[1fr_2fr]">
-					<AdvanceForm farmerId={id} />
+					<AdvanceForm producerId={id} />
 					<AdvanceSummary
 						advances={advances}
 						total={advancesTotal}

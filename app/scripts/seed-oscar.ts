@@ -29,10 +29,10 @@ const oscars = [
 		cooperativeId: COOP_ID,
 	},
 	{
-		id: "demo-oscar-farmer",
+		id: "demo-oscar-producer",
 		name: "Oscar Castro",
 		email: "oscar.castro@utec.edu.pe",
-		role: "farmer" as const,
+		role: "producer" as const,
 		cooperativeId: COOP_ID,
 	},
 	{
@@ -73,14 +73,14 @@ async function main() {
 			updatedAt: now,
 			role: o.role,
 			cooperativeId: o.cooperativeId,
-			farmerName: o.role === "farmer" ? "Oscar Castro" : null,
-			farmerRegion: o.role === "farmer" ? "Lima" : null,
-			farmerPhone: o.role === "farmer" ? "912345678" : null,
-			farmerCrops: o.role === "farmer" ? "Palta Hass, Palta Fuerte" : null,
-			farmerDistrict: o.role === "farmer" ? "Luringancho-Chosica" : null,
-			farmerHectares: o.role === "farmer" ? "2" : null,
-			farmerExperience: o.role === "farmer" ? 5 : null,
-			farmerLandOwnership: o.role === "farmer" ? "propia" : null,
+			producerName: o.role === "producer" ? "Oscar Castro" : null,
+			producerRegion: o.role === "producer" ? "Lima" : null,
+			producerPhone: o.role === "producer" ? "912345678" : null,
+			producerCrops: o.role === "producer" ? "Palta Hass, Palta Fuerte" : null,
+			producerDistrict: o.role === "producer" ? "Luringancho-Chosica" : null,
+			producerHectares: o.role === "producer" ? "2" : null,
+			producerExperience: o.role === "producer" ? 5 : null,
+			producerLandOwnership: o.role === "producer" ? "propia" : null,
 		});
 
 		await db.insert(account).values({

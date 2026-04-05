@@ -27,7 +27,7 @@ const navItems = [
 	{ label: "Inicio", href: "/dashboard", icon: Home },
 	{
 		label: "Productores",
-		href: "/dashboard/producers",
+		href: "/dashboard/productores",
 		icon: UsersGroupRounded,
 	},
 	{ label: "Configuracion", href: "/dashboard/settings", icon: Settings },

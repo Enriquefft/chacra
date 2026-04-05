@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { getFarmerProfile } from "@/actions/farmers";
-import { getTransactionsByFarmer } from "@/actions/transactions";
+import { getProducerProfile } from "@/actions/producers";
+import { getTransactionsByProducer } from "@/actions/transactions";
 import { ArrowLeft, ShieldCheck } from "@/components/auth/solar-icons";
 import { EmptyState } from "@/components/empty-state";
 import { computeTrustScore } from "@/lib/integrity";
@@ -14,7 +14,7 @@ import { ProfileCompleteness } from "./_components/profile-completeness";
 import { RepaymentCapacity } from "./_components/repayment-capacity";
 import { VerificationPanel } from "./_components/verification-panel";
 
-export default async function ScoringFarmerPage({
+export default async function ScoringProducerPage({
 	params,
 }: {
 	params: Promise<{ id: string }>;
@@ -23,10 +23,10 @@ export default async function ScoringFarmerPage({
 
 	const [profileResult, creditScore, trustScore, transactionsResult] =
 		await Promise.all([
-			getFarmerProfile(id),
+			getProducerProfile(id),
 			computeCreditScore(id),
 			computeTrustScore(id),
-			getTransactionsByFarmer(id, { limit: 500 }),
+			getTransactionsByProducer(id, { limit: 500 }),
 		]);
 
 	if ("error" in profileResult) {

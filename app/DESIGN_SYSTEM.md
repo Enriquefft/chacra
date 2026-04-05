@@ -5,7 +5,7 @@ Source of truth: `app/globals.css` (CSS variables) + `components.json` (shadcn c
 
 ## Brand
 
-**Chacra** — offline-first agricultural data platform for Peruvian farmers.
+**Chacra** — offline-first agricultural data platform for Peruvian producers.
 Tagline: "Datos bancables para el agro peruano."
 
 ### Personality
@@ -19,7 +19,7 @@ Tagline: "Datos bancables para el agro peruano."
 
 | Audience | Feel | Treatment |
 |----------|------|-----------|
-| **Farmers** (free) | Warm, large, simple | 18px body, 44px touch targets, generous whitespace |
+| **Producers** (free) | Warm, large, simple | 18px body, 44px touch targets, generous whitespace |
 | **Cooperativas/Financieras** (B2B) | Professional, data-dense | Compact tables, charts, credible SaaS aesthetic |
 
 ---
@@ -74,7 +74,7 @@ Same hue families, adjusted lightness. Primary lightens to `oklch(0.70 0.12 33)`
 | Font family | Geist (via `next/font/google`) |
 | Weights | Regular (400), Medium (500), Semibold (600) — max 3 |
 | Body minimum | 16px (1rem) |
-| Farmer screens | 18px (text-lg) body, text-base for secondary |
+| Producer screens | 18px (text-lg) body, text-base for secondary |
 | Line height | Generous (Tailwind defaults) |
 | Language | Spanish-first. All UI copy in Spanish. |
 
@@ -85,7 +85,7 @@ Same hue families, adjusted lightness. Primary lightens to `oklch(0.70 0.12 33)`
 | Page title | `text-3xl font-semibold tracking-tight` | h1 |
 | Section title | `text-2xl font-semibold tracking-tight` | h2 |
 | Subtitle | `text-xl font-medium` | h3 |
-| Body large | `text-lg` | Farmer-facing body text |
+| Body large | `text-lg` | Producer-facing body text |
 | Body | `text-base` | Default body |
 | Secondary | `text-sm text-muted-foreground` | Labels, metadata |
 | Caption | `text-xs text-muted-foreground` | Timestamps, hints |
@@ -150,13 +150,13 @@ Solar icons are client components — re-export through a `"use client"` barrel 
 | `xs` | 24px (h-6) | Compact inline actions |
 | `sm` | 28px (h-7) | Dashboard secondary |
 | `default` | 32px (h-8) | Dashboard primary |
-| `lg` | **44px (h-11)** | Farmer-facing (touch target) |
+| `lg` | **44px (h-11)** | Producer-facing (touch target) |
 
-Farmer routes use `size="lg"` as default. Dashboard uses `size="default"`.
+Producer routes use `size="lg"` as default. Dashboard uses `size="default"`.
 
 ### Input touch targets
 
-Default input: `h-8`. Farmer-facing: add `className="h-11 text-base"` for 44px touch targets.
+Default input: `h-8`. Producer-facing: add `className="h-11 text-base"` for 44px touch targets.
 
 ### Key patterns
 

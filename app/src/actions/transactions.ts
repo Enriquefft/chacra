@@ -23,9 +23,9 @@ type TransactionRow = {
 	createdAt: Date;
 };
 
-type TransactionWithFarmer = TransactionRow & {
-	farmerId: string;
-	farmerName: string | null;
+type TransactionWithProducer = TransactionRow & {
+	producerId: string;
+	producerName: string | null;
 };
 
 // ─── Validation helpers ──────────────────────────────────────────────
@@ -41,7 +41,7 @@ export async function createTransaction(
 	input: TransactionInput,
 ): Promise<ActionResult<{ id: number; uuid: string }>> {
 	const session = await getSession();
-	if (!session || session.user.role !== "farmer") {
+	if (!session || session.user.role !== "producer") {
 		return { error: "No autorizado" };
 	}
 	if (!session.user.cooperativeId) {
@@ -135,7 +135,7 @@ export async function createTransaction(
 		.insert(transaction)
 		.values({
 			uuid: input.uuid,
-			farmerId: session.user.id,
+			producerId: session.user.id,
 			cooperativeId: session.user.cooperativeId,
 			product: productValue,
 			quantityKg: quantityValue,
@@ -155,15 +155,15 @@ export async function createTransaction(
 	// Run integrity checks
 	await checkTransaction(result[0].id);
 
-	revalidatePath("/farmer");
+	revalidatePath("/productor");
 
 	return { success: true, data: { id: result[0].id, uuid: result[0].uuid } };
 }
 
-// ─── getTransactionsByFarmer ─────────────────────────────────────────
+// ─── getTransactionsByProducer ─────────────────────────────────────────
 
-export async function getTransactionsByFarmer(
-	farmerId?: string,
+export async function getTransactionsByProducer(
+	producerId?: string,
 	options?: { limit?: number; offset?: number },
 ): Promise<ActionResult<{ transactions: TransactionRow[]; total: number }>> {
 	const session = await getSession();
@@ -173,51 +173,51 @@ export async function getTransactionsByFarmer(
 
 	const limit = options?.limit ?? 50;
 	const offset = options?.offset ?? 0;
-	let targetFarmerId: string;
+	let targetProducerId: string;
 
-	if (session.user.role === "farmer") {
-		// Farmers can only see their own transactions
-		if (farmerId && farmerId !== session.user.id) {
+	if (session.user.role === "producer") {
+		// Producers can only see their own transactions
+		if (producerId && producerId !== session.user.id) {
 			return { error: "No autorizado" };
 		}
-		targetFarmerId = session.user.id;
+		targetProducerId = session.user.id;
 	} else if (session.user.role === "cooperative") {
-		if (!farmerId) {
-			return { error: "Se requiere el ID del agricultor" };
+		if (!producerId) {
+			return { error: "Se requiere el ID del productor" };
 		}
 		if (!session.user.cooperativeId) {
 			return { error: "No hay cooperativa asociada" };
 		}
-		// Verify farmer belongs to the cooperative
-		const [farmer] = await db
+		// Verify producer belongs to the cooperative
+		const [producer] = await db
 			.select({ id: user.id })
 			.from(user)
 			.where(
 				and(
-					eq(user.id, farmerId),
+					eq(user.id, producerId),
 					eq(user.cooperativeId, session.user.cooperativeId),
-					eq(user.role, "farmer"),
+					eq(user.role, "producer"),
 				),
 			)
 			.limit(1);
-		if (!farmer) {
-			return { error: "Agricultor no encontrado en la cooperativa" };
+		if (!producer) {
+			return { error: "Productor no encontrado en la cooperativa" };
 		}
-		targetFarmerId = farmerId;
+		targetProducerId = producerId;
 	} else if (session.user.role === "financiera") {
-		if (!farmerId) {
-			return { error: "Se requiere el ID del agricultor" };
+		if (!producerId) {
+			return { error: "Se requiere el ID del productor" };
 		}
-		// Verify farmer exists
-		const [farmer] = await db
+		// Verify producer exists
+		const [producer] = await db
 			.select({ id: user.id })
 			.from(user)
-			.where(and(eq(user.id, farmerId), eq(user.role, "farmer")))
+			.where(and(eq(user.id, producerId), eq(user.role, "producer")))
 			.limit(1);
-		if (!farmer) {
-			return { error: "Agricultor no encontrado" };
+		if (!producer) {
+			return { error: "Productor no encontrado" };
 		}
-		targetFarmerId = farmerId;
+		targetProducerId = producerId;
 	} else {
 		return { error: "No autorizado" };
 	}
@@ -237,14 +237,14 @@ export async function getTransactionsByFarmer(
 				createdAt: transaction.createdAt,
 			})
 			.from(transaction)
-			.where(eq(transaction.farmerId, targetFarmerId))
+			.where(eq(transaction.producerId, targetProducerId))
 			.orderBy(sql`${transaction.date} DESC`)
 			.limit(limit)
 			.offset(offset),
 		db
 			.select({ total: count() })
 			.from(transaction)
-			.where(eq(transaction.farmerId, targetFarmerId)),
+			.where(eq(transaction.producerId, targetProducerId)),
 	]);
 
 	const rows: TransactionRow[] = transactions.map((t) => ({
@@ -274,7 +274,7 @@ export async function getTransactionsByCooperative(options?: {
 	product?: string;
 	status?: string;
 }): Promise<
-	ActionResult<{ transactions: TransactionWithFarmer[]; total: number }>
+	ActionResult<{ transactions: TransactionWithProducer[]; total: number }>
 > {
 	const session = await getSession();
 	if (!session || session.user.role !== "cooperative") {
@@ -319,11 +319,11 @@ export async function getTransactionsByCooperative(options?: {
 				date: transaction.date,
 				integrityStatus: transaction.integrityStatus,
 				createdAt: transaction.createdAt,
-				farmerId: transaction.farmerId,
-				farmerName: user.farmerName,
+				producerId: transaction.producerId,
+				producerName: user.producerName,
 			})
 			.from(transaction)
-			.innerJoin(user, eq(transaction.farmerId, user.id))
+			.innerJoin(user, eq(transaction.producerId, user.id))
 			.where(whereClause)
 			.orderBy(sql`${transaction.date} DESC`)
 			.limit(limit)
@@ -331,7 +331,7 @@ export async function getTransactionsByCooperative(options?: {
 		db.select({ total: count() }).from(transaction).where(whereClause),
 	]);
 
-	const rows: TransactionWithFarmer[] = transactions.map((t) => ({
+	const rows: TransactionWithProducer[] = transactions.map((t) => ({
 		id: t.id,
 		uuid: t.uuid,
 		product: t.product,
@@ -342,8 +342,8 @@ export async function getTransactionsByCooperative(options?: {
 		date: t.date,
 		integrityStatus: t.integrityStatus as "confirmed" | "flagged" | "pending",
 		createdAt: t.createdAt,
-		farmerId: t.farmerId,
-		farmerName: t.farmerName,
+		producerId: t.producerId,
+		producerName: t.producerName,
 	}));
 
 	return {

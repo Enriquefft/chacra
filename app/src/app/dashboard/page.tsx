@@ -88,7 +88,7 @@ export default async function DashboardPage() {
 
 	// Check if everything is empty
 	const allEmpty =
-		stats.totalFarmers === 0 &&
+		stats.totalProducers === 0 &&
 		transactions.length === 0 &&
 		benchmarks.length === 0 &&
 		productionData.length === 0;

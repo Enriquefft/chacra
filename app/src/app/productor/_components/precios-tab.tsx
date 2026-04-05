@@ -96,7 +96,7 @@ function PriceRangeBar({
 					className="absolute top-0 h-3 w-1 rounded-full bg-primary/60"
 					style={{ left: `${avgPos}%`, transform: "translateX(-50%)" }}
 				/>
-				{/* Farmer's last price marker */}
+				{/* Producer's last price marker */}
 				{lastPricePos !== null && (
 					<div
 						className="absolute top-0 h-3 w-2 rounded-full bg-primary"
@@ -180,7 +180,7 @@ function ProductPriceCard({ data }: { data: ProductPriceData }) {
 					lastPrice={lastPrice}
 				/>
 
-				{/* Farmer's last price vs average */}
+				{/* Producer's last price vs average */}
 				{lastPrice !== null ? (
 					<div className="flex items-baseline justify-between rounded-lg bg-muted px-3 py-2">
 						<div className="flex flex-col">

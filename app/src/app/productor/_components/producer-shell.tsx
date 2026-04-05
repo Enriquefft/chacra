@@ -21,13 +21,13 @@ import { useSync } from "@/hooks/use-sync";
 import { signOut } from "@/lib/auth-client";
 import { offlineDb } from "@/lib/offline-db";
 
-export function FarmerShell({
-	farmerName,
+export function ProducerShell({
+	producerName,
 	cooperativeId,
 	productList,
 	children,
 }: {
-	farmerName: string;
+	producerName: string;
 	cooperativeId: string;
 	productList: string[];
 	children: React.ReactNode;
@@ -71,7 +71,7 @@ export function FarmerShell({
 			<header className="flex items-center justify-between px-4 pt-4 pb-2">
 				<div className="flex flex-col gap-0">
 					<span className="text-lg font-semibold tracking-tight">Chacra</span>
-					<span className="text-sm text-muted-foreground">{farmerName}</span>
+					<span className="text-sm text-muted-foreground">{producerName}</span>
 				</div>
 				<div className="flex items-center gap-2">
 					<SyncButton
@@ -142,27 +142,27 @@ export function FarmerShell({
 			{/* Bottom navigation */}
 			<nav className="sticky bottom-0 flex border-t bg-background">
 				<Link
-					href="/farmer"
+					href="/productor"
 					className={`flex flex-1 flex-col items-center gap-1 py-3 text-sm transition-colors ${
-						pathname === "/farmer" ? "text-primary" : "text-muted-foreground"
+						pathname === "/productor" ? "text-primary" : "text-muted-foreground"
 					}`}
 				>
 					<Cart
-						weight={pathname === "/farmer" ? "BoldDuotone" : "Linear"}
+						weight={pathname === "/productor" ? "BoldDuotone" : "Linear"}
 						size={24}
 					/>
 					<span>Registrar</span>
 				</Link>
 				<Link
-					href="/farmer/history"
+					href="/productor/history"
 					className={`flex flex-1 flex-col items-center gap-1 py-3 text-sm transition-colors ${
-						pathname === "/farmer/history"
+						pathname === "/productor/history"
 							? "text-primary"
 							: "text-muted-foreground"
 					}`}
 				>
 					<History
-						weight={pathname === "/farmer/history" ? "BoldDuotone" : "Linear"}
+						weight={pathname === "/productor/history" ? "BoldDuotone" : "Linear"}
 						size={24}
 					/>
 					<span>Historial</span>

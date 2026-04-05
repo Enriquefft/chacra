@@ -33,7 +33,7 @@ function getTodayString(): string {
 	return `${year}-${month}-${day}`;
 }
 
-export function AdvanceForm({ farmerId }: { farmerId: string }) {
+export function AdvanceForm({ producerId }: { producerId: string }) {
 	const formId = useId();
 	const router = useRouter();
 
@@ -73,7 +73,7 @@ export function AdvanceForm({ farmerId }: { farmerId: string }) {
 
 		try {
 			const result = await createAdvance({
-				farmerId,
+				producerId,
 				category: category as AdvanceCategory,
 				description: description.trim() || undefined,
 				amount: parsedAmount,

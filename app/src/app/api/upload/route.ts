@@ -12,7 +12,7 @@ const ALLOWED_TYPES = new Set([
 
 export async function POST(request: Request) {
 	const session = await getSession();
-	if (!session || session.user.role !== "farmer") {
+	if (!session || session.user.role !== "producer") {
 		return Response.json({ error: "No autorizado" }, { status: 401 });
 	}
 

@@ -55,7 +55,7 @@ export const transaction = chacraSchema.table(
 	{
 		id: serial("id").primaryKey(),
 		uuid: text("uuid").notNull().unique(),
-		farmerId: text("farmer_id")
+		producerId: text("producer_id")
 			.notNull()
 			.references(() => user.id, { onDelete: "cascade" }),
 		cooperativeId: text("cooperative_id")
@@ -76,7 +76,7 @@ export const transaction = chacraSchema.table(
 		syncedAt: timestamp("synced_at").defaultNow().notNull(),
 	},
 	(table) => [
-		index("transaction_farmer_id_idx").on(table.farmerId),
+		index("transaction_producer_id_idx").on(table.producerId),
 		index("transaction_cooperative_id_idx").on(table.cooperativeId),
 		index("transaction_date_idx").on(table.date),
 	],
@@ -89,7 +89,7 @@ export const inputAdvance = chacraSchema.table(
 	{
 		id: serial("id").primaryKey(),
 		uuid: text("uuid").notNull().unique(),
-		farmerId: text("farmer_id")
+		producerId: text("producer_id")
 			.notNull()
 			.references(() => user.id, { onDelete: "cascade" }),
 		cooperativeId: text("cooperative_id")
@@ -105,7 +105,7 @@ export const inputAdvance = chacraSchema.table(
 		createdAt: timestamp("created_at").defaultNow().notNull(),
 	},
 	(table) => [
-		index("input_advance_farmer_id_idx").on(table.farmerId),
+		index("input_advance_producer_id_idx").on(table.producerId),
 		index("input_advance_cooperative_id_idx").on(table.cooperativeId),
 		index("input_advance_date_idx").on(table.date),
 	],
@@ -131,8 +131,8 @@ export const cooperativeRelations = relations(cooperative, ({ many }) => ({
 }));
 
 export const transactionRelations = relations(transaction, ({ one }) => ({
-	farmer: one(user, {
-		fields: [transaction.farmerId],
+	producer: one(user, {
+		fields: [transaction.producerId],
 		references: [user.id],
 	}),
 	cooperative: one(cooperative, {
@@ -142,8 +142,8 @@ export const transactionRelations = relations(transaction, ({ one }) => ({
 }));
 
 export const inputAdvanceRelations = relations(inputAdvance, ({ one }) => ({
-	farmer: one(user, {
-		fields: [inputAdvance.farmerId],
+	producer: one(user, {
+		fields: [inputAdvance.producerId],
 		references: [user.id],
 	}),
 	cooperative: one(cooperative, {

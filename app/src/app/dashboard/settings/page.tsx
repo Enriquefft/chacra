@@ -95,7 +95,7 @@ export default async function SettingsPage() {
 				<CardHeader>
 					<CardTitle>Productos</CardTitle>
 					<CardDescription>
-						Productos que tus agricultores pueden registrar
+						Productos que tus productores pueden registrar
 					</CardDescription>
 				</CardHeader>
 				<CardContent>

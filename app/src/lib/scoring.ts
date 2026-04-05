@@ -5,7 +5,7 @@ import { computeTrustScore } from "@/lib/integrity";
 import type { CreditScore, RevenueTrend, Tier } from "@/lib/types";
 
 /**
- * Compute credit score for a farmer.
+ * Compute credit score for a producer.
  *
  * Steps:
  * 1. Get trust score from integrity module
@@ -16,16 +16,16 @@ import type { CreditScore, RevenueTrend, Tier } from "@/lib/types";
  * 5. Assign tier (A/B/C) and loan range based on net margin
  */
 export async function computeCreditScore(
-	farmerId: string,
+	producerId: string,
 ): Promise<CreditScore> {
 	const [{ trustScore }, rows, expenseData] = await Promise.all([
-		computeTrustScore(farmerId),
+		computeTrustScore(producerId),
 		db
 			.select()
 			.from(transaction)
 			.where(
 				and(
-					eq(transaction.farmerId, farmerId),
+					eq(transaction.producerId, producerId),
 					ne(transaction.integrityStatus, "flagged"),
 				),
 			)
@@ -36,7 +36,7 @@ export async function computeCreditScore(
 				totalAmount: sql<string>`COALESCE(sum(${inputAdvance.amount}), 0)`,
 			})
 			.from(inputAdvance)
-			.where(eq(inputAdvance.farmerId, farmerId))
+			.where(eq(inputAdvance.producerId, producerId))
 			.groupBy(inputAdvance.category),
 	]);
 

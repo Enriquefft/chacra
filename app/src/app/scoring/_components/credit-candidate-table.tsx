@@ -13,7 +13,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import type { ScoringFarmerItem, Tier } from "@/lib/types";
+import type { ScoringProducerItem, Tier } from "@/lib/types";
 
 type SortKey =
 	| "name"
@@ -26,9 +26,9 @@ type SortDir = "asc" | "desc";
 const TIER_ORDER: Record<Tier, number> = { A: 0, B: 1, C: 2 };
 
 export function CreditCandidateTable({
-	farmers,
+	producers,
 }: {
-	farmers: ScoringFarmerItem[];
+	producers: ScoringProducerItem[];
 }) {
 	const router = useRouter();
 	const [search, setSearch] = useState("");
@@ -46,7 +46,7 @@ export function CreditCandidateTable({
 
 	const filtered = useMemo(() => {
 		const term = search.toLowerCase();
-		let items = farmers;
+		let items = producers;
 		if (term) {
 			items = items.filter(
 				(f) =>
@@ -76,7 +76,7 @@ export function CreditCandidateTable({
 			}
 			return sortDir === "asc" ? cmp : -cmp;
 		});
-	}, [farmers, search, sortKey, sortDir]);
+	}, [producers, search, sortKey, sortDir]);
 
 	const sortIndicator = (key: SortKey) => {
 		if (sortKey !== key) return "";
@@ -140,27 +140,27 @@ export function CreditCandidateTable({
 									</TableCell>
 								</TableRow>
 							) : (
-								filtered.map((farmer) => (
+								filtered.map((producer) => (
 									<TableRow
-										key={farmer.id}
+										key={producer.id}
 										className="cursor-pointer"
-										onClick={() => router.push(`/scoring/farmer/${farmer.id}`)}
+										onClick={() => router.push(`/scoring/productor/${producer.id}`)}
 									>
-										<TableCell className="font-medium">{farmer.name}</TableCell>
+										<TableCell className="font-medium">{producer.name}</TableCell>
 										<TableCell className="hidden text-muted-foreground sm:table-cell">
-											{farmer.region ?? "—"}
+											{producer.region ?? "—"}
 										</TableCell>
 										<TableCell className="text-muted-foreground">
-											{farmer.cooperativeName}
+											{producer.cooperativeName}
 										</TableCell>
 										<TableCell className="text-right font-medium tabular-nums">
-											S/{farmer.avgMonthlyRevenue.toLocaleString()}
+											S/{producer.avgMonthlyRevenue.toLocaleString()}
 										</TableCell>
 										<TableCell className="hidden text-right text-muted-foreground tabular-nums md:table-cell">
-											{farmer.activeMonths}
+											{producer.activeMonths}
 										</TableCell>
 										<TableCell className="text-center">
-											<TierBadge tier={farmer.tier} />
+											<TierBadge tier={producer.tier} />
 										</TableCell>
 									</TableRow>
 								))
