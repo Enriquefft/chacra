@@ -15,6 +15,7 @@ const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
  * Validate a single transaction input.
+ * Requires at least (photoUrl) or (product + quantityKg + pricePerKg).
  * Returns an error message (Spanish) if invalid, null if valid.
  */
 function validateTransactionInput(
@@ -26,36 +27,41 @@ function validateTransactionInput(
 		return "UUID invalido o ausente";
 	}
 
-	// Product validation
-	if (!input.product || input.product.trim().length === 0) {
-		return "Producto es requerido";
-	}
-	if (!validProducts.has(input.product)) {
-		return `Producto no valido: ${input.product}`;
+	const hasPhoto = !!input.photoUrl;
+	const hasManualData =
+		!!input.product && input.quantityKg != null && input.pricePerKg != null;
+
+	if (!hasPhoto && !hasManualData) {
+		return "Se requiere al menos una foto o los datos manuales (producto, cantidad, precio)";
 	}
 
-	// Quantity validation
-	if (
-		typeof input.quantityKg !== "number" ||
-		Number.isNaN(input.quantityKg) ||
-		input.quantityKg <= 0
-	) {
-		return "Cantidad debe ser un numero positivo";
-	}
-	if (input.quantityKg > 99999.99) {
-		return "Cantidad excede el maximo permitido (99999.99 kg)";
-	}
+	// Validate manual fields only when provided
+	if (hasManualData) {
+		if (!validProducts.has(input.product!)) {
+			return `Producto no valido: ${input.product}`;
+		}
 
-	// Price validation
-	if (
-		typeof input.pricePerKg !== "number" ||
-		Number.isNaN(input.pricePerKg) ||
-		input.pricePerKg <= 0
-	) {
-		return "Precio debe ser un numero positivo";
-	}
-	if (input.pricePerKg > 99999.99) {
-		return "Precio excede el maximo permitido (S/99999.99)";
+		if (
+			typeof input.quantityKg !== "number" ||
+			Number.isNaN(input.quantityKg) ||
+			input.quantityKg <= 0
+		) {
+			return "Cantidad debe ser un numero positivo";
+		}
+		if (input.quantityKg > 99999.99) {
+			return "Cantidad excede el maximo permitido (99999.99 kg)";
+		}
+
+		if (
+			typeof input.pricePerKg !== "number" ||
+			Number.isNaN(input.pricePerKg) ||
+			input.pricePerKg <= 0
+		) {
+			return "Precio debe ser un numero positivo";
+		}
+		if (input.pricePerKg > 99999.99) {
+			return "Precio excede el maximo permitido (S/99999.99)";
+		}
 	}
 
 	// Date validation
@@ -123,9 +129,11 @@ export async function syncBatch(
 				uuid: input.uuid,
 				farmerId,
 				cooperativeId,
-				product: input.product,
-				quantityKg: input.quantityKg.toFixed(2),
-				pricePerKg: input.pricePerKg.toFixed(2),
+				product: input.product ?? null,
+				quantityKg:
+					input.quantityKg != null ? input.quantityKg.toFixed(2) : null,
+				pricePerKg:
+					input.pricePerKg != null ? input.pricePerKg.toFixed(2) : null,
 				buyer: input.buyer?.trim() || null,
 				photoUrl: input.photoUrl ?? null,
 				date: input.date,

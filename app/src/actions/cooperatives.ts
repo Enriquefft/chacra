@@ -41,10 +41,7 @@ export async function updateCooperativeProfile(
 
 	// Validate memberCount: must be positive if provided
 	if (data.memberCount != null) {
-		if (
-			!Number.isInteger(data.memberCount) ||
-			data.memberCount <= 0
-		) {
+		if (!Number.isInteger(data.memberCount) || data.memberCount <= 0) {
 			return { error: "Numero de socios debe ser un entero positivo" };
 		}
 	}
@@ -160,11 +157,13 @@ export async function getMonthlyProduction(): Promise<
 		)
 		.orderBy(sql`to_char(${transaction.date}::date, 'YYYY-MM') ASC`);
 
-	const months = rows.map((row) => ({
-		month: row.month,
-		product: row.product,
-		totalKg: Number(row.totalKg),
-	}));
+	const months = rows
+		.filter((row) => row.product != null)
+		.map((row) => ({
+			month: row.month,
+			product: row.product as string,
+			totalKg: Number(row.totalKg),
+		}));
 
 	return { success: true, data: { months } };
 }
@@ -256,11 +255,7 @@ export async function setExportGoal(
 		return { error: "No hay cooperativa asociada" };
 	}
 
-	if (
-		typeof targetKg !== "number" ||
-		Number.isNaN(targetKg) ||
-		targetKg <= 0
-	) {
+	if (typeof targetKg !== "number" || Number.isNaN(targetKg) || targetKg <= 0) {
 		return { error: "Meta debe ser un numero positivo" };
 	}
 
@@ -363,10 +358,7 @@ export async function getCooperativeStats(): Promise<
 			.select({ total: count() })
 			.from(user)
 			.where(
-				and(
-					eq(user.cooperativeId, cooperativeId),
-					eq(user.role, "farmer"),
-				),
+				and(eq(user.cooperativeId, cooperativeId), eq(user.role, "farmer")),
 			),
 		// 2. Active farmers (distinct farmer IDs in last 30 days)
 		db
@@ -435,7 +427,9 @@ export async function getCooperativeStats(): Promise<
 
 		const productMap = new Map<string, number>();
 		for (const row of productTotals) {
-			productMap.set(row.product, Number(row.totalKg));
+			if (row.product != null) {
+				productMap.set(row.product, Number(row.totalKg));
+			}
 		}
 
 		for (const [product, targetKg] of Object.entries(exportGoals)) {

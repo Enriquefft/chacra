@@ -71,17 +71,17 @@ export async function exportTransactionsCSV(): Promise<
 
 	// CSV rows
 	const rows = transactions.map((t) => {
-		const qty = Number(t.quantityKg);
-		const price = Number(t.pricePerKg);
-		const total = qty * price;
+		const qty = t.quantityKg != null ? Number(t.quantityKg) : null;
+		const price = t.pricePerKg != null ? Number(t.pricePerKg) : null;
+		const total = qty != null && price != null ? qty * price : null;
 
 		return [
 			t.date,
 			escapeCSV(t.farmerName ?? "Sin nombre"),
-			escapeCSV(t.product),
-			qty.toFixed(2),
-			price.toFixed(2),
-			total.toFixed(2),
+			escapeCSV(t.product ?? ""),
+			qty != null ? qty.toFixed(2) : "",
+			price != null ? price.toFixed(2) : "",
+			total != null ? total.toFixed(2) : "",
 			escapeCSV(t.buyer ?? ""),
 			STATUS_LABELS[t.integrityStatus] ?? t.integrityStatus,
 		].join(",");
@@ -94,7 +94,7 @@ export async function exportTransactionsCSV(): Promise<
 	const safeName = coopName
 		.toLowerCase()
 		.replace(/\s+/g, "-")
-		.replace(/[^a-z0-9\-]/g, "");
+		.replace(/[^a-z0-9-]/g, "");
 	const today = new Date().toISOString().slice(0, 10);
 	const filename = `chacra-transacciones-${safeName}-${today}.csv`;
 

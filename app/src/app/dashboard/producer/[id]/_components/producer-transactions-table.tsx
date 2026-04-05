@@ -18,9 +18,9 @@ import {
 type TransactionRow = {
 	id: number;
 	uuid: string;
-	product: string;
-	quantityKg: number;
-	pricePerKg: number;
+	product: string | null;
+	quantityKg: number | null;
+	pricePerKg: number | null;
 	buyer: string | null;
 	photoUrl: string | null;
 	date: string;
@@ -92,7 +92,9 @@ export function ProducerTransactionsTable({
 						</TableHeader>
 						<TableBody>
 							{transactions.map((tx) => {
-								const total = tx.quantityKg * tx.pricePerKg;
+								const total = tx.quantityKg != null && tx.pricePerKg != null
+									? tx.quantityKg * tx.pricePerKg
+									: null;
 								const isFlagged = tx.integrityStatus === "flagged";
 								const isPendingOrFlagged =
 									tx.integrityStatus === "flagged" ||
@@ -106,7 +108,7 @@ export function ProducerTransactionsTable({
 										<TableCell className="text-muted-foreground">
 											{tx.date}
 										</TableCell>
-										<TableCell>{tx.product}</TableCell>
+										<TableCell>{tx.product ?? "—"}</TableCell>
 										<TableCell className="hidden sm:table-cell">
 											{tx.photoUrl ? (
 												<a href={tx.photoUrl} target="_blank" rel="noopener noreferrer">
@@ -123,17 +125,18 @@ export function ProducerTransactionsTable({
 										<TableCell
 											className={`tabular-nums ${isFlagged ? "font-semibold text-destructive" : ""}`}
 										>
-											{tx.quantityKg.toLocaleString("es-PE")} kg
+											{tx.quantityKg != null ? `${tx.quantityKg.toLocaleString("es-PE")} kg` : "—"}
 										</TableCell>
 										<TableCell className="tabular-nums">
-											S/{tx.pricePerKg.toFixed(2)}
+											{tx.pricePerKg != null ? `S/${tx.pricePerKg.toFixed(2)}` : "—"}
 										</TableCell>
 										<TableCell className="hidden tabular-nums sm:table-cell">
-											S/
-											{total.toLocaleString("es-PE", {
-												minimumFractionDigits: 2,
-												maximumFractionDigits: 2,
-											})}
+											{total != null
+												? `S/${total.toLocaleString("es-PE", {
+														minimumFractionDigits: 2,
+														maximumFractionDigits: 2,
+													})}`
+												: "—"}
 										</TableCell>
 										<TableCell>
 											<IntegrityBadge status={tx.integrityStatus} />

@@ -11,9 +11,9 @@ import { offlineDb } from "@/lib/offline-db";
 interface SyncedTransaction {
 	id: number;
 	uuid: string;
-	product: string;
-	quantityKg: number;
-	pricePerKg: number;
+	product: string | null;
+	quantityKg: number | null;
+	pricePerKg: number | null;
 	buyer: string | null;
 	photoUrl: string | null;
 	date: string;
@@ -96,15 +96,25 @@ export function TransactionHistory({
 							<CardContent>
 								<div className="flex items-start justify-between">
 									<div className="flex flex-col gap-1">
-										<p className="text-lg font-semibold">{tx.product}</p>
-										<p className="text-base text-muted-foreground">
-											{formatCurrency(tx.quantityKg)} kg × S/
-											{formatCurrency(tx.pricePerKg)} ={" "}
-											<span className="font-medium text-foreground">
-												S/
-												{formatCurrency(tx.quantityKg * tx.pricePerKg)}
-											</span>
-										</p>
+										{tx.product ? (
+											<>
+												<p className="text-lg font-semibold">{tx.product}</p>
+												{tx.quantityKg != null && tx.pricePerKg != null && (
+													<p className="text-base text-muted-foreground">
+														{formatCurrency(tx.quantityKg)} kg × S/
+														{formatCurrency(tx.pricePerKg)} ={" "}
+														<span className="font-medium text-foreground">
+															S/
+															{formatCurrency(tx.quantityKg * tx.pricePerKg)}
+														</span>
+													</p>
+												)}
+											</>
+										) : (
+											<p className="text-lg font-semibold text-muted-foreground">
+												Solo foto de boleta
+											</p>
+										)}
 										{tx.buyer && (
 											<p className="text-base text-muted-foreground">
 												{tx.buyer}
@@ -148,15 +158,25 @@ export function TransactionHistory({
 							<CardContent>
 								<div className="flex items-start justify-between">
 									<div className="flex flex-col gap-1">
-										<p className="text-lg font-semibold">{tx.product}</p>
-										<p className="text-base text-muted-foreground">
-											{formatCurrency(tx.quantityKg)} kg × S/
-											{formatCurrency(tx.pricePerKg)} ={" "}
-											<span className="font-medium text-foreground">
-												S/
-												{formatCurrency(tx.quantityKg * tx.pricePerKg)}
-											</span>
-										</p>
+										{tx.product ? (
+											<>
+												<p className="text-lg font-semibold">{tx.product}</p>
+												{tx.quantityKg != null && tx.pricePerKg != null && (
+													<p className="text-base text-muted-foreground">
+														{formatCurrency(tx.quantityKg)} kg × S/
+														{formatCurrency(tx.pricePerKg)} ={" "}
+														<span className="font-medium text-foreground">
+															S/
+															{formatCurrency(tx.quantityKg * tx.pricePerKg)}
+														</span>
+													</p>
+												)}
+											</>
+										) : (
+											<p className="text-lg font-semibold text-muted-foreground">
+												Solo foto de boleta
+											</p>
+										)}
 										{tx.buyer && (
 											<p className="text-base text-muted-foreground">
 												{tx.buyer}
@@ -168,7 +188,11 @@ export function TransactionHistory({
 											{formatDate(tx.date)}
 										</span>
 										{tx.photoUrl && (
-											<a href={tx.photoUrl} target="_blank" rel="noopener noreferrer">
+											<a
+												href={tx.photoUrl}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
 												<img
 													src={tx.photoUrl}
 													alt="Boleta"

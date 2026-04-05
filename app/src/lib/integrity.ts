@@ -19,6 +19,8 @@ function clamp(value: number, min: number, max: number): number {
 async function checkVolumeSpike(
 	txn: TransactionRow,
 ): Promise<IntegrityFlag | null> {
+	if (txn.product == null || txn.quantityKg == null) return null;
+
 	const [result] = await db
 		.select({
 			avgQty: sql<string>`avg(${transaction.quantityKg})`,
@@ -61,6 +63,8 @@ async function checkVolumeSpike(
 async function checkPriceOutlier(
 	txn: TransactionRow,
 ): Promise<IntegrityFlag | null> {
+	if (txn.product == null || txn.pricePerKg == null) return null;
+
 	const ninetyDaysAgo = new Date();
 	ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 	const cutoff = ninetyDaysAgo.toISOString().split("T")[0];
@@ -184,6 +188,8 @@ function getMaxYield(product: string): number {
 async function checkPlausibilitySingle(
 	txn: TransactionRow,
 ): Promise<IntegrityFlag | null> {
+	if (txn.product == null || txn.quantityKg == null) return null;
+
 	const [farmer] = await db
 		.select({ hectares: user.farmerHectares })
 		.from(user)
@@ -229,6 +235,8 @@ async function checkPlausibilitySingle(
 async function checkPlausibilityCumulative(
 	txn: TransactionRow,
 ): Promise<IntegrityFlag | null> {
+	if (txn.product == null || txn.quantityKg == null) return null;
+
 	const [farmer] = await db
 		.select({ hectares: user.farmerHectares })
 		.from(user)
@@ -307,12 +315,16 @@ export async function checkTransaction(
 		return [];
 	}
 
+	// Skip volume/price/plausibility checks for photo-only transactions (no manual data)
+	const hasManualData =
+		txn.product != null && txn.quantityKg != null && txn.pricePerKg != null;
+
 	const results = await Promise.all([
-		checkVolumeSpike(txn),
-		checkPriceOutlier(txn),
+		hasManualData ? checkVolumeSpike(txn) : null,
+		hasManualData ? checkPriceOutlier(txn) : null,
 		checkFrequency(txn),
-		checkPlausibilitySingle(txn),
-		checkPlausibilityCumulative(txn),
+		hasManualData ? checkPlausibilitySingle(txn) : null,
+		hasManualData ? checkPlausibilityCumulative(txn) : null,
 	]);
 
 	const flags = results.filter((flag): flag is IntegrityFlag => flag !== null);
@@ -403,12 +415,15 @@ export async function checkCrossValidation(
 
 	const coopMap = new Map<string, number>();
 	for (const row of coopTotals) {
-		coopMap.set(row.product, Number(row.totalKg));
+		if (row.product != null) {
+			coopMap.set(row.product, Number(row.totalKg));
+		}
 	}
 
 	const flags: IntegrityFlag[] = [];
 
 	for (const row of farmerTotals) {
+		if (row.product == null) continue;
 		const farmerKg = Number(row.totalKg);
 		const coopKg = coopMap.get(row.product) ?? 0;
 

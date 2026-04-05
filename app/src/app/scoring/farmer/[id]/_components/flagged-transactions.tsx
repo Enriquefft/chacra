@@ -4,9 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 
 interface FlaggedTransaction {
 	id: number;
-	product: string;
-	quantityKg: number;
-	pricePerKg: number;
+	product: string | null;
+	quantityKg: number | null;
+	pricePerKg: number | null;
+	photoUrl: string | null;
 	date: string;
 }
 
@@ -53,18 +54,20 @@ export function FlaggedTransactions({
 							<div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
 								<div>
 									<p className="text-xs text-muted-foreground">Producto</p>
-									<p className="mt-0.5 font-medium">{txn.product}</p>
+									<p className="mt-0.5 font-medium">
+										{txn.product ?? (txn.photoUrl ? "Solo foto" : "—")}
+									</p>
 								</div>
 								<div>
 									<p className="text-xs text-muted-foreground">Cantidad</p>
 									<p className="mt-0.5 font-medium tabular-nums">
-										{txn.quantityKg} kg
+										{txn.quantityKg != null ? `${txn.quantityKg} kg` : "—"}
 									</p>
 								</div>
 								<div>
 									<p className="text-xs text-muted-foreground">Precio</p>
 									<p className="mt-0.5 font-medium tabular-nums">
-										S/{txn.pricePerKg.toFixed(2)}/kg
+										{txn.pricePerKg != null ? `S/${txn.pricePerKg.toFixed(2)}/kg` : "—"}
 									</p>
 								</div>
 								<div>

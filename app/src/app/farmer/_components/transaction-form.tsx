@@ -56,7 +56,9 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 			try {
 				const compressed = await compressImage(file);
 				if (photoPreview) URL.revokeObjectURL(photoPreview);
-				const preview = URL.createObjectURL(new Blob([compressed], { type: "image/jpeg" }));
+				const preview = URL.createObjectURL(
+					new Blob([compressed], { type: "image/jpeg" }),
+				);
 				setPhotoData(compressed);
 				setPhotoPreview(preview);
 			} catch {
@@ -83,25 +85,36 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 		removePhoto();
 	}
 
+	const hasPhoto = !!photoData;
+	const hasManualData = !!(product && quantityKg && pricePerKg);
+
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
 
-		if (!product) {
-			toast.error("Selecciona un producto");
+		// Require at least photo or manual data
+		if (!hasPhoto && !hasManualData) {
+			toast.error("Sube una foto de la boleta o ingresa los datos manualmente");
 			return;
 		}
 
-		const qty = Number.parseFloat(quantityKg);
-		const price = Number.parseFloat(pricePerKg);
+		// Validate manual fields only when provided
+		let qty: number | undefined;
+		let price: number | undefined;
 
-		if (Number.isNaN(qty) || qty <= 0) {
-			toast.error("Cantidad debe ser un numero positivo");
-			return;
+		if (hasManualData) {
+			qty = Number.parseFloat(quantityKg);
+			price = Number.parseFloat(pricePerKg);
+
+			if (Number.isNaN(qty) || qty <= 0) {
+				toast.error("Cantidad debe ser un numero positivo");
+				return;
+			}
+			if (Number.isNaN(price) || price <= 0) {
+				toast.error("Precio debe ser un numero positivo");
+				return;
+			}
 		}
-		if (Number.isNaN(price) || price <= 0) {
-			toast.error("Precio debe ser un numero positivo");
-			return;
-		}
+
 		if (!date) {
 			toast.error("Selecciona una fecha");
 			return;
@@ -116,19 +129,29 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 				let photoUrl: string | undefined;
 				if (photoData) {
 					const form = new FormData();
-					form.append("photo", new File([photoData], `${uuid}.jpg`, { type: "image/jpeg" }));
+					form.append(
+						"photo",
+						new File([photoData], `${uuid}.jpg`, { type: "image/jpeg" }),
+					);
 					form.append("uuid", uuid);
-					const uploadRes = await fetch("/api/upload", { method: "POST", body: form });
+					const uploadRes = await fetch("/api/upload", {
+						method: "POST",
+						body: form,
+					});
 					if (uploadRes.ok) {
 						const { url } = await uploadRes.json();
 						photoUrl = url;
+					} else if (!hasManualData) {
+						// Photo upload failed and no manual data — can't proceed
+						toast.error("Error al subir la foto. Intenta de nuevo.");
+						return;
 					}
-					// If upload fails, continue without photo
+					// If upload fails but we have manual data, continue without photo
 				}
 
 				const result = await createTransaction({
 					uuid,
-					product,
+					product: hasManualData ? product : undefined,
 					quantityKg: qty,
 					pricePerKg: price,
 					buyer: buyer.trim() || undefined,
@@ -146,9 +169,9 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 			} else {
 				await offlineDb.pendingTransactions.add({
 					uuid,
-					product,
-					quantityKg: qty,
-					pricePerKg: price,
+					product: hasManualData ? product : null,
+					quantityKg: qty ?? null,
+					pricePerKg: price ?? null,
 					buyer: buyer.trim() || null,
 					date,
 					createdAt: Date.now(),
@@ -166,9 +189,9 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 				try {
 					await offlineDb.pendingTransactions.add({
 						uuid,
-						product,
-						quantityKg: qty,
-						pricePerKg: price,
+						product: hasManualData ? product : null,
+						quantityKg: qty ?? null,
+						pricePerKg: price ?? null,
 						buyer: buyer.trim() || null,
 						date,
 						createdAt: Date.now(),
@@ -213,6 +236,59 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 		<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 			<h1 className="text-2xl font-semibold tracking-tight">Registrar venta</h1>
 
+			{/* Foto de boleta — primary action */}
+			<div className="flex flex-col gap-1.5">
+				<label className="text-base font-medium">Foto de boleta</label>
+				<input
+					ref={fileInputRef}
+					type="file"
+					accept="image/*"
+					capture="environment"
+					onChange={handlePhotoSelect}
+					className="hidden"
+				/>
+				{photoPreview ? (
+					<div className="relative w-fit">
+						<img
+							src={photoPreview}
+							alt="Boleta"
+							className="h-24 w-24 rounded-lg border object-cover"
+						/>
+						<button
+							type="button"
+							onClick={removePhoto}
+							className="absolute -right-2 -top-2 rounded-full bg-background"
+						>
+							<CloseCircle
+								weight="Bold"
+								size={24}
+								className="text-destructive"
+							/>
+						</button>
+					</div>
+				) : (
+					<Button
+						type="button"
+						variant="outline"
+						size="lg"
+						className="w-full gap-2"
+						onClick={() => fileInputRef.current?.click()}
+					>
+						<Camera weight="BoldDuotone" size={20} />
+						Tomar foto
+					</Button>
+				)}
+			</div>
+
+			{/* Divider */}
+			<div className="flex items-center gap-3">
+				<div className="h-px flex-1 bg-border" />
+				<span className="text-sm text-muted-foreground">
+					{hasPhoto ? "Datos adicionales (opcional)" : "o ingresa los datos"}
+				</span>
+				<div className="h-px flex-1 bg-border" />
+			</div>
+
 			{/* Producto */}
 			<div className="flex flex-col gap-1.5">
 				<label htmlFor={`${formId}-product`} className="text-base font-medium">
@@ -247,7 +323,6 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 					value={quantityKg}
 					onChange={(e) => setQuantityKg(e.target.value)}
 					className="h-11 text-base"
-					required
 				/>
 			</div>
 
@@ -266,7 +341,6 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 					value={pricePerKg}
 					onChange={(e) => setPricePerKg(e.target.value)}
 					className="h-11 text-base"
-					required
 				/>
 			</div>
 
@@ -298,46 +372,6 @@ export function TransactionForm({ productList }: { productList: string[] }) {
 					className="h-11 text-base"
 					required
 				/>
-			</div>
-
-			{/* Foto de boleta */}
-			<div className="flex flex-col gap-1.5">
-				<label className="text-base font-medium">Foto de boleta (opcional)</label>
-				<input
-					ref={fileInputRef}
-					type="file"
-					accept="image/*"
-					capture="environment"
-					onChange={handlePhotoSelect}
-					className="hidden"
-				/>
-				{photoPreview ? (
-					<div className="relative w-fit">
-						<img
-							src={photoPreview}
-							alt="Boleta"
-							className="h-24 w-24 rounded-lg border object-cover"
-						/>
-						<button
-							type="button"
-							onClick={removePhoto}
-							className="absolute -right-2 -top-2 rounded-full bg-background"
-						>
-							<CloseCircle weight="Bold" size={24} className="text-destructive" />
-						</button>
-					</div>
-				) : (
-					<Button
-						type="button"
-						variant="outline"
-						size="lg"
-						className="w-full gap-2"
-						onClick={() => fileInputRef.current?.click()}
-					>
-						<Camera weight="BoldDuotone" size={20} />
-						Tomar foto
-					</Button>
-				)}
 			</div>
 
 			{/* Total preview */}

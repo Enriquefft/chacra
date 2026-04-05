@@ -56,6 +56,7 @@ export default async function ScoringFarmerPage({
 
 	const revenueByMonth = new Map<string, number>();
 	for (const txn of transactions) {
+		if (txn.quantityKg == null || txn.pricePerKg == null) continue;
 		const month = txn.date.slice(0, 7); // YYYY-MM
 		const revenue = txn.quantityKg * txn.pricePerKg;
 		revenueByMonth.set(month, (revenueByMonth.get(month) ?? 0) + revenue);
@@ -76,6 +77,7 @@ export default async function ScoringFarmerPage({
 			product: txn.product,
 			quantityKg: txn.quantityKg,
 			pricePerKg: txn.pricePerKg,
+			photoUrl: txn.photoUrl,
 			date: txn.date,
 		}));
 

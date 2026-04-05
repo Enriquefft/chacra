@@ -340,12 +340,13 @@ export async function getFarmerPriceData(): Promise<
 			.orderBy(desc(transaction.date)),
 	]);
 
-	// Build lookup: product -> last two prices
+	// Build lookup: product -> last two prices (skip photo-only transactions)
 	const pricesByProduct = new Map<
 		string,
 		{ lastPrice: number; lastDate: string; previousPrice: number | null }
 	>();
 	for (const tx of farmerTransactions) {
+		if (tx.product == null || tx.pricePerKg == null) continue;
 		const existing = pricesByProduct.get(tx.product);
 		if (!existing) {
 			pricesByProduct.set(tx.product, {

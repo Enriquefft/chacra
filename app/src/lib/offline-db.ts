@@ -2,9 +2,9 @@ import Dexie, { type Table } from "dexie";
 
 export interface PendingTransaction {
 	uuid: string;
-	product: string;
-	quantityKg: number;
-	pricePerKg: number;
+	product: string | null;
+	quantityKg: number | null;
+	pricePerKg: number | null;
 	buyer: string | null;
 	date: string;
 	createdAt: number;

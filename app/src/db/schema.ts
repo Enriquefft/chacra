@@ -22,7 +22,7 @@ export {
 } from "./auth-schema";
 
 // Import auth tables for references and relations
-import { chacraSchema, account, session, user } from "./auth-schema";
+import { account, chacraSchema, session, user } from "./auth-schema";
 
 // ─── Cooperative ─────────────────────────────────────────────────────
 
@@ -61,9 +61,9 @@ export const transaction = chacraSchema.table(
 		cooperativeId: text("cooperative_id")
 			.notNull()
 			.references(() => cooperative.id, { onDelete: "cascade" }),
-		product: text("product").notNull(),
-		quantityKg: numeric("quantity_kg", { precision: 10, scale: 2 }).notNull(),
-		pricePerKg: numeric("price_per_kg", { precision: 10, scale: 2 }).notNull(),
+		product: text("product"),
+		quantityKg: numeric("quantity_kg", { precision: 10, scale: 2 }),
+		pricePerKg: numeric("price_per_kg", { precision: 10, scale: 2 }),
 		buyer: text("buyer"),
 		photoUrl: text("photo_url"),
 		date: date("date").notNull(),

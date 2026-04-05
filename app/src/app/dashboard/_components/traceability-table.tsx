@@ -15,9 +15,9 @@ type TransactionRow = {
 	uuid: string;
 	farmerId: string;
 	farmerName: string | null;
-	product: string;
-	quantityKg: number;
-	pricePerKg: number;
+	product: string | null;
+	quantityKg: number | null;
+	pricePerKg: number | null;
 	buyer: string | null;
 	date: string;
 	integrityStatus: "confirmed" | "flagged" | "pending";
@@ -66,14 +66,18 @@ export function TraceabilityTable({
 												{tx.farmerName ?? "Sin nombre"}
 											</Link>
 										</TableCell>
-										<TableCell>{tx.product}</TableCell>
+										<TableCell>{tx.product ?? "—"}</TableCell>
 										<TableCell
 											className={`tabular-nums ${isFlagged ? "font-semibold text-destructive" : ""}`}
 										>
-											{tx.quantityKg.toLocaleString("es-PE")}
+											{tx.quantityKg != null
+												? tx.quantityKg.toLocaleString("es-PE")
+												: "—"}
 										</TableCell>
 										<TableCell className="tabular-nums">
-											S/{tx.pricePerKg.toFixed(2)}
+											{tx.pricePerKg != null
+												? `S/${tx.pricePerKg.toFixed(2)}`
+												: "—"}
 										</TableCell>
 										<TableCell className="hidden text-muted-foreground sm:table-cell">
 											{tx.date}

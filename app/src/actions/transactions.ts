@@ -13,9 +13,9 @@ import type { ActionResult, TransactionInput } from "@/lib/types";
 type TransactionRow = {
 	id: number;
 	uuid: string;
-	product: string;
-	quantityKg: number;
-	pricePerKg: number;
+	product: string | null;
+	quantityKg: number | null;
+	pricePerKg: number | null;
 	buyer: string | null;
 	photoUrl: string | null;
 	date: string;
@@ -53,7 +53,19 @@ export async function createTransaction(
 		return { error: "UUID invalido o ausente" };
 	}
 
-	// Validate product against cooperative's product list
+	const hasPhoto = !!input.photoUrl;
+	const hasManualData =
+		!!input.product && input.quantityKg != null && input.pricePerKg != null;
+
+	// Require at least photo or manual data
+	if (!hasPhoto && !hasManualData) {
+		return {
+			error:
+				"Se requiere al menos una foto o los datos manuales (producto, cantidad, precio)",
+		};
+	}
+
+	// Fetch cooperative product list (needed for product validation)
 	const [coop] = await db
 		.select({ productList: cooperative.productList })
 		.from(cooperative)
@@ -64,33 +76,34 @@ export async function createTransaction(
 		return { error: "Cooperativa no encontrada" };
 	}
 
-	const validProducts = new Set<string>(coop.productList ?? []);
-	if (!input.product || !validProducts.has(input.product)) {
-		return { error: "Producto no valido" };
-	}
+	// Validate manual fields only when provided
+	let productValue: string | null = null;
+	let quantityValue: string | null = null;
+	let priceValue: string | null = null;
 
-	// Validate quantityKg
-	if (
-		typeof input.quantityKg !== "number" ||
-		Number.isNaN(input.quantityKg) ||
-		input.quantityKg <= 0
-	) {
-		return { error: "Cantidad debe ser un numero positivo" };
-	}
-	if (input.quantityKg > 99999.99) {
-		return { error: "Cantidad excede el maximo permitido (99999.99 kg)" };
-	}
+	if (hasManualData) {
+		const validProducts = new Set<string>(coop.productList ?? []);
+		if (!validProducts.has(input.product!)) {
+			return { error: "Producto no valido" };
+		}
 
-	// Validate pricePerKg
-	if (
-		typeof input.pricePerKg !== "number" ||
-		Number.isNaN(input.pricePerKg) ||
-		input.pricePerKg <= 0
-	) {
-		return { error: "Precio debe ser un numero positivo" };
-	}
-	if (input.pricePerKg > 99999.99) {
-		return { error: "Precio excede el maximo permitido (S/99999.99)" };
+		if (Number.isNaN(input.quantityKg!) || input.quantityKg! <= 0) {
+			return { error: "Cantidad debe ser un numero positivo" };
+		}
+		if (input.quantityKg! > 99999.99) {
+			return { error: "Cantidad excede el maximo permitido (99999.99 kg)" };
+		}
+
+		if (Number.isNaN(input.pricePerKg!) || input.pricePerKg! <= 0) {
+			return { error: "Precio debe ser un numero positivo" };
+		}
+		if (input.pricePerKg! > 99999.99) {
+			return { error: "Precio excede el maximo permitido (S/99999.99)" };
+		}
+
+		productValue = input.product!;
+		quantityValue = input.quantityKg!.toFixed(2);
+		priceValue = input.pricePerKg!.toFixed(2);
 	}
 
 	// Validate date
@@ -124,9 +137,9 @@ export async function createTransaction(
 			uuid: input.uuid,
 			farmerId: session.user.id,
 			cooperativeId: session.user.cooperativeId,
-			product: input.product,
-			quantityKg: input.quantityKg.toFixed(2),
-			pricePerKg: input.pricePerKg.toFixed(2),
+			product: productValue,
+			quantityKg: quantityValue,
+			pricePerKg: priceValue,
 			buyer: buyerValue,
 			photoUrl: input.photoUrl ?? null,
 			date: input.date,
@@ -152,9 +165,7 @@ export async function createTransaction(
 export async function getTransactionsByFarmer(
 	farmerId?: string,
 	options?: { limit?: number; offset?: number },
-): Promise<
-	ActionResult<{ transactions: TransactionRow[]; total: number }>
-> {
+): Promise<ActionResult<{ transactions: TransactionRow[]; total: number }>> {
 	const session = await getSession();
 	if (!session) {
 		return { error: "No autorizado" };
@@ -240,8 +251,8 @@ export async function getTransactionsByFarmer(
 		id: t.id,
 		uuid: t.uuid,
 		product: t.product,
-		quantityKg: Number(t.quantityKg),
-		pricePerKg: Number(t.pricePerKg),
+		quantityKg: t.quantityKg != null ? Number(t.quantityKg) : null,
+		pricePerKg: t.pricePerKg != null ? Number(t.pricePerKg) : null,
 		buyer: t.buyer,
 		photoUrl: t.photoUrl,
 		date: t.date,
@@ -257,14 +268,12 @@ export async function getTransactionsByFarmer(
 
 // ─── getTransactionsByCooperative ────────────────────────────────────
 
-export async function getTransactionsByCooperative(
-	options?: {
-		limit?: number;
-		offset?: number;
-		product?: string;
-		status?: string;
-	},
-): Promise<
+export async function getTransactionsByCooperative(options?: {
+	limit?: number;
+	offset?: number;
+	product?: string;
+	status?: string;
+}): Promise<
 	ActionResult<{ transactions: TransactionWithFarmer[]; total: number }>
 > {
 	const session = await getSession();
@@ -279,7 +288,9 @@ export async function getTransactionsByCooperative(
 	const offset = options?.offset ?? 0;
 
 	// Build where conditions
-	const conditions = [eq(transaction.cooperativeId, session.user.cooperativeId)];
+	const conditions = [
+		eq(transaction.cooperativeId, session.user.cooperativeId),
+	];
 
 	if (options?.product) {
 		conditions.push(eq(transaction.product, options.product));
@@ -317,18 +328,15 @@ export async function getTransactionsByCooperative(
 			.orderBy(sql`${transaction.date} DESC`)
 			.limit(limit)
 			.offset(offset),
-		db
-			.select({ total: count() })
-			.from(transaction)
-			.where(whereClause),
+		db.select({ total: count() }).from(transaction).where(whereClause),
 	]);
 
 	const rows: TransactionWithFarmer[] = transactions.map((t) => ({
 		id: t.id,
 		uuid: t.uuid,
 		product: t.product,
-		quantityKg: Number(t.quantityKg),
-		pricePerKg: Number(t.pricePerKg),
+		quantityKg: t.quantityKg != null ? Number(t.quantityKg) : null,
+		pricePerKg: t.pricePerKg != null ? Number(t.pricePerKg) : null,
 		buyer: t.buyer,
 		photoUrl: t.photoUrl,
 		date: t.date,

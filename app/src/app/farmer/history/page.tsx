@@ -14,7 +14,11 @@ export default async function FarmerHistoryPage() {
 
 	// Build price benchmarks for unique (product, region) pairs
 	const region = session.user.farmerRegion ?? "";
-	const uniqueProducts = [...new Set(transactions.map((t) => t.product))];
+	const uniqueProducts = [
+		...new Set(
+			transactions.map((t) => t.product).filter((p): p is string => p != null),
+		),
+	];
 	const benchmarks = new Map<
 		string,
 		Awaited<ReturnType<typeof getPriceBenchmark>>
@@ -33,7 +37,7 @@ export default async function FarmerHistoryPage() {
 	const syncedTransactions = transactions.map((t) => {
 		let priceSignal: "above" | "below" | "at" | null = null;
 
-		if (region) {
+		if (region && t.product && t.pricePerKg != null) {
 			const benchmark = benchmarks.get(t.product);
 			if (benchmark) {
 				if (t.pricePerKg > benchmark.ceiling) {

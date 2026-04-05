@@ -38,12 +38,13 @@ export interface AdvanceItem {
 	createdAt: Date;
 }
 
-// Transaction input from PWA form or sync batch
+// Transaction input from PWA form or sync batch.
+// At least one of (photoUrl) or (product + quantityKg + pricePerKg) is required.
 export interface TransactionInput {
 	uuid: string;
-	product: string;
-	quantityKg: number;
-	pricePerKg: number;
+	product?: string;
+	quantityKg?: number;
+	pricePerKg?: number;
 	buyer?: string;
 	photoUrl?: string;
 	date: string; // YYYY-MM-DD

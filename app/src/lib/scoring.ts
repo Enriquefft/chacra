@@ -72,11 +72,18 @@ export async function computeCreditScore(
 
 	const totalTransactions = rows.length;
 
-	// Group revenue by YYYY-MM
+	// Group revenue by YYYY-MM (skip photo-only transactions without manual data)
 	const revenueByMonth = new Map<string, number>();
 	const products = new Set<string>();
 
 	for (const row of rows) {
+		if (
+			row.quantityKg == null ||
+			row.pricePerKg == null ||
+			row.product == null
+		) {
+			continue; // Photo-only transaction — no revenue data
+		}
 		const qty = Number(row.quantityKg);
 		const price = Number(row.pricePerKg);
 		const revenue = qty * price;
@@ -101,9 +108,7 @@ export async function computeCreditScore(
 	// Net margin = total revenue - total expenses
 	const netMargin = totalRevenue - totalExpenses;
 	const marginRatio =
-		totalRevenue > 0
-			? Math.round((netMargin / totalRevenue) * 1000) / 1000
-			: 0;
+		totalRevenue > 0 ? Math.round((netMargin / totalRevenue) * 1000) / 1000 : 0;
 
 	// Revenue trend: compare avg of recent half vs older half
 	const revenueTrend = computeRevenueTrend(revenueByMonth);
